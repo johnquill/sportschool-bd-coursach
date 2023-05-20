@@ -16,16 +16,16 @@ Java-version: 17
 С помощью presenter привязываем к слушателям компонентов функции из model. Для этого пропихиваем presenter в компоненты через их конструкторы<br>
 
 <h2>Фреймворки</h2>
-hibernate - для связи объектов с сущностями в бд. Классы сущности описываются с помощью аннотаций. Обязательные требования - публичный конструктор без аргументов, аннотация @entity, поле @id.
-lombok - для оптимизации количества кода. @Getter, @Setter, @NoArgsConstructor, @AllArgsConstructor. 
+hibernate - для связи объектов с сущностями в бд. Классы сущности описываются с помощью аннотаций. Обязательные требования - публичный конструктор без аргументов, аннотация @entity, поле @id.<br>
+lombok - для оптимизации количества кода. @Getter, @Setter, @NoArgsConstructor, @AllArgsConstructor.<br>
   
 <h2>Полезная инфа</h2>
-таблицы в swing, там же прочие графические компоненты https://java-online.ru/swing-jtable.xhtml
-hibernate + dao https://javarush.com/groups/posts/hibernate-java
-hibernate + работа с сессией https://java-online.ru/hibernate-sequence.xhtml
+таблицы в swing, там же прочие графические компоненты https://java-online.ru/swing-jtable.xhtml<br>
+hibernate + dao https://javarush.com/groups/posts/hibernate-java<br>
+hibernate + работа с сессией https://java-online.ru/hibernate-sequence.xhtml<br>
 
 <h2>Перспективы и мысли<h2>
 Будет класс/файлик в котором будет находится список панелей и классы их реализации, которые будут открываться по выбору из меню.<br>
-В идеале перевести сборку на maven. 
-Отчеты через Birt или html + импорт
-Подумать можно ли прикрутить cdi
+В идеале перевести сборку на maven.<br>
+Отчеты через Birt или html + импорт<br>
+Подумать можно ли прикрутить cdi<br>
