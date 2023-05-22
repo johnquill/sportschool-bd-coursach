@@ -1,7 +1,6 @@
 package view.menu;
 
 import utils.xml.Item;
-import view.MainPanel;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -12,13 +11,13 @@ import java.util.ArrayList;
 
 public class MenuItem extends JButton {
 
-    public static Color background = new Color(150, 150, 150);
-    public static Color selectedBackground = new Color(125, 125, 125);
+    private final int layer;
     public boolean isOpen = false;
-    public int type;
+    public boolean isLeaf;
+    public Item item;
 
-    private ImageIcon doc;
-    private ImageIcon docs;
+    private final ImageIcon doc;
+    private final ImageIcon docs;
     {
         try {
             docs = new ImageIcon(ImageIO.read(new File("src/main/resources/icons/many_documents.png"))
@@ -30,55 +29,35 @@ public class MenuItem extends JButton {
         }
     }
 
-    public MenuItem(Item el, ArrayList<MenuItem> buttons, int layer, int index, MenuPanel menuPanel, MainPanel mainPanel) {
-        int newIndex = index == -1 ? buttons.size() : index;
-        buttons.add(newIndex, this);
-        if (el.getPanelClass() == null) {
-            type = 0;
-            stylise(el, layer);
-            addActionListener(e -> {
-                if (isOpen) {
-                    isOpen = false;
-                    for (int i = 0; i < el.getChildren().size(); i++) {
-                        buttons.remove(newIndex+1);
-                    }
-                    menuPanel.updateMenu();
-                } else {
-                    isOpen = true;
-                    el.getChildren().forEach(ch -> {
-                        new MenuItem(ch, buttons, layer + 1, newIndex+1, menuPanel, mainPanel);
-                    });
-                    menuPanel.updateMenu();
-                }
-            });
-        } else {
-            type = 1;
-            stylise(el, layer);
-            addActionListener(e -> {
-                if (!isOpen) {
-                    menuPanel.closeOpened();
-                    isOpen = true;
-                    setBackground(selectedBackground);
-                    mainPanel.open(el.getPanelClass());
-                } else {
-                    isOpen = false;
-                    setBackground(background);
-                    mainPanel.close();
-                }
-            });
-        }
+    public MenuItem(Item item, int layer, MenuPanel menuPanel) {
+        this.item = item;
+        this.layer = layer;
+        addActionListener(e -> {
+            if (!isOpen) {
+                menuPanel.open(this);
+            } else {
+                menuPanel.close(this);
+            }
+        });
+        isLeaf = item.getPanelClass() != null;
+        stylise();
     }
 
-    private void stylise(Item el, int layer) {
-        setText(el.getName());
+    private void stylise() {
+        setText(item.getName());
         setHorizontalAlignment(SwingConstants.LEFT);
-        setBackground(background);
-        setBorder(BorderFactory.createEmptyBorder(0, 25 * layer, 0, 0));
-        if (type == 0) {
-            setIcon(docs);
-        } else {
+        setBackground(MenuPanel.background);
+        setBorder(BorderFactory.createEmptyBorder(5, 25 * layer, 5, 0));
+        if (isLeaf) {
             setIcon(doc);
+        } else {
+            setIcon(docs);
         }
     }
 
+    public ArrayList<MenuItem> buildChildren(MenuPanel menuPanel) {
+        ArrayList<MenuItem> items = new ArrayList<>();
+        item.getChildren().forEach(ch -> items.add(new MenuItem(ch, layer+1, menuPanel)));
+        return items;
+    }
 }

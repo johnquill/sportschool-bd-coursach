@@ -5,7 +5,7 @@
             <Items>
                 <Item>
                     <Name>Спортсмены</Name>
-                    <Panel>SportsmanReport</Panel>
+                    <Panel>view.report.SportsmanReport</Panel>
                 </Item>
                 <Item>
                     <Name>Секции</Name>
