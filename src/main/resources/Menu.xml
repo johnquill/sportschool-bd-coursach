@@ -1,0 +1,29 @@
+<Menu>
+    <Items>
+        <Item>
+            <Name>Отчеты</Name>
+            <Items>
+                <Item>
+                    <Name>Спортсмены</Name>
+                    <Panel>SportsmanReport</Panel>
+                </Item>
+                <Item>
+                    <Name>Секции</Name>
+                    <Panel>SectionReport</Panel>
+                </Item>
+            </Items>
+        </Item>
+        <Item>
+            <Name>Спортсмены</Name>
+            <Panel>SportsmenPanel</Panel>
+        </Item>
+        <Item>
+            <Name>Секции</Name>
+            <Panel>SectionsPanel</Panel>
+        </Item>
+        <Item>
+            <Name>Тренера</Name>
+            <Panel>TrainersPanel</Panel>
+        </Item>
+    </Items>
+</Menu>
