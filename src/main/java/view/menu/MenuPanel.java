@@ -17,49 +17,28 @@ public class MenuPanel extends JPanel {
 
     private MainPanel mainPanel;
     private File file = new File("src/main/resources/Menu.xml");
-    private ImageIcon doc = new ImageIcon(ImageIO.read(new File("src/main/resources/icons/document.png"))
-            .getScaledInstance(50, 50, Image.SCALE_SMOOTH));
-    private ImageIcon docs = new ImageIcon(ImageIO.read(new File("src/main/resources/icons/many_documents.png"))
-            .getScaledInstance(50, 50, Image.SCALE_SMOOTH));
     private Menu menu;
+    private ArrayList<MenuItem> buttons;
 
     public MenuPanel(MainPanel mainPanel) throws IOException {
         this.mainPanel = mainPanel;
+        setBackground(MenuItem.background);
         menu = parseMenu();
         buildMenu(menu);
     }
 
     private void buildMenu(Menu menu) {
-        ArrayList<JButton> buttons = new ArrayList<>();
+        buttons = new ArrayList<>();
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-        menu.getItems().forEach(el -> createMenuItem(el, buttons));
+        menu.getItems().forEach(el -> new MenuItem(el, buttons, 0, -1, this, mainPanel));
         buttons.forEach(this::add);
     }
 
-    private void createMenuItem(Item el, ArrayList<JButton> buttons) {
-        createMenuItem(el, "", buttons, -1);
-    }
-
-    private void createMenuItem(Item el, String name, ArrayList<JButton> buttons, int index) {
-        index = index == -1 ? buttons.size() : index;
-        name = "".equals(name) ? el.getName() : name + "/" + el.getName();
-        JButton button = new JButton(name, doc);
-        button.setMaximumSize(new Dimension(200, 75));
-        button.setHorizontalAlignment(SwingConstants.LEFT);
-        buttons.add(index, button);
-        if (el.getPanelClass() == null) {
-            button.addActionListener(e -> {
-                el.getChildren().forEach(ch -> {
-                    createMenuItem(ch, button.getText(), buttons, buttons.indexOf(button) + 1);
-                });
-                removeAll();
-                buttons.forEach(this::add);
-                revalidate();
-                repaint();
-            });
-        } else {
-            button.addActionListener(e -> mainPanel.open(el.getPanelClass()));
-        }
+    public void updateMenu() {
+        removeAll();
+        buttons.forEach(this::add);
+        revalidate();
+        repaint();
     }
 
     private Menu parseMenu() {
@@ -72,4 +51,12 @@ public class MenuPanel extends JPanel {
         return null;
     }
 
+    public void closeOpened() {
+        buttons.forEach(button -> {
+            if (button.isOpen && button.type == 1) {
+                button.setBackground(MenuItem.background);
+                updateMenu();
+            }
+        });
+    }
 }

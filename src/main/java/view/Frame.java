@@ -36,7 +36,7 @@ public class Frame {
         JScrollPane scrollMenu = new JScrollPane(menuPanel);
         splitPane.setLeftComponent(scrollMenu);
         splitPane.setRightComponent(mainPanel);
-        splitPane.setResizeWeight(0.1);
+        splitPane.setResizeWeight(0.05);
         return splitPane;
     }
 }
