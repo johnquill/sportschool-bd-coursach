@@ -26,7 +26,7 @@ public class MenuPanel extends JPanel {
         setBackground(background);
         menu = parseMenu();
         menuItems = buildMenu();
-        menuItems.forEach(this::add);
+        updateMenu();
     }
 
     private ArrayList<MenuItem> buildMenu() {

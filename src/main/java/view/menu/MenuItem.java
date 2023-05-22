@@ -48,6 +48,7 @@ public class MenuItem extends JButton {
         setHorizontalAlignment(SwingConstants.LEFT);
         setBackground(MenuPanel.background);
         setBorder(BorderFactory.createEmptyBorder(5, 25 * layer, 5, 0));
+        setFocusPainted(false);
         if (isLeaf) {
             setIcon(doc);
         } else {

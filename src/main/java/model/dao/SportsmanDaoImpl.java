@@ -1,9 +1,6 @@
 package model.dao;
 
 import model.entity.Sportsman;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import utils.HibernateSessionFactoryUtil;
 
 import java.util.List;
 
@@ -11,8 +8,7 @@ public class SportsmanDaoImpl implements Dao<Sportsman> {
 
     @Override
     public Sportsman getById(long id) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        return session.get(Sportsman.class, id);
+        return null;
     }
 
     @Override
@@ -31,10 +27,6 @@ public class SportsmanDaoImpl implements Dao<Sportsman> {
     }
 
     public void add(Sportsman sportsman) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction tx1 = session.beginTransaction();
-        session.save(sportsman);
-        tx1.commit();
-        session.close();
+
     }
 }
