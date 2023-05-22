@@ -1,9 +1,10 @@
 package view;
 
-import com.sun.tools.javac.Main;
+import view.menu.MenuPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class Frame {
 
@@ -27,10 +28,15 @@ public class Frame {
     private Component buildMenuSplit() {
         JSplitPane splitPane = new JSplitPane();
         mainPanel = new MainPanel();
-        menuPanel = new MenuPanel(mainPanel);
-        splitPane.setLeftComponent(menuPanel);
+        try {
+            menuPanel = new MenuPanel(mainPanel);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        JScrollPane scrollMenu = new JScrollPane(menuPanel);
+        splitPane.setLeftComponent(scrollMenu);
         splitPane.setRightComponent(mainPanel);
-        splitPane.setResizeWeight(0.1);
+        splitPane.setResizeWeight(0.05);
         return splitPane;
     }
 }

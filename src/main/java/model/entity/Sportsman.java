@@ -9,8 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Table;
 
-
-@Entity
+@Entity(name = "sportsman")
 @Table(name = "sportsman")
 @Getter
 @Setter
