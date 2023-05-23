@@ -1,6 +1,7 @@
 package view;
 
 import presenter.Presenter;
+import view.form.EntityPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,8 +19,7 @@ public class MainPanel extends JPanel {
 
     public void open(String className, Presenter presenter) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         close();
-        //form = (JPanel) Class.forName(className).getDeclaredConstructor().newInstance();
-        form = (JPanel) Class.forName(className).getDeclaredConstructor(Presenter.class).newInstance(presenter);
+        form = new EntityPanel(presenter, Class.forName(className));
         add(form, BorderLayout.CENTER);
         hint.setVisible(false);
         revalidate();

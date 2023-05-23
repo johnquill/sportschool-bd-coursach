@@ -10,11 +10,11 @@ public class Presenter {
         this.model = model;
     }
 
-    public String[] getSportsmanHeaders() {
-        return model.getSportsmanHeader();
+    public String[] getTableHeaders(Class entity) {
+        return model.getTableHeaders(entity);
     }
 
-    public Object[][] getSportsmanData() {
-        return model.getSportsmanData();
+    public Object[][] getTableData(Class entity) {
+        return model.getTableData(entity);
     }
 }

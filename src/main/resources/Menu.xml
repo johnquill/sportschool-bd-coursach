@@ -15,15 +15,15 @@
         </Item>
         <Item>
             <Name>Спортсмены</Name>
-            <Panel>view.form.SportsmanForm</Panel>
+            <Panel>model.entity.Sportsman</Panel>
         </Item>
         <Item>
             <Name>Секции</Name>
-            <Panel>view.form.SectionForm</Panel>
+            <Panel>model.entity.Section</Panel>
         </Item>
         <Item>
             <Name>Тренера</Name>
-            <Panel>view.form.TrainerForm</Panel>
+            <Panel>model.entity.Coach</Panel>
         </Item>
     </Items>
 </Menu>

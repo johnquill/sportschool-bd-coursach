@@ -10,7 +10,7 @@ public interface Dao<E> {
 
     void update(E entity);
 
-    void delete(E entity);
+    void deleteById(long id);
 
     List<E> getALl();
 

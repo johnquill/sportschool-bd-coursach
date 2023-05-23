@@ -17,7 +17,7 @@ public class SportsmanDaoImpl implements Dao<Sportsman> {
     }
 
     @Override
-    public void delete(Sportsman entity) {
+    public void deleteById(long id) {
 
     }
 
