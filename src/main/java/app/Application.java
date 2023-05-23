@@ -2,15 +2,15 @@ package app;
 
 import model.Model;
 import presenter.Presenter;
-import view.Frame;
+import view.View;
 
 public class Application {
 
     public static void main(String[] args) {
-        Frame frame = new Frame();
+        Model model = new Model();
         //SessionFactory sessionFactory = HibernateSessionFactoryUtil.getSessionFactory();
         //Session session = sessionFactory.openSession();
-        Model model = new Model();
-        new Presenter(frame, model);
+        Presenter presenter = new Presenter(model);
+        View view = new View(presenter);
     }
 }

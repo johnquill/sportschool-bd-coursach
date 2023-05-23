@@ -15,15 +15,15 @@
         </Item>
         <Item>
             <Name>Спортсмены</Name>
-            <Panel>SportsmenPanel</Panel>
+            <Panel>view.form.SportsmanForm</Panel>
         </Item>
         <Item>
             <Name>Секции</Name>
-            <Panel>SectionsPanel</Panel>
+            <Panel>view.form.SectionForm</Panel>
         </Item>
         <Item>
             <Name>Тренера</Name>
-            <Panel>TrainersPanel</Panel>
+            <Panel>view.form.TrainerForm</Panel>
         </Item>
     </Items>
 </Menu>

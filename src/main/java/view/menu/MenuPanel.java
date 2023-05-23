@@ -1,6 +1,7 @@
 package view.menu;
 
 import jakarta.xml.bind.JAXBException;
+import presenter.Presenter;
 import utils.xml.Menu;
 import utils.xml.MenuParser;
 import view.MainPanel;
@@ -20,8 +21,10 @@ public class MenuPanel extends JPanel {
     private final Menu menu;
     private final ArrayList<MenuItem> menuItems;
     private MenuItem selectedItem;
+    Presenter presenter;
 
-    public MenuPanel(MainPanel mainPanel) throws IOException {
+    public MenuPanel(MainPanel mainPanel, Presenter presenter) throws IOException {
+        this.presenter = presenter;
         this.mainPanel = mainPanel;
         setBackground(background);
         menu = parseMenu();
@@ -39,7 +42,7 @@ public class MenuPanel extends JPanel {
     public void open(MenuItem item) {
         if (item.isLeaf) {
             try {
-                mainPanel.open(item.item.getPanelClass());
+                mainPanel.open(item.item.getPanelClass(), presenter);
                 select(item);
                 item.isOpen = true;
             } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |

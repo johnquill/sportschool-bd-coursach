@@ -1,18 +1,21 @@
 package view;
 
+import presenter.Presenter;
 import view.menu.MenuPanel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
-public class Frame {
+public class View {
 
     private JFrame frame;
     private MainPanel mainPanel;
     private MenuPanel menuPanel;
+    private final Presenter presenter;
 
-    public Frame() {
+    public View(Presenter presenter) {
+        this.presenter = presenter;
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
@@ -29,7 +32,7 @@ public class Frame {
         JSplitPane splitPane = new JSplitPane();
         mainPanel = new MainPanel();
         try {
-            menuPanel = new MenuPanel(mainPanel);
+            menuPanel = new MenuPanel(mainPanel, presenter);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

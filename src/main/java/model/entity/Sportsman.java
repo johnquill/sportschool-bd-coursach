@@ -5,23 +5,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Sportsman {
 
-    private Long id;
-
-    private String name;
+    private long id;
 
     private String family;
 
+    private String name;
+
     private String patronymic;
 
-    private List<Section> section;
+    private long sectionId;
 
-    private Profession profession;
+    private long professionId;
 }

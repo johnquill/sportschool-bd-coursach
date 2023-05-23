@@ -1,11 +1,20 @@
 package presenter;
 
 import model.Model;
-import view.Frame;
 
 public class Presenter {
 
-    public Presenter(Frame frame, Model model) {
+    Model model;
 
+    public Presenter(Model model) {
+        this.model = model;
+    }
+
+    public String[] getSportsmanHeaders() {
+        return model.getSportsmanHeader();
+    }
+
+    public Object[][] getSportsmanData() {
+        return model.getSportsmanData();
     }
 }

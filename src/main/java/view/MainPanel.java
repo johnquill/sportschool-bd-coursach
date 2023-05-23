@@ -1,5 +1,7 @@
 package view;
 
+import presenter.Presenter;
+
 import javax.swing.*;
 import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
@@ -14,9 +16,10 @@ public class MainPanel extends JPanel {
         add(hint);
     }
 
-    public void open(String className) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    public void open(String className, Presenter presenter) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         close();
-        form = (JPanel) Class.forName(className).getDeclaredConstructor().newInstance();
+        //form = (JPanel) Class.forName(className).getDeclaredConstructor().newInstance();
+        form = (JPanel) Class.forName(className).getDeclaredConstructor(Presenter.class).newInstance(presenter);
         add(form, BorderLayout.CENTER);
         hint.setVisible(false);
         revalidate();
