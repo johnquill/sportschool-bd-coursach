@@ -45,8 +45,8 @@ public class ToolsPanel extends JPanel {
                     int idx = table.getSelectedRow();
                     long id = (long) tableModel.getValueAt(idx, 0);
                     sportsmanDao.deleteById(id);
-                    table.remove(table.getSelectedRow());
-                    table.update(table.getGraphics());
+                    //TODO тут нужно быть внимательнее: если будет сделана сортировка, удалится что-то не то
+                    tableModel.removeRow(idx);
                 }
             } catch (ArrayIndexOutOfBoundsException ex) {
                 JOptionPane.showMessageDialog(this, "Выберите удаляемую строчку", "Ошибка удаления", JOptionPane.ERROR_MESSAGE);
