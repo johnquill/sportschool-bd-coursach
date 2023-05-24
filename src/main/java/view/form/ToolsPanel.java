@@ -45,10 +45,9 @@ public class ToolsPanel extends JPanel {
                 int result = JOptionPane.showConfirmDialog(this, "Вы действительно хотите удалить " +
                         " имя фамилия отчетсво" + "?", "Удаление", JOptionPane.YES_NO_OPTION);
                 if (result == JOptionPane.YES_OPTION) {
-                    SportsmanDaoImpl sportsmanDao = new SportsmanDaoImpl();
                     int idx = table.getSelectedRow();
                     long id = (long) tableModel.getValueAt(idx, 0);
-                    sportsmanDao.deleteById(id);
+                    presenter.deleteSportsmanById(id);
                     //TODO тут нужно быть внимательнее: если будет сделана сортировка, удалится что-то не то
                     //TODO возможно стоит просто удалять из базы и перезагружать таблицу
                     tableModel.removeRow(idx);

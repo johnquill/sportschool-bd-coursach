@@ -50,7 +50,6 @@ public class SportsmanDaoImpl implements Dao<Sportsman> {
         }
         ArrayList<Object[]> sportsmanList = new ArrayList<>();
         try {
-            int ctr=0;
             if (set != null)
                 while (set.next()){
                     sportsmanList.add(new ArrayList<>(Arrays.asList(

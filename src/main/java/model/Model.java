@@ -5,7 +5,6 @@ import model.entity.Coach;
 import model.entity.Section;
 import model.entity.Sportsman;
 
-import java.util.List;
 
 public class Model {
 

@@ -22,4 +22,12 @@ public class Presenter {
     public void addSportsman(Sportsman sportsman) {
         model.addSportsman(sportsman);
     }
+
+    public void editSportsman(Sportsman sportsman) {
+        model.editSportsman(sportsman);
+    }
+
+    public void deleteSportsmanById(long id) {
+        model.deleteSportsmanById(id);
+    }
 }
