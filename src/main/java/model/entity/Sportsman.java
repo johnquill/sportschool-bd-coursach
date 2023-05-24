@@ -19,7 +19,15 @@ public class Sportsman {
 
     private String patronymic;
 
-    private long sectionId;
+    private String section;
 
-    private long professionId;
+    private String profession;
+
+    public Sportsman(String family, String name, String patronymic, String section, String profession) {
+        this.family = family;
+        this.name = name;
+        this.patronymic = patronymic;
+        this.section = section;
+        this.profession = profession;
+    }
 }

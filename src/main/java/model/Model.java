@@ -22,8 +22,8 @@ public class Model {
                 data[i][1] = sportsmen.get(i).getFamily();
                 data[i][2] = sportsmen.get(i).getName();
                 data[i][3] = sportsmen.get(i).getPatronymic();
-                data[i][4] = sportsmen.get(i).getSectionId();
-                data[i][5] = sportsmen.get(i).getProfessionId();
+                data[i][4] = sportsmen.get(i).getSection();
+                data[i][5] = sportsmen.get(i).getProfession();
             }
         } else if (Section.class.equals(entity)) {
 
@@ -43,5 +43,9 @@ public class Model {
             return new String[] {"Ид"};
         }
         return new String[] {};
+    }
+
+    public void addSportsman(Sportsman sportsman) {
+
     }
 }

@@ -1,6 +1,7 @@
 package presenter;
 
 import model.Model;
+import model.entity.Sportsman;
 
 public class Presenter {
 
@@ -16,5 +17,9 @@ public class Presenter {
 
     public Object[][] getTableData(Class entity) {
         return model.getTableData(entity);
+    }
+
+    public void addSportsman(Sportsman sportsman) {
+        model.addSportsman(sportsman);
     }
 }

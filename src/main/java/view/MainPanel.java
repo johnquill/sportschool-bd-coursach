@@ -19,7 +19,11 @@ public class MainPanel extends JPanel {
 
     public void open(String className, Presenter presenter) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         close();
-        form = new EntityPanel(presenter, Class.forName(className));
+        if (className.contains("entity")) {
+            form = new EntityPanel(presenter, Class.forName(className));
+        } else {
+            form = (JPanel) Class.forName(className).getConstructor(Presenter.class).newInstance(presenter);
+        }
         add(form, BorderLayout.CENTER);
         hint.setVisible(false);
         revalidate();

@@ -1,6 +1,7 @@
 package view.form;
 
 import model.dao.SportsmanDaoImpl;
+import presenter.Presenter;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -9,8 +10,11 @@ public class ToolsPanel extends JPanel {
 
     JTable table;
     DefaultTableModel tableModel;
+    Presenter presenter;
 
-    public ToolsPanel(JTable table, DefaultTableModel tableModel, Class entity) {
+
+    public ToolsPanel(JTable table, DefaultTableModel tableModel, Class entity, Presenter presenter) {
+        this.presenter = presenter;
         this.table = table;
         this.tableModel = tableModel;
         deleteButton();
@@ -21,7 +25,7 @@ public class ToolsPanel extends JPanel {
     private void addButton() {
         JButton addButton = new JButton("Добавить");
         addButton.addActionListener(e -> {
-
+            new InputEntityDialog(presenter);
         });
         add(addButton);
     }
@@ -46,6 +50,7 @@ public class ToolsPanel extends JPanel {
                     long id = (long) tableModel.getValueAt(idx, 0);
                     sportsmanDao.deleteById(id);
                     //TODO тут нужно быть внимательнее: если будет сделана сортировка, удалится что-то не то
+                    //TODO возможно стоит просто удалять из базы и перезагружать таблицу
                     tableModel.removeRow(idx);
                 }
             } catch (ArrayIndexOutOfBoundsException ex) {

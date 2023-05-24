@@ -23,7 +23,7 @@ public class SportsmanDaoImpl implements Dao<Sportsman> {
 
     @Override
     public List<Sportsman> getALl() {
-        Sportsman sportsman = new Sportsman(123456L, "Ходяков", "Федор", "Андреевич", 233345L, 322221L);
+        Sportsman sportsman = new Sportsman(123456L, "Ходяков", "Федор", "Андреевич", "233345", "322221");
         return List.of(sportsman);
     }
 

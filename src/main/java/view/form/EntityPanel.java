@@ -22,7 +22,7 @@ public class EntityPanel extends JPanel {
         tableModel.setDataVector(data, headers);
         JTable table = new JTable(tableModel);
 
-        ToolsPanel tools = new ToolsPanel(table, tableModel, entity);
+        ToolsPanel tools = new ToolsPanel(table, tableModel, entity, presenter);
         add(tools, BorderLayout.NORTH);
 
         JScrollPane scrollPane = new JScrollPane(table);
