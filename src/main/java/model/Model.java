@@ -15,16 +15,7 @@ public class Model {
         Object[][] data = new Object[0][];
         if (Sportsman.class.equals(entity)) {
             SportsmanDaoImpl sportsmanDao = new SportsmanDaoImpl();
-            List<Sportsman> sportsmen = sportsmanDao.getALl();
-            data = new Object[sportsmen.size()][getTableHeaders(entity).length];
-            for (int i = 0; i < sportsmen.size(); i++) {
-                data[i][0] = sportsmen.get(i).getId();
-                data[i][1] = sportsmen.get(i).getFamily();
-                data[i][2] = sportsmen.get(i).getName();
-                data[i][3] = sportsmen.get(i).getPatronymic();
-                data[i][4] = sportsmen.get(i).getSectionId();
-                data[i][5] = sportsmen.get(i).getProfessionId();
-            }
+            data = sportsmanDao.getALl();
         } else if (Section.class.equals(entity)) {
 
         } else if (Coach.class.equals(entity)) {

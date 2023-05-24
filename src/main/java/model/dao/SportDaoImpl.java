@@ -1,29 +1,24 @@
 package model.dao;
 
-import model.entity.Sportsman;
+import model.entity.Sport;
 
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
-public class SportsmanDaoImpl implements Dao<Sportsman> {
-
-    /*private final HashMap<String, String> headers = new HashMap<>();
-
-    {
-        headers.put("id", "Ид");
-        headers.put("family", "Фамилия");
-        headers.put("name", "Имя");
-        headers.put("patronymic", "Отчество");
-        headers.put("section_id", "Ид секции");
-        headers.put("profession_id", "Ид профессии");
-    }*/
+public class SportDaoImpl implements Dao<Sport>{
     @Override
-    public Sportsman getById(long id) {
+    public void add(Sport entity) {
+
+    }
+
+    @Override
+    public Sport getById(long id) {
         return null;
     }
 
     @Override
-    public void update(Sportsman entity) {
+    public void update(Sport entity) {
 
     }
 
@@ -48,27 +43,20 @@ public class SportsmanDaoImpl implements Dao<Sportsman> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        ArrayList<Object[]> sportsmanList = new ArrayList<>();
+        ArrayList<Object[]> sportList = new ArrayList<>();
         try {
             int ctr=0;
             if (set != null)
                 while (set.next()){
-                    sportsmanList.add(new ArrayList<>(Arrays.asList(
+                    sportList.add(new ArrayList<>(Arrays.asList(
                             set.getLong("id"),
-                            set.getString("family"),
                             set.getString("name"),
-                            set.getString("patronymic"),
-                            set.getLong("section_id"),
-                            set.getLong("profession_id")))
+                            set.getString("inventory")))
                             .toArray());
                 }
         }catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return (Object[][]) sportsmanList.toArray();
-    }
-
-    public void add(Sportsman sportsman) {
-
+        return (Object[][]) sportList.toArray();
     }
 }
