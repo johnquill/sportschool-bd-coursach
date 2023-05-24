@@ -2,6 +2,7 @@ package model.dao;
 
 import java.util.List;
 
+//TODO: Может быть, написать ДАО для профессий
 public interface Dao<E> {
 
     void add(E entity);
@@ -12,6 +13,6 @@ public interface Dao<E> {
 
     void deleteById(long id);
 
-    List<E> getALl();
+    Object[][] getALl();
 
 }

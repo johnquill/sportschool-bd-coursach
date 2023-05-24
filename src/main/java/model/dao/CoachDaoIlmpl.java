@@ -1,29 +1,34 @@
 package model.dao;
 
-import model.entity.Sportsman;
+import model.entity.Coach;
 
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
-public class SportsmanDaoImpl implements Dao<Sportsman> {
+public class CoachDaoIlmpl implements Dao<Coach> {
 
-    /*private final HashMap<String, String> headers = new HashMap<>();
-
+    private final HashMap<String, String> headers = new HashMap<>();
     {
         headers.put("id", "Ид");
         headers.put("family", "Фамилия");
         headers.put("name", "Имя");
         headers.put("patronymic", "Отчество");
-        headers.put("section_id", "Ид секции");
-        headers.put("profession_id", "Ид профессии");
-    }*/
+        headers.put("sport_id", "Ид спорта");
+    }
     @Override
-    public Sportsman getById(long id) {
+    public void add(Coach entity) {
+
+    }
+
+    @Override
+    public Coach getById(long id) {
         return null;
     }
 
     @Override
-    public void update(Sportsman entity) {
+    public void update(Coach entity) {
 
     }
 
@@ -48,27 +53,22 @@ public class SportsmanDaoImpl implements Dao<Sportsman> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        ArrayList<Object[]> sportsmanList = new ArrayList<>();
+        ArrayList<Object[]> coachList = new ArrayList<>();
         try {
             int ctr=0;
             if (set != null)
                 while (set.next()){
-                    sportsmanList.add(new ArrayList<>(Arrays.asList(
+                    coachList.add(new ArrayList<>(Arrays.asList(
                             set.getLong("id"),
                             set.getString("family"),
                             set.getString("name"),
-                            set.getString("patronymic"),
-                            set.getLong("section_id"),
-                            set.getLong("profession_id")))
+                            set.getBoolean("patronymic"),
+                            set.getLong("sport_id")))
                             .toArray());
                 }
         }catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return (Object[][]) sportsmanList.toArray();
-    }
-
-    public void add(Sportsman sportsman) {
-
+        return (Object[][]) coachList.toArray();
     }
 }
