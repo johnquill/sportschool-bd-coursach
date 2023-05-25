@@ -12,7 +12,7 @@ public class SportsmanService {
     }
 
     public void add(Sportsman sportsman) {
-        sportsmanDao.add(sportsman);
+        //sportsmanDao.add(sportsman);
     }
 
 }

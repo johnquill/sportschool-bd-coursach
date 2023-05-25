@@ -7,7 +7,7 @@ import java.util.List;
 //TODO: Может быть, написать ДАО для профессий
 public interface Dao<E> {
 
-    void add(E entity);
+    void add(E entity) throws Exception;
 
     E getById(long id);
 

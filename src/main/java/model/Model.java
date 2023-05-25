@@ -40,6 +40,17 @@ public class Model {
     }
 
     public void addSportsman(Sportsman sportsman) {
+        SportsmanDaoImpl sportsmanDao = new SportsmanDaoImpl();
+        try {
+            sportsmanDao.add(sportsman);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
+    }
+
+    public void deleteSportsmanById(long id){
+        SportsmanDaoImpl sportsmanDao = new SportsmanDaoImpl();
+        sportsmanDao.deleteById(id);
     }
 }

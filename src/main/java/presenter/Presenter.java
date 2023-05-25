@@ -28,6 +28,6 @@ public class Presenter {
     }
 
     public void deleteSportsmanById(long id) {
-        //model.deleteSportsmanById(id);
+        model.deleteSportsmanById(id);
     }
 }
