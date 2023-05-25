@@ -5,12 +5,11 @@ import model.entity.Section;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 public class SectionDaoImpl implements Dao<Section>{
 
-    private final HashMap<String, String> headers = new HashMap<>();
+    /*private final HashMap<String, String> headers = new HashMap<>();
     {
         headers.put("id", "Ид");
         headers.put("schedule", "График");
@@ -18,7 +17,7 @@ public class SectionDaoImpl implements Dao<Section>{
         headers.put("description", "Описание");
         headers.put("sport_id", "Ид спорта");
         headers.put("coach_id", "Ид тренера");
-    }
+    }*/
 
     @Override
     public void add(Section entity) {

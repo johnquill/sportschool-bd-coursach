@@ -1,5 +1,7 @@
 package model;
 
+import model.dao.CoachDaoIlmpl;
+import model.dao.SectionDaoImpl;
 import model.dao.SportsmanDaoImpl;
 import model.entity.Coach;
 import model.entity.Section;
@@ -16,9 +18,11 @@ public class Model {
             SportsmanDaoImpl sportsmanDao = new SportsmanDaoImpl();
             data = sportsmanDao.getALl();
         } else if (Section.class.equals(entity)) {
-
+            SectionDaoImpl sectionDao = new SectionDaoImpl();
+            data = sectionDao.getALl();
         } else if (Coach.class.equals(entity)) {
-
+            CoachDaoIlmpl coachDao = new CoachDaoIlmpl();
+            data = coachDao.getALl();
         }
         return data;
     }
