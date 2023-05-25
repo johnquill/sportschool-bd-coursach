@@ -13,7 +13,7 @@ public class Sportsman {
 
     private long id;
 
-    private String family;
+    private String surname;
 
     private String name;
 
@@ -23,8 +23,8 @@ public class Sportsman {
 
     private String profession;
 
-    public Sportsman(String family, String name, String patronymic, String section, String profession) {
-        this.family = family;
+    public Sportsman(String surname, String name, String patronymic, String section, String profession) {
+        this.surname = surname;
         this.name = name;
         this.patronymic = patronymic;
         this.section = section;

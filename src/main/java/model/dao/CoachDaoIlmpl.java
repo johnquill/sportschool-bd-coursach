@@ -6,17 +6,18 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class CoachDaoIlmpl implements Dao<Coach> {
 
-    private final HashMap<String, String> headers = new HashMap<>();
+    /*private final HashMap<String, String> headers = new HashMap<>();
     {
         headers.put("id", "Ид");
         headers.put("family", "Фамилия");
         headers.put("name", "Имя");
         headers.put("patronymic", "Отчество");
         headers.put("sport_id", "Ид спорта");
-    }
+    }*/
     @Override
     public void add(Coach entity) {
 
@@ -55,7 +56,6 @@ public class CoachDaoIlmpl implements Dao<Coach> {
         }
         ArrayList<Object[]> coachList = new ArrayList<>();
         try {
-            int ctr=0;
             if (set != null)
                 while (set.next()){
                     coachList.add(new ArrayList<>(Arrays.asList(

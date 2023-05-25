@@ -1,5 +1,7 @@
 package model.dao;
 
+import model.entity.Section;
+
 import java.util.List;
 
 //TODO: Может быть, написать ДАО для профессий
@@ -9,7 +11,7 @@ public interface Dao<E> {
 
     E getById(long id);
 
-    void update(E entity);
+    void update(E entity) throws Exception;
 
     void deleteById(long id);
 
