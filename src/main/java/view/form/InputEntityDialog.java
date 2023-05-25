@@ -4,6 +4,7 @@ import model.entity.Sportsman;
 import presenter.Presenter;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class InputEntityDialog extends JDialog {
@@ -13,35 +14,43 @@ public class InputEntityDialog extends JDialog {
     public InputEntityDialog(Presenter presenter) {
         this.presenter = presenter;
         setLocationRelativeTo(null);
+        JPanel inputPanel = new JPanel();
         GridLayout layout = new GridLayout(7, 2);
         layout.setVgap(5);
         layout.setHgap(5);
-        setLayout(layout);
+        inputPanel.setLayout(layout);
         setSize(300, 300);
-        buildFields();
+        buildFields(inputPanel);
+        inputPanel.setBorder(new EmptyBorder(10, 15, 10,15));
+
+        add(inputPanel);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setVisible(true);
     }
 
-    public void buildFields() {
+    public void buildFields(JPanel inputPanel) {
         JTextField family = new JTextField();
-        add(new JLabel("Фамилия"));
-        add(family);
+        inputPanel.add(new JLabel("Фамилия"));
+        inputPanel.add(family);
         JTextField name = new JTextField();
-        add(new JLabel("Имя"));
-        add(name);
+        inputPanel.add(new JLabel("Имя"));
+        inputPanel.add(name);
         JTextField patronymic = new JTextField();
-        add(new JLabel("Отчество"));
-        add(patronymic);
+        inputPanel.add(new JLabel("Отчество"));
+        inputPanel.add(patronymic);
         JComboBox<String> section = new JComboBox<>();
-        add(new JLabel("Секция"));
-        add(section);
+        inputPanel.add(new JLabel("Секция"));
+        inputPanel.add(section);
         JTextField profession = new JTextField();
-        add(new JLabel("Профессия"));
-        add(profession);
-        
+        inputPanel.add(new JLabel("Профессия"));
+        inputPanel.add(profession);
+
+        inputPanel.add(new JPanel());
+        inputPanel.add(new JPanel());
         JButton add = new JButton("Добавить");
-        add(add);
+        inputPanel.add(add);
         JButton cancel = new JButton("Отменить");
-        add(cancel);
+        inputPanel.add(cancel);
 
         add.addActionListener(e -> {
             presenter.addSportsman(new Sportsman(family.getText(), name.getText(), patronymic.getText(), (String) section.getSelectedItem(), profession.getText()));
@@ -49,9 +58,5 @@ public class InputEntityDialog extends JDialog {
         cancel.addActionListener(e -> {
             dispose();
         });
-
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setVisible(true);
-
     }
 }

@@ -24,10 +24,10 @@ public class Presenter {
     }
 
     public void editSportsman(Sportsman sportsman) {
-        model.editSportsman(sportsman);
+        //model.editSportsman(sportsman);
     }
 
     public void deleteSportsmanById(long id) {
-        model.deleteSportsmanById(id);
+        //model.deleteSportsmanById(id);
     }
 }
