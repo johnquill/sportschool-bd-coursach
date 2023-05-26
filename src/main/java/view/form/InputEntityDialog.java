@@ -38,7 +38,7 @@ public class InputEntityDialog extends JDialog {
         JTextField patronymic = new JTextField();
         inputPanel.add(new JLabel("Отчество"));
         inputPanel.add(patronymic);
-        JComboBox<String> section = new JComboBox<>();
+        JComboBox<String> section = new JComboBox<String>(presenter.getSectionNames());
         inputPanel.add(new JLabel("Секция"));
         inputPanel.add(section);
         JTextField profession = new JTextField();

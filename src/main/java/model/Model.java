@@ -32,13 +32,13 @@ public class Model {
         if (Sportsman.class.equals(entity)) {
             return new String[] {"Ид", "Фамилия", "Имя", "Отчество", "Секция", "Профессия"};
         } else if (Section.class.equals(entity)) {
-            return new String[] {"Ид"};
+            return new String[] {"Ид", "График", "Зал", "Описание", "Статус работы", "Спорт", "Тренер"};
         } else if (Coach.class.equals(entity)) {
             return new String[] {"Ид"};
         }
         return new String[] {};
     }
-
+    //TODO:Исключения вставки(такой секции нет и т.д.) выкидвать максимально выского, где-то в презентере или типа того, где уже просто выводится сообщение
     public void addSportsman(Sportsman sportsman) {
         SportsmanDaoImpl sportsmanDao = new SportsmanDaoImpl();
         try {
@@ -52,5 +52,42 @@ public class Model {
     public void deleteSportsmanById(long id){
         SportsmanDaoImpl sportsmanDao = new SportsmanDaoImpl();
         sportsmanDao.deleteById(id);
+    }
+
+    public void editSportsman(Sportsman sportsman){
+        SportsmanDaoImpl sportsmanDao = new SportsmanDaoImpl();
+        try {
+            sportsmanDao.update(sportsman);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String[] getSectionNames() {
+        SectionDaoImpl sectionDao = new SectionDaoImpl();
+        return sectionDao.getNames();
+    }
+
+    public void addSection(Section section){
+        SectionDaoImpl sectionDao = new SectionDaoImpl();
+        try {
+            sectionDao.add(section);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void editSection(Section section) {
+        SectionDaoImpl sectionDao = new SectionDaoImpl();
+        try {
+            sectionDao.update(section);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void deleteSectionById(long id){
+        SectionDaoImpl sectionDao = new SectionDaoImpl();
+        sectionDao.deleteById(id);
     }
 }

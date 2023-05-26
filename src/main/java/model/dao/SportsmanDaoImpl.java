@@ -87,7 +87,9 @@ public class SportsmanDaoImpl implements Dao<Sportsman> {
         }
         ResultSet set;
         try {
-            set = statement.executeQuery("Select id, surname, name, patronymic, section_id, profession_id from sportsman");
+            set = statement.executeQuery("Select sp.id, surname, sp.name, patronymic, s.name as section_name, p.name as profession_name from sportsman sp" +
+                    " join section s on section_id=s.id" +
+                    " join profession p on profession_id=p.id");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -100,8 +102,8 @@ public class SportsmanDaoImpl implements Dao<Sportsman> {
                             set.getString("surname"),
                             set.getString("name"),
                             set.getString("patronymic"),
-                            set.getLong("section_id"),
-                            set.getLong("profession_id")))
+                            set.getString("section_name"),
+                            set.getString("profession_name")))
                             .toArray());
                 }
         } catch (SQLException e) {

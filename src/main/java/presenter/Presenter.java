@@ -1,6 +1,7 @@
 package presenter;
 
 import model.Model;
+import model.entity.Section;
 import model.entity.Sportsman;
 
 public class Presenter {
@@ -24,10 +25,26 @@ public class Presenter {
     }
 
     public void editSportsman(Sportsman sportsman) {
-        //model.editSportsman(sportsman);
+        model.editSportsman(sportsman);
     }
 
     public void deleteSportsmanById(long id) {
         model.deleteSportsmanById(id);
+    }
+
+    public String[] getSectionNames() {
+        return model.getSectionNames();
+    }
+
+    public void addSection(Section section){
+        model.addSection(section);
+    }
+
+    public void editSection(Section section){
+        model.editSection(section);
+    }
+
+    public void deleteSectionById(long id){
+        model.deleteSectionById(id);
     }
 }
