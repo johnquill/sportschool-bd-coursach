@@ -1,6 +1,5 @@
 package view.form;
 
-import model.dao.SportsmanDaoImpl;
 import presenter.Presenter;
 
 import javax.swing.*;
@@ -25,7 +24,7 @@ public class ToolsPanel extends JPanel {
     private void addButton() {
         JButton addButton = new JButton("Добавить");
         addButton.addActionListener(e -> {
-            new InputEntityDialog(presenter);
+            new InputSportsmanDialog(presenter, true);
         });
         add(addButton);
     }
@@ -33,7 +32,7 @@ public class ToolsPanel extends JPanel {
     private void editButton() {
         JButton addButton = new JButton("Изменить");
         addButton.addActionListener(e -> {
-
+            InputSportsmanDialog dialog = new InputSportsmanDialog(presenter, table, false);
         });
         add(addButton);
     }

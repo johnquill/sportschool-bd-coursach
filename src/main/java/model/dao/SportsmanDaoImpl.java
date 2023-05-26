@@ -121,7 +121,7 @@ public class SportsmanDaoImpl implements Dao<Sportsman> {
             statement = connection.createStatement();
             selectStatement = connection.prepareStatement("select id from profession where name like '" + sportsman.getProfession() + "'");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new Exception("Такой порофессии нет епта");
         }
         try {
             ResultSet set;
@@ -134,7 +134,7 @@ public class SportsmanDaoImpl implements Dao<Sportsman> {
             //Long section_id = set.getLong("id");
             set = selectStatement.executeQuery();
             if (!set.next()) {
-                statement.executeUpdate("insert into profession(name) values('" + sportsman.getProfession() + "')");
+                statement.executeUpdate("insert into profession (name) values('" + sportsman.getProfession() + "')");
                 set = selectStatement.executeQuery();
             }
             Long profession_id = set.getLong("id");
@@ -145,7 +145,7 @@ public class SportsmanDaoImpl implements Dao<Sportsman> {
                     "null"/*section_id*/,
                     profession_id));
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new Exception("Ошибка добавления спортсмена:\n" + e);
         }
 
     }

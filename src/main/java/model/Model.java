@@ -39,14 +39,9 @@ public class Model {
         return new String[] {};
     }
     //TODO:Исключения вставки(такой секции нет и т.д.) выкидвать максимально выского, где-то в презентере или типа того, где уже просто выводится сообщение
-    public void addSportsman(Sportsman sportsman) {
+    public void addSportsman(Sportsman sportsman) throws Exception {
         SportsmanDaoImpl sportsmanDao = new SportsmanDaoImpl();
-        try {
-            sportsmanDao.add(sportsman);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
+        sportsmanDao.add(sportsman);
     }
 
     public void deleteSportsmanById(long id){

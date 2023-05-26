@@ -20,7 +20,7 @@ public class Presenter {
         return model.getTableData(entity);
     }
 
-    public void addSportsman(Sportsman sportsman) {
+    public void addSportsman(Sportsman sportsman) throws Exception {
         model.addSportsman(sportsman);
     }
 
