@@ -47,4 +47,8 @@ public class Presenter {
     public void deleteSectionById(long id){
         model.deleteSectionById(id);
     }
+
+    public void updateSportsman(Sportsman sportsman) {
+        model.editSportsman(sportsman);
+    }
 }

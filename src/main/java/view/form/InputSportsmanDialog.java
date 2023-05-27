@@ -18,6 +18,7 @@ public class InputSportsmanDialog extends JDialog {
     public JTextField profession;
 
     private JPanel inputPanel;
+    EntityPanel entityPanel;
 
     public InputSportsmanDialog(Presenter presenter, boolean isAdd) {
         this.presenter = presenter;
@@ -31,12 +32,22 @@ public class InputSportsmanDialog extends JDialog {
         setVisible(true);
     }
 
-    public InputSportsmanDialog(Presenter presenter, JTable table, boolean isAdd) {
+    public InputSportsmanDialog(Presenter presenter, EntityPanel panel, boolean isAdd) throws Exception {
         this.presenter = presenter;
+        this.entityPanel = panel;
         inputPanel = new JPanel();
         stylize();
 
         buildFields(inputPanel, isAdd);
+        int row = panel.table.getSelectedRow();
+        if (row < 0) {
+            throw new Exception("Не выбран спортсмен");
+        }
+        family.setText((String) panel.table.getValueAt(row, 1));
+        name.setText((String) panel.table.getValueAt(row, 2));
+        patronymic.setText((String) panel.table.getValueAt(row, 3));
+        section.setSelectedItem(panel.table.getValueAt(row, 4));
+        profession.setText((String) panel.table.getValueAt(row, 5));
 
         add(inputPanel);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -81,6 +92,19 @@ public class InputSportsmanDialog extends JDialog {
             add.addActionListener(e -> {
                 try {
                     presenter.addSportsman(new Sportsman(family.getText(), name.getText(), patronymic.getText(), (String) section.getSelectedItem(), profession.getText()));
+                    entityPanel.updateTable();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
+                }
+            });
+        } else {
+            add.addActionListener(e -> {
+                try {
+                    presenter.updateSportsman(
+                            new Sportsman((Long) entityPanel.table.getValueAt(entityPanel.table.getSelectedRow(), 0),
+                                    family.getText(), name.getText(), patronymic.getText(),
+                                    (String) section.getSelectedItem(), profession.getText()));
+                    entityPanel.updateTable();
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(this, ex.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
                 }
