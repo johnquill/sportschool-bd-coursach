@@ -1,6 +1,7 @@
 package presenter;
 
 import model.Model;
+import model.entity.Coach;
 import model.entity.Section;
 import model.entity.Sportsman;
 
@@ -50,5 +51,15 @@ public class Presenter {
 
     public void updateSportsman(Sportsman sportsman) {
         model.editSportsman(sportsman);
+    }
+
+    public void deleteEntityById(Class entity, long id) {
+        if (entity == Sportsman.class) {
+            model.deleteSportsmanById(id);
+        } else if (entity == Section.class) {
+            model.deleteSectionById(id);
+        } else if (entity == Coach.class) {
+            //model.deleteCoachById();
+        }
     }
 }

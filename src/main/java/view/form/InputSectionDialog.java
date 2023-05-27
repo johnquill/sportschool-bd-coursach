@@ -7,8 +7,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-public class InputSportsmanDialog extends JDialog {
-    
+public class InputSectionDialog extends JDialog {
+
     Presenter presenter;
 
     public JTextField family;
@@ -20,7 +20,7 @@ public class InputSportsmanDialog extends JDialog {
     private JPanel inputPanel;
     EntityPanel entityPanel;
 
-    public InputSportsmanDialog(Presenter presenter, EntityPanel panel, boolean isAdd) throws Exception {
+    public InputSectionDialog(Presenter presenter, EntityPanel panel, boolean isAdd) throws Exception {
         this.presenter = presenter;
         this.entityPanel = panel;
         inputPanel = new JPanel();
@@ -29,7 +29,7 @@ public class InputSportsmanDialog extends JDialog {
         buildFields(inputPanel, isAdd);
         int row = panel.table.getSelectedRow();
         if (row < 0) {
-            throw new Exception("Не выбран спортсмен");
+            throw new Exception("Не выбрана Секция");
         }
         family.setText((String) panel.table.getValueAt(row, 1));
         name.setText((String) panel.table.getValueAt(row, 2));

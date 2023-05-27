@@ -10,9 +10,11 @@ public class ToolsPanel extends JPanel {
     Presenter presenter;
 
     EntityPanel panel;
+    Class entity;
 
 
     public ToolsPanel(EntityPanel panel, Class entity, Presenter presenter) {
+        this.entity = entity;
         this.panel = panel;
         this.presenter = presenter;
         deleteButton();
@@ -23,7 +25,13 @@ public class ToolsPanel extends JPanel {
     private void addButton() {
         JButton addButton = new JButton("Добавить");
         addButton.addActionListener(e -> {
-            new InputSportsmanDialog(presenter, true);
+            /// TODO: 28.05.2023 Тут не должно быть так что в идеале надо избавлять переделыванием архитектуры
+            // возможно нужно просто перехватывать раньше
+            try {
+                InputDialogBuilder.buildInputEntity(presenter, panel, true);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
         });
         add(addButton);
     }
@@ -32,7 +40,7 @@ public class ToolsPanel extends JPanel {
         JButton addButton = new JButton("Изменить");
         addButton.addActionListener(e -> {
             try {
-                InputSportsmanDialog dialog = new InputSportsmanDialog(presenter, panel, false);
+                InputDialogBuilder.buildInputEntity(presenter, panel, false);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
             }
@@ -49,7 +57,7 @@ public class ToolsPanel extends JPanel {
                 if (result == JOptionPane.YES_OPTION) {
                     int idx = panel.table.getSelectedRow();
                     long id = (long) panel.tableModel.getValueAt(idx, 0);
-                    presenter.deleteSportsmanById(id);
+                    presenter.deleteEntityById(entity, id);
                     panel.updateTable();
                 }
             } catch (ArrayIndexOutOfBoundsException ex) {
