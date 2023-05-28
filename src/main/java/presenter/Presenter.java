@@ -5,6 +5,8 @@ import model.entity.Coach;
 import model.entity.Section;
 import model.entity.Sportsman;
 
+import javax.swing.text.html.parser.Entity;
+
 public class Presenter {
 
     Model model;
@@ -61,5 +63,13 @@ public class Presenter {
         } else if (entity == Coach.class) {
             //model.deleteCoachById();
         }
+    }
+
+    public Object[] getVariants(String table, String col) {
+        return model.getColValues(table, col);
+    }
+
+    public void addEntity(Class entity, Object object) {
+        model.addEntity(entity, object);
     }
 }

@@ -100,7 +100,7 @@ public class SectionDaoImpl implements Dao<Section> {
     }
 
     @Override
-    public Object[][] getALl() {
+    public Object[][] getAll() {
         Connection connection;
         Statement statement;
         ArrayList<Object[]> sectionList = new ArrayList<>();

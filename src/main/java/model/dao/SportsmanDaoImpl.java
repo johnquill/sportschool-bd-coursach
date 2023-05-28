@@ -1,6 +1,5 @@
 package model.dao;
 
-import com.mysql.cj.jdbc.result.ResultSetImpl;
 import model.entity.Sportsman;
 
 import java.sql.*;
@@ -8,16 +7,6 @@ import java.util.*;
 
 public class SportsmanDaoImpl implements Dao<Sportsman> {
 
-    /*private final HashMap<String, String> headers = new HashMap<>();
-
-    {
-        headers.put("id", "Ид");
-        headers.put("surname", "Фамилия");
-        headers.put("name", "Имя");
-        headers.put("patronymic", "Отчество");
-        headers.put("section_id", "Ид секции");
-        headers.put("profession_id", "Ид профессии");
-    }*/
     @Override
     public Sportsman getById(long id) throws SQLException {
         Connection connection;
@@ -99,7 +88,7 @@ public class SportsmanDaoImpl implements Dao<Sportsman> {
     }
 
     @Override
-    public Object[][] getALl() {
+    public Object[][] getAll() {
         Connection connection;
         Statement statement;
         try {

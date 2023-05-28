@@ -10,7 +10,7 @@ public class InputDialogBuilder {
         if (panel.entity == Sportsman.class) {
             new InputSportsmanDialog(presenter, panel, isAdd);
         } else if (panel.entity == Section.class) {
-            new InputSectionDialog(presenter, panel, isAdd);
+            new InputEntityDialog(presenter, panel, isAdd);
         }
     }
 

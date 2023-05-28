@@ -39,7 +39,7 @@ public class CoachDaoIlmpl implements Dao<Coach> {
     }
 
     @Override
-    public Object[][] getALl() {
+    public Object[][] getAll() {
         Connection connection;
         Statement statement;
         try {

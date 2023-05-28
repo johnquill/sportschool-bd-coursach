@@ -16,6 +16,6 @@ public interface Dao<E> {
 
     void deleteById(long id);
 
-    Object[][] getALl();
+    Object[][] getAll();
 
 }
