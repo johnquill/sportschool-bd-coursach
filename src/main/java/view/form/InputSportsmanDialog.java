@@ -27,15 +27,18 @@ public class InputSportsmanDialog extends JDialog {
         stylize();
 
         buildFields(inputPanel, isAdd);
-        int row = panel.table.getSelectedRow();
-        if (row < 0) {
-            throw new Exception("Не выбран спортсмен");
+
+        if (!isAdd) {
+            int row = panel.table.getSelectedRow();
+            if (row < 0) {
+                throw new Exception("Не выбран спортсмен");
+            }
+            family.setText((String) panel.table.getValueAt(row, 1));
+            name.setText((String) panel.table.getValueAt(row, 2));
+            patronymic.setText((String) panel.table.getValueAt(row, 3));
+            section.setSelectedItem(panel.table.getValueAt(row, 4));
+            profession.setText((String) panel.table.getValueAt(row, 5));
         }
-        family.setText((String) panel.table.getValueAt(row, 1));
-        name.setText((String) panel.table.getValueAt(row, 2));
-        patronymic.setText((String) panel.table.getValueAt(row, 3));
-        section.setSelectedItem(panel.table.getValueAt(row, 4));
-        profession.setText((String) panel.table.getValueAt(row, 5));
 
         add(inputPanel);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);

@@ -62,4 +62,12 @@ public class Presenter {
             //model.deleteCoachById();
         }
     }
+
+    public String[] getTrainers() {
+        return model.getTrainers();
+    }
+
+    public void updateSection(Section section) {
+        model.updateSection(section);
+    }
 }

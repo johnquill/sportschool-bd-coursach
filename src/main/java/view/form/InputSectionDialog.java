@@ -1,5 +1,6 @@
 package view.form;
 
+import model.entity.Section;
 import model.entity.Sportsman;
 import presenter.Presenter;
 
@@ -11,11 +12,13 @@ public class InputSectionDialog extends JDialog {
 
     Presenter presenter;
 
-    public JTextField family;
     public JTextField name;
-    public JTextField patronymic;
-    public JComboBox<String> section;
-    public JTextField profession;
+    public JTextField schedule;
+    public JTextField room;
+    private JTextArea description;
+    private JComboBox<String> is_working = new JComboBox<>(new String[] {"Работает", "Не работает"});
+    private JTextField sport;
+    private JComboBox<String> coach;
 
     private JPanel inputPanel;
     EntityPanel entityPanel;
@@ -27,15 +30,20 @@ public class InputSectionDialog extends JDialog {
         stylize();
 
         buildFields(inputPanel, isAdd);
-        int row = panel.table.getSelectedRow();
-        if (row < 0) {
-            throw new Exception("Не выбрана Секция");
+
+        if (!isAdd) {
+            int row = panel.table.getSelectedRow();
+            if (row < 0) {
+                throw new Exception("Не выбрана секция");
+            }
+            name.setText((String) panel.table.getValueAt(row, 1));
+            schedule.setText((String) panel.table.getValueAt(row, 2));
+            room.setText((String) panel.table.getValueAt(row, 3));
+            description.setText((String) panel.table.getValueAt(row, 4));
+            is_working.setSelectedItem(panel.table.getValueAt(row, 5));
+            sport.setText((String) panel.table.getValueAt(row, 6));
+            coach.setSelectedItem(panel.table.getValueAt(row, 7));
         }
-        family.setText((String) panel.table.getValueAt(row, 1));
-        name.setText((String) panel.table.getValueAt(row, 2));
-        patronymic.setText((String) panel.table.getValueAt(row, 3));
-        section.setSelectedItem(panel.table.getValueAt(row, 4));
-        profession.setText((String) panel.table.getValueAt(row, 5));
 
         add(inputPanel);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -54,21 +62,27 @@ public class InputSectionDialog extends JDialog {
     }
 
     public void buildFields(JPanel inputPanel, boolean isAdd) {
-        family = new JTextField();
-        inputPanel.add(new JLabel("Фамилия"));
-        inputPanel.add(family);
         name = new JTextField();
-        inputPanel.add(new JLabel("Имя"));
+        inputPanel.add(new JLabel("Название"));
         inputPanel.add(name);
-        patronymic = new JTextField();
-        inputPanel.add(new JLabel("Отчество"));
-        inputPanel.add(patronymic);
-        section = new JComboBox<>(presenter.getSectionNames());
-        inputPanel.add(new JLabel("Секция"));
-        inputPanel.add(section);
-        profession = new JTextField();
-        inputPanel.add(new JLabel("Профессия"));
-        inputPanel.add(profession);
+        schedule = new JTextField();
+        inputPanel.add(new JLabel("Расписание"));
+        inputPanel.add(schedule);
+        room = new JTextField();
+        inputPanel.add(new JLabel("Зал"));
+        inputPanel.add(room);
+        description = new JTextArea();
+        inputPanel.add(new JLabel("Описание"));
+        inputPanel.add(description);
+        is_working = new JComboBox<>(presenter.getSectionNames());
+        inputPanel.add(new JLabel("Статус работы"));
+        inputPanel.add(is_working);
+        sport = new JTextField();
+        inputPanel.add(new JLabel("Вид спорта"));
+        inputPanel.add(sport);
+        coach = new JComboBox<>(presenter.getTrainers());
+        inputPanel.add(new JLabel("Тренер"));
+        inputPanel.add(coach);
 
         inputPanel.add(new JPanel());
         inputPanel.add(new JPanel());
@@ -79,7 +93,8 @@ public class InputSectionDialog extends JDialog {
         if (isAdd) {
             add.addActionListener(e -> {
                 try {
-                    presenter.addSportsman(new Sportsman(family.getText(), name.getText(), patronymic.getText(), (String) section.getSelectedItem(), profession.getText()));
+                    presenter.addSection(new Section((Long) null, name.getText(), schedule.getText(), Integer.parseInt(room.getText()), description.getText(),
+                            is_working.getSelectedIndex() == 0, sport.getText(), (String) coach.getSelectedItem()));
                     entityPanel.updateTable();
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(this, ex.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
@@ -88,10 +103,9 @@ public class InputSectionDialog extends JDialog {
         } else {
             add.addActionListener(e -> {
                 try {
-                    presenter.updateSportsman(
-                            new Sportsman((Long) entityPanel.table.getValueAt(entityPanel.table.getSelectedRow(), 0),
-                                    family.getText(), name.getText(), patronymic.getText(),
-                                    (String) section.getSelectedItem(), profession.getText()));
+                    presenter.updateSection(new Section((Long) entityPanel.table.getValueAt(entityPanel.table.getSelectedRow(), 0),
+                            name.getText(), schedule.getText(), Integer.parseInt(room.getText()), description.getText(),
+                            is_working.getSelectedIndex() == 0, sport.getText(), (String) coach.getSelectedItem()));
                     entityPanel.updateTable();
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(this, ex.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
