@@ -12,6 +12,8 @@ import lombok.Setter;
 public class Section {
     private long id;
 
+    private String name;
+
     private String schedule;
 
     private int room;

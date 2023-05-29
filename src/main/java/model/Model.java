@@ -85,4 +85,12 @@ public class Model {
         SectionDaoImpl sectionDao = new SectionDaoImpl();
         sectionDao.deleteById(id);
     }
+
+    public String[] getTrainers() {
+        return new String[] {""};
+    }
+
+    public void updateSection(Section section) {
+        // TODO: 29.05.2023 Ебашь это
+    }
 }
