@@ -10,11 +10,11 @@ public interface Dao<E> {
 
     void add(E entity) throws Exception;
 
-    E getById(long id) throws SQLException;
+    E getById(long id) throws Exception;
 
     void update(E entity) throws Exception;
 
-    void deleteById(long id);
+    void deleteById(long id) throws Exception;
 
     Object[][] getALl();
 

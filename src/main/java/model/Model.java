@@ -34,7 +34,7 @@ public class Model {
         } else if (Section.class.equals(entity)) {
             return new String[] {"Ид", "График", "Зал", "Описание", "Статус работы", "Спорт", "Тренер"};
         } else if (Coach.class.equals(entity)) {
-            return new String[] {"Ид"};
+            return new String[] {"Ид", "Фамилия", "Имя", "Отчество", "Вид спорта"};
         }
         return new String[] {};
     }
