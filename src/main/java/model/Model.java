@@ -93,4 +93,12 @@ public class Model {
     public void updateSection(Section section) {
         // TODO: 29.05.2023 Ебашь это
     }
+
+    public void addCoach(Coach coach) {
+        // TODO: 29.05.2023 И этооооо
+    }
+
+    public void updateCoach(Coach coach) {
+        //TODO: И это
+    }
 }

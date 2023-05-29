@@ -70,4 +70,12 @@ public class Presenter {
     public void updateSection(Section section) {
         model.updateSection(section);
     }
+
+    public void addCoach(Coach coach) {
+        model.addCoach(coach);
+    }
+
+    public void updateCoach(Coach coach) {
+        model.updateCoach(coach);
+    }
 }

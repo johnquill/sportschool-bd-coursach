@@ -13,7 +13,7 @@ public class InputDialogBuilder {
         } else if (panel.entity == Section.class) {
             new InputSectionDialog(presenter, panel, isAdd);
         } else if (panel.entity == Coach.class) {
-            //new InputCoachDialog(presenter, panel, isAdd);
+            new InputCoachDialog(presenter, panel, isAdd);
         }
     }
 
