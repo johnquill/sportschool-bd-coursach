@@ -38,7 +38,7 @@ public class InputSectionDialog extends JDialog {
             }
             name.setText((String) panel.table.getValueAt(row, 1));
             schedule.setText((String) panel.table.getValueAt(row, 2));
-            room.setText((String) panel.table.getValueAt(row, 3));
+            room.setText(String.valueOf(panel.table.getValueAt(row, 3)));
             description.setText((String) panel.table.getValueAt(row, 4));
             is_working.setSelectedItem(panel.table.getValueAt(row, 5));
             sport.setText((String) panel.table.getValueAt(row, 6));
@@ -52,7 +52,7 @@ public class InputSectionDialog extends JDialog {
 
     private void stylize() {
         setLocationRelativeTo(null);
-        GridLayout layout = new GridLayout(7, 2);
+        GridLayout layout = new GridLayout(9, 2);
         layout.setVgap(5);
         layout.setHgap(5);
         inputPanel.setLayout(layout);
@@ -72,9 +72,9 @@ public class InputSectionDialog extends JDialog {
         inputPanel.add(new JLabel("Зал"));
         inputPanel.add(room);
         description = new JTextArea();
+        description.setLineWrap(true);
         inputPanel.add(new JLabel("Описание"));
         inputPanel.add(description);
-        is_working = new JComboBox<>(presenter.getSectionNames());
         inputPanel.add(new JLabel("Статус работы"));
         inputPanel.add(is_working);
         sport = new JTextField();
