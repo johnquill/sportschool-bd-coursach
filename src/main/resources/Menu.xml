@@ -4,12 +4,20 @@
             <Name>Отчеты</Name>
             <Items>
                 <Item>
-                    <Name>Спортсмены</Name>
-                    <Panel>view.report.SportsmanReport</Panel>
+                    <Name>Работающие секции</Name>
+                    <Panel>view.report.ActiveSections</Panel>
                 </Item>
                 <Item>
-                    <Name>Секции</Name>
-                    <Panel>SectionReport</Panel>
+                    <Name>Секции по тренерам</Name>
+                    <Panel>view.report.SectionsByCoach</Panel>
+                </Item>
+                <Item>
+                    <Name>Состав секций</Name>
+                    <Panel>view.report.SectionCompound</Panel>
+                </Item>
+                <Item>
+                    <Name>По видам спорта</Name>
+                    <Panel>view.report.ByKindOfSport</Panel>
                 </Item>
             </Items>
         </Item>

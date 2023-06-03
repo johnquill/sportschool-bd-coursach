@@ -5,6 +5,9 @@ import model.entity.Coach;
 import model.entity.Section;
 import model.entity.Sportsman;
 
+import java.awt.*;
+import java.util.ArrayList;
+
 public class Presenter {
 
     Model model;
@@ -77,5 +80,9 @@ public class Presenter {
 
     public void updateCoach(Coach coach) {
         model.updateCoach(coach);
+    }
+
+    public ArrayList<Section> getActiveSections() {
+        return model.getActiveSections();
     }
 }

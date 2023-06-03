@@ -7,6 +7,9 @@ import model.entity.Coach;
 import model.entity.Section;
 import model.entity.Sportsman;
 
+import java.awt.*;
+import java.util.ArrayList;
+
 
 public class Model {
 
@@ -87,6 +90,7 @@ public class Model {
     }
 
     public String[] getTrainers() {
+        //TODO: вот это нужно сделать
         return new String[] {""};
     }
 
@@ -100,5 +104,10 @@ public class Model {
 
     public void updateCoach(Coach coach) {
         //TODO: И это
+    }
+
+    public ArrayList<Section> getActiveSections() {
+        //TODO: И это)
+        return new ArrayList<Section>();
     }
 }
