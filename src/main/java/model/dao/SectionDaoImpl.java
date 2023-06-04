@@ -33,7 +33,8 @@ public class SectionDaoImpl implements Dao<Section> {
             }
             long sport_id = set.getLong("id");
 
-            set = statement.executeQuery("select id from coach where surname like '"+entity.getCoach()+"'");
+            set = statement.executeQuery(String.format("select id from coach where surname like '%s' and name like '%s' and patronymic like '%s'",
+                    entity.getCoach()[0], entity.getCoach()[1], entity.getCoach()[2]));
             if (!set.next())
                 throw new Exception("Такого тренера в спортивной школе нет");
             long coach_id = set.getLong("id");
@@ -69,11 +70,10 @@ public class SectionDaoImpl implements Dao<Section> {
             }
             long sport_id = set.getLong("id");
 
-            set = statement.executeQuery("select id from coach where surname like '"+entity.getCoach()+"'");
+            set = statement.executeQuery(String.format("select id from coach where surname like '%s' and name like '%s' and patronymic like '%s'",entity.getCoach()[0], entity.getCoach()[1], entity.getCoach()[2]));
             if (!set.next())
                 throw new Exception("Такого тренера в спортивной школе нет");
             long coach_id = set.getLong("id");
-            //TODO:Выбор тренера поумнее, так как могут совпадать фамилии тренеров
             statement.executeUpdate(String.format("update section set schedule=%s, room=%d, description=%s, is_working=%b, sport_id=%d, coach_id=%d",
                     entity.getSchedule(),
                     entity.getRoom(),
@@ -108,7 +108,8 @@ public class SectionDaoImpl implements Dao<Section> {
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sportschool", "admin", System.getenv("PASSW"));
             statement = connection.createStatement();
             ResultSet set;
-            set = statement.executeQuery("Select section.id, schedule, room, description, is_working, sp.name as sport_name, c.surname as coach_surname from section" +
+            set = statement.executeQuery("Select section.id, schedule, room, description, is_working, sp.name as sport_name, " +
+                    "c.surname as coach_surname, c.name as coach_name, c.patronymic as coach_patronymic from section" +
                     " join sport sp on sport_id=sp.id" +
                     " join coach c on coach_id=c.id");
             if (set.next())
@@ -120,7 +121,7 @@ public class SectionDaoImpl implements Dao<Section> {
                             set.getString("description"),
                             set.getBoolean("is_working") ? "Работает" : "Не работает",
                             set.getString("sport_name"),
-                            set.getString("coach_surname")))
+                            set.getString("coach_surname")+" "+set.getString("coach_name")+" "+set.getString("coach_patronymic")))
                             .toArray());
                 } while (set.next());
         } catch (SQLException e) {
@@ -156,5 +157,38 @@ public class SectionDaoImpl implements Dao<Section> {
         }
         sectionNames.add(0, "");
         return sectionNames.toArray(String[]::new);
+    }
+
+    public ArrayList<Section> getActive() {
+        Connection connection;
+        Statement statement;
+        try {
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sportschool", "admin", System.getenv("PASSW"));
+            statement = connection.createStatement();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        ArrayList<Section> sectionList = new ArrayList<>();
+        try {
+            ResultSet set = statement.executeQuery("Select sp.id, sp.section_id, s.id, s.name, s.schedule, s.room, s.description, s.is_working, s.sport_id, s.coach_id, count(sp.id) as sportsman_count" +
+                    " from sportsman sp" +
+                    " inner join section s on section_id=s.id" +
+                    " group by section_id");
+            while (set.next()){
+                String[] arrCoach = new String[]{set.getString("coach_surname"), set.getString("coach_name"), set.getString("coach_patronymic")};
+                sectionList.add(new Section(
+                        set.getLong("id"),
+                        set.getString("name"),
+                        set.getString("schedule"),
+                        set.getInt("room"),
+                        set.getString("description"),
+                        set.getBoolean("is_working"),
+                        set.getString("sport_name"),
+                        arrCoach));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return sectionList;
     }
 }

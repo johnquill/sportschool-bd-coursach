@@ -28,7 +28,7 @@ public class Presenter {
         model.addSportsman(sportsman);
     }
 
-    public void editSportsman(Sportsman sportsman) {
+    public void editSportsman(Sportsman sportsman) throws Exception {
         model.editSportsman(sportsman);
     }
 
@@ -44,7 +44,7 @@ public class Presenter {
         model.addSection(section);
     }
 
-    public void editSection(Section section){
+    public void editSection(Section section) throws Exception {
         model.editSection(section);
     }
 
@@ -52,7 +52,7 @@ public class Presenter {
         model.deleteSectionById(id);
     }
 
-    public void updateSportsman(Sportsman sportsman) {
+    public void updateSportsman(Sportsman sportsman) throws Exception {
         model.editSportsman(sportsman);
     }
 
@@ -66,11 +66,11 @@ public class Presenter {
         }
     }
 
-    public String[] getTrainers() {
+    public String[] getTrainers(){
         return model.getTrainers();
     }
 
-    public void updateSection(Section section) {
+    public void updateSection(Section section) throws Exception {
         model.updateSection(section);
     }
 
@@ -78,7 +78,7 @@ public class Presenter {
         model.addCoach(coach);
     }
 
-    public void updateCoach(Coach coach) {
+    public void updateCoach(Coach coach) throws Exception {
         model.updateCoach(coach);
     }
 

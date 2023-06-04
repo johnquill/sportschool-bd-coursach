@@ -1,6 +1,6 @@
 package model;
 
-import model.dao.CoachDaoIlmpl;
+import model.dao.CoachDaoImpl;
 import model.dao.SectionDaoImpl;
 import model.dao.SportsmanDaoImpl;
 import model.entity.Coach;
@@ -24,7 +24,7 @@ public class Model {
             SectionDaoImpl sectionDao = new SectionDaoImpl();
             data = sectionDao.getALl();
         } else if (Coach.class.equals(entity)) {
-            CoachDaoIlmpl coachDao = new CoachDaoIlmpl();
+            CoachDaoImpl coachDao = new CoachDaoImpl();
             data = coachDao.getALl();
         }
         return data;
@@ -41,7 +41,6 @@ public class Model {
         }
         return new String[] {};
     }
-    //TODO:Исключения вставки(такой секции нет и т.д.) выкидвать максимально выского, где-то в презентере или типа того, где уже просто выводится сообщение
     public void addSportsman(Sportsman sportsman) throws Exception {
         SportsmanDaoImpl sportsmanDao = new SportsmanDaoImpl();
         sportsmanDao.add(sportsman);
@@ -52,13 +51,9 @@ public class Model {
         sportsmanDao.deleteById(id);
     }
 
-    public void editSportsman(Sportsman sportsman){
+    public void editSportsman(Sportsman sportsman) throws Exception {
         SportsmanDaoImpl sportsmanDao = new SportsmanDaoImpl();
-        try {
-            sportsmanDao.update(sportsman);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        sportsmanDao.update(sportsman);
     }
 
     public String[] getSectionNames() {
@@ -75,13 +70,9 @@ public class Model {
         }
     }
 
-    public void editSection(Section section) {
+    public void editSection(Section section) throws Exception {
         SectionDaoImpl sectionDao = new SectionDaoImpl();
-        try {
-            sectionDao.update(section);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        sectionDao.update(section);
     }
 
     public void deleteSectionById(long id){
@@ -89,25 +80,29 @@ public class Model {
         sectionDao.deleteById(id);
     }
 
-    public String[] getTrainers() {
-        //TODO: вот это нужно сделать
-        return new String[] {""};
+    public String[] getTrainers(){
+        CoachDaoImpl coachDao = new CoachDaoImpl();
+
+        return coachDao.getFIO();
     }
 
-    public void updateSection(Section section) {
-        // TODO: 29.05.2023 Ебашь это
+    public void updateSection(Section section) throws Exception {
+        SectionDaoImpl sectionDao = new SectionDaoImpl();
+        sectionDao.update(section);
     }
 
     public void addCoach(Coach coach) {
-        // TODO: 29.05.2023 И этооооо
+        CoachDaoImpl coachDao = new CoachDaoImpl();
+        coachDao.add(coach);
     }
 
-    public void updateCoach(Coach coach) {
-        //TODO: И это
+    public void updateCoach(Coach coach) throws Exception {
+        CoachDaoImpl coachDao = new CoachDaoImpl();
+        coachDao.update(coach);
     }
 
     public ArrayList<Section> getActiveSections() {
-        //TODO: И это)
-        return new ArrayList<Section>();
+        SectionDaoImpl sectionDao = new SectionDaoImpl();
+        return sectionDao.getActive();
     }
 }

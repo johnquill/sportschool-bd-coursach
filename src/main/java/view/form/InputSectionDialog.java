@@ -92,8 +92,9 @@ public class InputSectionDialog extends JDialog {
         if (isAdd) {
             add.addActionListener(e -> {
                 try {
+                    String[] arrCoach = coach.getSelectedItem().toString().split(" ");
                     presenter.addSection(new Section((Long) null, name.getText(), schedule.getText(), Integer.parseInt(room.getText()), description.getText(),
-                            is_working.getSelectedIndex() == 0, sport.getText(), (String) coach.getSelectedItem()));
+                            is_working.getSelectedIndex() == 0, sport.getText(), arrCoach));
                     entityPanel.updateTable();
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(this, ex.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
@@ -102,9 +103,10 @@ public class InputSectionDialog extends JDialog {
         } else {
             add.addActionListener(e -> {
                 try {
+                    String[] arrCoach = coach.getSelectedItem().toString().split(" ");
                     presenter.updateSection(new Section((Long) entityPanel.table.getValueAt(entityPanel.table.getSelectedRow(), 0),
                             name.getText(), schedule.getText(), Integer.parseInt(room.getText()), description.getText(),
-                            is_working.getSelectedIndex() == 0, sport.getText(), (String) coach.getSelectedItem()));
+                            is_working.getSelectedIndex() == 0, sport.getText(), arrCoach));
                     entityPanel.updateTable();
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(this, ex.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);

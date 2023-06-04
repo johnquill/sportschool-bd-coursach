@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class CoachDaoIlmpl implements Dao<Coach> {
+public class CoachDaoImpl implements Dao<Coach> {
 
     /*private final HashMap<String, String> headers = new HashMap<>();
     {
@@ -131,5 +131,30 @@ public class CoachDaoIlmpl implements Dao<Coach> {
             throw new RuntimeException(e);
         }
         return coachList.toArray(Object[][]::new);
+    }
+
+    public String[] getFIO() {
+        Connection connection;
+        Statement statement;
+        try {
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sportschool", "admin", System.getenv("PASSW"));
+            statement = connection.createStatement();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        ResultSet set;
+        try {
+            set = statement.executeQuery("Select surname, name, patronymic from coach");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        ArrayList<String> FIO = new ArrayList<>();
+        try {
+            while (set.next())
+                FIO.add(String.format("%s %s %s", set.getString("surname"), set.getString("name"), set.getString("patronymic")));
+        } catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        return FIO.toArray(String[]::new);
     }
 }

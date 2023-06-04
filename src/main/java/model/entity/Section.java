@@ -24,5 +24,5 @@ public class Section {
 
     private String sport;
 
-    private String coach;
+    private String[] coach;
 }

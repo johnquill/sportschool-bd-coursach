@@ -162,7 +162,7 @@ public class SportsmanDaoImpl implements Dao<Sportsman> {
             }
             set.next();
             Long profession_id = set.getLong("id");
-            statement.executeUpdate(String.format("insert into sportsman(surname, name, patronymic, section_id, profession_id) values('%s', '%s', '%s', %d, %d)", //TODO:Здесь перекошена вставка секции чисто по приколу(для теста)
+            statement.executeUpdate(String.format("insert into sportsman(surname, name, patronymic, section_id, profession_id) values('%s', '%s', '%s', %d, %d)",
                     sportsman.getSurname(),
                     sportsman.getName(),
                     sportsman.getPatronymic(),
