@@ -44,7 +44,7 @@ public class MenuItem extends JButton {
     }
 
     private void stylise() {
-        setText(item.getName());
+        setText(String.format("<html><h%d>" +  item.getName()+ "</h%d></html>", layer+2, layer+2));
         setHorizontalAlignment(SwingConstants.LEFT);
         setBackground(MenuPanel.background);
         setBorder(BorderFactory.createEmptyBorder(5, 25 * layer, 5, 0));

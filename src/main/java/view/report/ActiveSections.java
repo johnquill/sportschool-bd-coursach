@@ -39,25 +39,27 @@ public class ActiveSections extends JPanel {
         JButton downloadButton = new JButton("Скачать БЕСПЛАТНО");
         downloadButton.setBackground(Color.GREEN);
         downloadButton.addActionListener(e -> {
-            if (lastDir != null) {
-                //TODO: тут надо сохранять как конфиг чтобы при закрытии приложения оставался
-                fileChooser.setCurrentDirectory(lastDir);
-            }
-            fileChooser.setSelectedFile(new File(
-                    "Работающие секции".toLowerCase(Locale.ROOT).replace(" ", "-") + ".pdf"));
-            int result = fileChooser.showOpenDialog(this);
-            if (result == JFileChooser.APPROVE_OPTION) {
-                File file = fileChooser.getSelectedFile();
-                lastDir = fileChooser.getCurrentDirectory();
-                try {
-                    PdfExporter.exportToPdf(html, file);
-                } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(this, "Какая-то херь при экспорте в пдф",
-                            "Ошибка", JOptionPane.ERROR_MESSAGE);
-                }
-            }
+            exportHtml();
         });
         add(downloadButton, BorderLayout.SOUTH);
+    }
+
+    private void exportHtml() {
+        if (lastDir != null) {
+            //TODO: тут надо сохранять как конфиг чтобы при закрытии приложения оставался
+            fileChooser.setCurrentDirectory(lastDir);
+        }
+        fileChooser.setSelectedFile(new File(
+                "Работающие секции".toLowerCase(Locale.ROOT).replace(" ", "-") + ".pdf"));
+        int result = fileChooser.showOpenDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            lastDir = fileChooser.getCurrentDirectory();
+
+            PdfExporter.exportToPdf(html, file);
+            JOptionPane.showMessageDialog(this,"Документ загружен по пути "
+                    + file.getAbsolutePath(), "Сообщение", JOptionPane.PLAIN_MESSAGE);
+        }
     }
 
     private JScrollPane htmlPanel() {
@@ -74,7 +76,7 @@ public class ActiveSections extends JPanel {
     }
 
     private String toHtml(ArrayList<Section> sectionList) {
-        StringBuilder sb = new StringBuilder("<html>");
+        StringBuilder sb = new StringBuilder("<html lang=\"ru\">");
         sb.append("<h1>Спортивная школа. Работающие секции</h1>");
         sb.append("<br><p>Отчет создан: ").append(DateUtils.getCurrentDate()).append("</p><br>");
         sb.append("<table><tr><th>Название</th><th>Расписание</th><th>Зал</th><th>Вид спорта</th><th>Тренер</th></tr>");

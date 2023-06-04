@@ -69,7 +69,7 @@ public class MenuPanel extends JPanel {
 
     private void unselect(MenuItem item) {
         selectedItem = null;
-        item.setForeground(Color.BLACK);
+        item.setForeground(null);
     }
 
     public void close(MenuItem item) {
