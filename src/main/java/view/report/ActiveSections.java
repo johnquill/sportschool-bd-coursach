@@ -1,5 +1,6 @@
 package view.report;
 
+import com.mysql.cj.util.StringUtils;
 import model.entity.Section;
 import presenter.Presenter;
 import utils.date.DateUtils;
@@ -8,10 +9,10 @@ import utils.pdf.PdfExporter;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Properties;
 
 public class ActiveSections extends JPanel {
 
@@ -19,9 +20,19 @@ public class ActiveSections extends JPanel {
     String html;
     JFileChooser fileChooser = new JFileChooser();
     File lastDir = null;
+    Properties properties = new Properties();
+    String PROPERTY_FILE = "src/main/resources/config.properties";
 
     public ActiveSections(Presenter presenter) {
         this.presenter = presenter;
+        try {
+            properties.load(new FileReader(PROPERTY_FILE));
+            if (!StringUtils.isEmptyOrWhitespaceOnly(properties.getProperty("last-dir"))) {
+                lastDir = new File(properties.getProperty("last-dir"));
+            }
+        } catch (IOException e) {
+            lastDir = null;
+        }
         fileChooser.setFileFilter(new FileFilter() {
             @Override
             public boolean accept(File f) {
@@ -46,7 +57,6 @@ public class ActiveSections extends JPanel {
 
     private void exportHtml() {
         if (lastDir != null) {
-            //TODO: тут надо сохранять как конфиг чтобы при закрытии приложения оставался
             fileChooser.setCurrentDirectory(lastDir);
         }
         fileChooser.setSelectedFile(new File(
@@ -54,11 +64,14 @@ public class ActiveSections extends JPanel {
         int result = fileChooser.showOpenDialog(this);
         if (result == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
-            lastDir = fileChooser.getCurrentDirectory();
-
             PdfExporter.exportToPdf(html, file);
             JOptionPane.showMessageDialog(this,"Документ загружен по пути "
                     + file.getAbsolutePath(), "Сообщение", JOptionPane.PLAIN_MESSAGE);
+            lastDir = fileChooser.getCurrentDirectory();
+            properties.setProperty("last-dir", lastDir.getAbsolutePath());
+            try {
+                properties.store(new FileWriter(PROPERTY_FILE), null);
+            } catch (IOException ignored) {}
         }
     }
 
