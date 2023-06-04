@@ -1,7 +1,6 @@
 package view.form;
 
 import model.entity.Section;
-import model.entity.Sportsman;
 import presenter.Presenter;
 
 import javax.swing.*;

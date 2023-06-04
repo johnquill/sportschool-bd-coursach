@@ -3,7 +3,6 @@ package view.form;
 import presenter.Presenter;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 
 public class ToolsPanel extends JPanel {
 
