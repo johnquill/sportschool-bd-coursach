@@ -71,7 +71,12 @@ public abstract class AbstractReport extends JPanel {
         int result = fileChooser.showOpenDialog(this);
         if (result == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
-            PdfExporter.exportToPdf(html, file);
+            try {
+                this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                PdfExporter.exportToPdf(html, file);
+            } finally {
+                this.setCursor(Cursor.getDefaultCursor());
+            }
             JOptionPane.showMessageDialog(this,"Документ загружен по пути "
                     + file.getAbsolutePath(), "Сообщение", JOptionPane.PLAIN_MESSAGE);
             lastDir = fileChooser.getCurrentDirectory();

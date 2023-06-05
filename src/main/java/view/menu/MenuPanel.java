@@ -48,7 +48,7 @@ public class MenuPanel extends JPanel {
             } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
                      InstantiationException | IllegalAccessException e) {
                 JOptionPane.showMessageDialog(this,
-                        "Не найден описатель интерфейса \"" + item.item.getPanelClass() + "\"",
+                        "Ошибка при создании интерфейса из класса \"" + item.item.getPanelClass() + "\"",
                         "Ошибка", JOptionPane.ERROR_MESSAGE);
             }
         } else {
@@ -61,7 +61,7 @@ public class MenuPanel extends JPanel {
 
     private void select(MenuItem item) {
         if (selectedItem != null) {
-            selectedItem.setForeground(Color.BLACK);
+            selectedItem.setForeground(null);
         }
         item.setForeground(Color.YELLOW);
         selectedItem = item;

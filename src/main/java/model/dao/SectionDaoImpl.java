@@ -9,6 +9,12 @@ import java.util.List;
 
 public class SectionDaoImpl implements Dao<Section> {
 
+    Statement statement;
+
+    public SectionDaoImpl(Statement statement) {
+        this.statement = statement;
+    }
+
     /*private final HashMap<String, String> headers = new HashMap<>();
     {
         headers.put("id", "Ид");
@@ -74,13 +80,14 @@ public class SectionDaoImpl implements Dao<Section> {
             if (!set.next())
                 throw new Exception("Такого тренера в спортивной школе нет");
             long coach_id = set.getLong("id");
-            statement.executeUpdate(String.format("update section set schedule=%s, room=%d, description=%s, is_working=%b, sport_id=%d, coach_id=%d",
+            statement.executeUpdate(String.format("update section set schedule='%s', room=%d, description='%s', is_working=%b, sport_id=%d, coach_id=%d where id=%d",
                     entity.getSchedule(),
                     entity.getRoom(),
                     entity.getDescription(),
                     entity.getIs_working(),
                     sport_id,
-                    coach_id));
+                    coach_id,
+                    entity.getId()));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -108,7 +115,7 @@ public class SectionDaoImpl implements Dao<Section> {
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sportschool", "admin", System.getenv("PASSW"));
             statement = connection.createStatement();
             ResultSet set;
-            set = statement.executeQuery("Select section.id, schedule, room, description, is_working, sp.name as sport_name, " +
+            set = statement.executeQuery("Select section.id, section.name, schedule, room, description, is_working, sp.name as sport_name, " +
                     "c.surname as coach_surname, c.name as coach_name, c.patronymic as coach_patronymic from section" +
                     " join sport sp on sport_id=sp.id" +
                     " join coach c on coach_id=c.id");
@@ -116,6 +123,7 @@ public class SectionDaoImpl implements Dao<Section> {
                 do {
                     sectionList.add(new ArrayList<>(Arrays.asList(
                             set.getLong("id"),
+                            set.getString("name"),
                             set.getString("schedule"),
                             set.getInt("room"),
                             set.getString("description"),
@@ -170,10 +178,11 @@ public class SectionDaoImpl implements Dao<Section> {
         }
         ArrayList<Section> sectionList = new ArrayList<>();
         try {
-            ResultSet set = statement.executeQuery("Select sp.id, sp.section_id, s.id, s.name, s.schedule, s.room, s.description, s.is_working, s.sport_id, s.coach_id, count(sp.id) as sportsman_count" +
-                    " from sportsman sp" +
-                    " inner join section s on section_id=s.id" +
-                    " group by section_id");
+            ResultSet set = statement.executeQuery("Select s.id, s.name, schedule, room, description, sp.name as sport_name, c.surname as coach_surname, c.name as coach_name, c.patronymic as coach_patronymic" +
+                    " from section s" +
+                    " join sport sp on sp.id=sport_id" +
+                    " join coach c on c.id=coach_id" +
+                    " where is_working = true");
             while (set.next()){
                 String[] arrCoach = new String[]{set.getString("coach_surname"), set.getString("coach_name"), set.getString("coach_patronymic")};
                 sectionList.add(new Section(
@@ -182,7 +191,7 @@ public class SectionDaoImpl implements Dao<Section> {
                         set.getString("schedule"),
                         set.getInt("room"),
                         set.getString("description"),
-                        set.getBoolean("is_working"),
+                        true,
                         set.getString("sport_name"),
                         arrCoach));
             }

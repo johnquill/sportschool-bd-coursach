@@ -81,6 +81,7 @@ public class InputCoachDialog extends JDialog {
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(this, ex.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
                 }
+                dispose();
             });
         } else {
             add.addActionListener(e -> {
@@ -92,6 +93,7 @@ public class InputCoachDialog extends JDialog {
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(this, ex.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
                 }
+                dispose();
             });
         }
         cancel.addActionListener(e -> {

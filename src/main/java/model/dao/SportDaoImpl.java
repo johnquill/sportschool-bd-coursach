@@ -8,6 +8,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SportDaoImpl implements Dao<Sport>{
+    Statement statement;
+    public SportDaoImpl(Statement statement) {
+        this.statement = statement;
+    }
+
     @Override
     public void add(Sport entity) {
 

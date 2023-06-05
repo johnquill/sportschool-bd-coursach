@@ -2,29 +2,51 @@ package model;
 
 import model.dao.CoachDaoImpl;
 import model.dao.SectionDaoImpl;
+import model.dao.SportDaoImpl;
 import model.dao.SportsmanDaoImpl;
 import model.entity.Coach;
 import model.entity.Section;
 import model.entity.Sportsman;
 
-import java.awt.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 
 public class Model {
-
+    
+    Statement statement;
+    SportsmanDaoImpl sportsmanDao;
+    SectionDaoImpl sectionDao;
+    CoachDaoImpl coachDao;
+    SportDaoImpl sportDao;
+    
+    public Model() {
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sportschool", "admin", System.getenv("PASSW"));
+            statement = connection.createStatement();
+            sportsmanDao = new SportsmanDaoImpl(statement);
+            sectionDao = new SectionDaoImpl(statement);
+            coachDao = new CoachDaoImpl(statement);
+            sportDao = new SportDaoImpl(statement);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     //TODO: допиливать и оптимизировать
     public Object[][] getTableData(Class entity) {
         Object[][] data = new Object[0][];
         if (Sportsman.class.equals(entity)) {
-            SportsmanDaoImpl sportsmanDao = new SportsmanDaoImpl();
+            SportsmanDaoImpl sportsmanDao = new SportsmanDaoImpl(statement);
             data = sportsmanDao.getALl();
         } else if (Section.class.equals(entity)) {
-            SectionDaoImpl sectionDao = new SectionDaoImpl();
+            SectionDaoImpl sectionDao = new SectionDaoImpl(statement);
             data = sectionDao.getALl();
         } else if (Coach.class.equals(entity)) {
-            CoachDaoImpl coachDao = new CoachDaoImpl();
+            CoachDaoImpl coachDao = new CoachDaoImpl(statement);
             data = coachDao.getALl();
         }
         return data;
@@ -35,34 +57,29 @@ public class Model {
         if (Sportsman.class.equals(entity)) {
             return new String[] {"Ид", "Фамилия", "Имя", "Отчество", "Секция", "Профессия"};
         } else if (Section.class.equals(entity)) {
-            return new String[] {"Ид", "График", "Зал", "Описание", "Статус работы", "Спорт", "Тренер"};
+            return new String[] {"Ид", "Название", "График", "Зал", "Описание", "Статус работы", "Спорт", "Тренер"};
         } else if (Coach.class.equals(entity)) {
             return new String[] {"Ид", "Фамилия", "Имя", "Отчество", "Вид спорта"};
         }
         return new String[] {};
     }
     public void addSportsman(Sportsman sportsman) throws Exception {
-        SportsmanDaoImpl sportsmanDao = new SportsmanDaoImpl();
         sportsmanDao.add(sportsman);
     }
 
     public void deleteSportsmanById(long id){
-        SportsmanDaoImpl sportsmanDao = new SportsmanDaoImpl();
         sportsmanDao.deleteById(id);
     }
 
     public void editSportsman(Sportsman sportsman) throws Exception {
-        SportsmanDaoImpl sportsmanDao = new SportsmanDaoImpl();
         sportsmanDao.update(sportsman);
     }
 
     public String[] getSectionNames() {
-        SectionDaoImpl sectionDao = new SectionDaoImpl();
         return sectionDao.getNames();
     }
 
     public void addSection(Section section){
-        SectionDaoImpl sectionDao = new SectionDaoImpl();
         try {
             sectionDao.add(section);
         } catch (Exception e) {
@@ -71,38 +88,30 @@ public class Model {
     }
 
     public void editSection(Section section) throws Exception {
-        SectionDaoImpl sectionDao = new SectionDaoImpl();
         sectionDao.update(section);
     }
 
     public void deleteSectionById(long id){
-        SectionDaoImpl sectionDao = new SectionDaoImpl();
         sectionDao.deleteById(id);
     }
 
-    public String[] getTrainers(){
-        CoachDaoImpl coachDao = new CoachDaoImpl();
-
+    public String[] getTrainers() {
         return coachDao.getFIO();
     }
 
     public void updateSection(Section section) throws Exception {
-        SectionDaoImpl sectionDao = new SectionDaoImpl();
         sectionDao.update(section);
     }
 
     public void addCoach(Coach coach) {
-        CoachDaoImpl coachDao = new CoachDaoImpl();
         coachDao.add(coach);
     }
 
     public void updateCoach(Coach coach) throws Exception {
-        CoachDaoImpl coachDao = new CoachDaoImpl();
         coachDao.update(coach);
     }
 
     public ArrayList<Section> getActiveSections() {
-        SectionDaoImpl sectionDao = new SectionDaoImpl();
         return sectionDao.getActive();
     }
 }

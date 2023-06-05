@@ -99,6 +99,7 @@ public class InputSectionDialog extends JDialog {
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(this, ex.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
                 }
+                dispose();
             });
         } else {
             add.addActionListener(e -> {
@@ -108,9 +109,11 @@ public class InputSectionDialog extends JDialog {
                             name.getText(), schedule.getText(), Integer.parseInt(room.getText()), description.getText(),
                             is_working.getSelectedIndex() == 0, sport.getText(), arrCoach));
                     entityPanel.updateTable();
+                    dispose();
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(this, ex.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
                 }
+                dispose();
             });
         }
         cancel.addActionListener(e -> {

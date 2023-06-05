@@ -51,8 +51,9 @@ public class ToolsPanel extends JPanel {
         JButton addButton = new JButton("Удалить");
         addButton.addActionListener(e -> {
             try {
-                int result = JOptionPane.showConfirmDialog(this, "Вы действительно хотите удалить " +
-                        " имя фамилия отчетсво" + "?", "Удаление", JOptionPane.YES_NO_OPTION);
+                int result = JOptionPane.showOptionDialog(this,
+                        "Вы действительно хотите удалить выделенную запись", "Удаление", JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE, (Icon) null, new String[] {"Да", "Нет"}, "Yes");
                 if (result == JOptionPane.YES_OPTION) {
                     int idx = panel.table.getSelectedRow();
                     long id = (long) panel.tableModel.getValueAt(idx, 0);

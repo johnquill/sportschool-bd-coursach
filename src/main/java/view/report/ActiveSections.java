@@ -18,11 +18,11 @@ public class ActiveSections extends AbstractReport {
         StringBuilder sb = new StringBuilder("<html lang=\"ru\">");
         sb.append("<h1>Спортивная школа. Работающие секции</h1>");
         sb.append("<br><p>Отчет создан: ").append(DateUtils.getCurrentDate()).append("</p><br>");
-        sb.append("<table style=\"width:100%\"><tr><th>Название</th><th>Расписание</th><th>Зал</th><th>Вид спорта</th><th>Тренер</th></tr>");
+        sb.append("<table style=\"width:100%\" border=\"1\"><tr><th>Название</th><th>Расписание</th><th>Зал</th><th>Вид спорта</th><th>Тренер</th></tr>");
         sectionList.forEach(el -> {
                     sb.append("<tr>");
                     sb.append(String.format("<td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td>",
-                            el.getName(), el.getSchedule(), el.getRoom(), el.getSport(), el.getCoach()));
+                            el.getName(), el.getSchedule(), el.getRoom(), el.getSport(), String.join(" ", el.getCoach())));
                     sb.append("</tr>");
                 }
         );

@@ -84,9 +84,11 @@ public class InputSportsmanDialog extends JDialog {
                 try {
                     presenter.addSportsman(new Sportsman(family.getText(), name.getText(), patronymic.getText(), (String) section.getSelectedItem(), profession.getText()));
                     entityPanel.updateTable();
+                    dispose();
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(this, ex.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
                 }
+                dispose();
             });
         } else {
             add.addActionListener(e -> {
@@ -99,6 +101,7 @@ public class InputSportsmanDialog extends JDialog {
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(this, ex.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
                 }
+                dispose();
             });
         }
         cancel.addActionListener(e -> {

@@ -11,14 +11,20 @@ import java.util.List;
 
 public class CoachDaoImpl implements Dao<Coach> {
 
+    Statement statement;
+
+    public CoachDaoImpl(Statement statement) {
+        this.statement = statement;
+    }
+
     /*private final HashMap<String, String> headers = new HashMap<>();
-    {
-        headers.put("id", "Ид");
-        headers.put("family", "Фамилия");
-        headers.put("name", "Имя");
-        headers.put("patronymic", "Отчество");
-        headers.put("sport_id", "Ид спорта");
-    }*/
+        {
+            headers.put("id", "Ид");
+            headers.put("family", "Фамилия");
+            headers.put("name", "Имя");
+            headers.put("patronymic", "Отчество");
+            headers.put("sport_id", "Ид спорта");
+        }*/
     @Override
     public void add(Coach entity) {
 
