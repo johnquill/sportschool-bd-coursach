@@ -14,7 +14,8 @@ public class ActiveSections extends AbstractReport {
     }
 
     @Override
-    String toHtml(ArrayList<Section> sectionList) {
+    String toHtml() {
+        ArrayList<Section> sectionList = presenter.getActiveSections();
         StringBuilder sb = new StringBuilder("<html lang=\"ru\">");
         sb.append("<h1>Спортивная школа. Работающие секции</h1>");
         sb.append("<br><p>Отчет создан: ").append(DateUtils.getCurrentDate()).append("</p><br>");

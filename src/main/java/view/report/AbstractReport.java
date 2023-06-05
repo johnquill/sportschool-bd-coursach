@@ -60,7 +60,7 @@ public abstract class AbstractReport extends JPanel {
         add(downloadButton, BorderLayout.SOUTH);
     }
 
-    abstract String toHtml(ArrayList<Section> sectionList);
+    abstract String toHtml();
 
     private void exportHtml() {
         if (lastDir != null) {
@@ -91,7 +91,7 @@ public abstract class AbstractReport extends JPanel {
         JEditorPane jEditorPane = new JEditorPane();
         jEditorPane.setEditable(false);
         jEditorPane.setContentType("text/html");
-        html = toHtml(presenter.getActiveSections());
+        html = toHtml();
         jEditorPane.setText(html);
 
         JScrollPane jScrollPane = new JScrollPane(jEditorPane);

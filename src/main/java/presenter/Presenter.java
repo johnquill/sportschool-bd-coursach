@@ -3,6 +3,7 @@ package presenter;
 import model.Model;
 import model.entity.Coach;
 import model.entity.Section;
+import model.entity.Sport;
 import model.entity.Sportsman;
 
 import java.awt.*;
@@ -84,5 +85,29 @@ public class Presenter {
 
     public ArrayList<Section> getActiveSections() {
         return model.getActiveSections();
+    }
+
+    public ArrayList<Coach> getCoaches() {
+        return model.getCoaches();
+    }
+
+    public ArrayList<Section> getSections(Coach coach) {
+        return model.getSectionByTrainerId(coach.getId());
+    }
+
+    public ArrayList<Section> getSections() {
+        return model.getSections();
+    }
+
+    public ArrayList<Sportsman> getSportsman(Section el) {
+        return model.getSportsmenBySectionIs(el.getId());
+    }
+
+    public ArrayList<Sport> getSports() {
+        return model.getSports();
+    }
+
+    public ArrayList<Section> getSections(Sport sport) {
+        return model.getSectionsBySport(sport.getName());
     }
 }

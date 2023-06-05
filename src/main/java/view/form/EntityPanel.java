@@ -5,6 +5,7 @@ import presenter.Presenter;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
 public class EntityPanel extends JPanel {
 
@@ -25,7 +26,21 @@ public class EntityPanel extends JPanel {
             }
         };
         updateTable();
-        table = new JTable(tableModel);
+        table = new JTable(tableModel) {
+            public String getToolTipText(MouseEvent e) {
+                String tip = null;
+                java.awt.Point p = e.getPoint();
+                int rowIndex = rowAtPoint(p);
+                int colIndex = columnAtPoint(p);
+
+                try {
+                    tip = getValueAt(rowIndex, colIndex).toString();
+                } catch (RuntimeException e1) {
+                    //catch null pointer exception if mouse is over an empty line
+                }
+                return tip;
+            }
+        };
 
         ToolsPanel tools = new ToolsPanel(this, entity, presenter);
         add(tools, BorderLayout.NORTH);

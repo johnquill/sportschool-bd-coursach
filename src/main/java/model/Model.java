@@ -1,11 +1,13 @@
 package model;
 
+import com.groupdocs.conversion.internal.c.a.w.internal.Ar;
 import model.dao.CoachDaoImpl;
 import model.dao.SectionDaoImpl;
 import model.dao.SportDaoImpl;
 import model.dao.SportsmanDaoImpl;
 import model.entity.Coach;
 import model.entity.Section;
+import model.entity.Sport;
 import model.entity.Sportsman;
 
 import java.sql.Connection;
@@ -113,5 +115,35 @@ public class Model {
 
     public ArrayList<Section> getActiveSections() {
         return sectionDao.getActive();
+    }
+
+    public ArrayList<Coach> getCoaches() {
+        //TODO
+        return null;
+    }
+
+    public ArrayList<Section> getSectionByTrainerId(long id) {
+        //TODO
+        return null;
+    }
+
+    public ArrayList<Section> getSections() {
+        //TODO
+        return null;
+    }
+
+    public ArrayList<Sportsman> getSportsmenBySectionIs(long id) {
+        //TODO
+        return null;
+    }
+
+    public ArrayList<Sport> getSports() {
+        //TODO
+        return null;
+    }
+
+    public ArrayList<Section> getSectionsBySport(String sportName) {
+        //TODO
+        return null;
     }
 }
