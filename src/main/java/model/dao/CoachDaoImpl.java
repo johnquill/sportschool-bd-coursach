@@ -1,13 +1,12 @@
 package model.dao;
 
 import model.entity.Coach;
-import model.entity.Sportsman;
 
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 
 public class CoachDaoImpl implements Dao<Coach> {
 
@@ -32,43 +31,27 @@ public class CoachDaoImpl implements Dao<Coach> {
 
     @Override
     public Coach getById(long id) throws Exception {
-        Connection connection;
-        Statement statement;
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sportschool", "admin", System.getenv("PASSW"));
-            statement = connection.createStatement();
+            String sport_name;
+            ResultSet set = statement.executeQuery("select * from coach where id=" + id);
+            set.next();
+            ResultSet set1;
+            set1 = statement.executeQuery("select name from sport where name like '" + set.getString("sport_id") + "'");
+            set1.next();
+            sport_name = set1.getString("name");
+            return new Coach(
+                    set.getLong("id"),
+                    set.getString("surname"),
+                    set.getString("name"),
+                    set.getString("patronymic"),
+                    sport_name);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-        String sport_name;
-        ResultSet set = statement.executeQuery("select * from coach where id=" + id);
-        set.next();
-        ResultSet set1;
-        set1 = statement.executeQuery("select name from sport where name like '" + set.getString("sport_id") + "'");
-        set1.next();
-        sport_name = set1.getString("name");
-        return new Coach(
-                set.getLong("id"),
-                set.getString("surname"),
-                set.getString("name"),
-                set.getString("patronymic"),
-                sport_name);
-        } catch (SQLException e){
             throw new Exception("Ошибка получения по ИД");
         }
     }
 
     @Override
     public void update(Coach entity) throws Exception {
-        Connection connection;
-        Statement statement;
-        try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sportschool", "admin", System.getenv("PASSW"));
-            statement = connection.createStatement();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
         try {
             ResultSet set;
             set = statement.executeQuery("select id from sport where name like '" + entity.getSport() + "'");
@@ -89,14 +72,6 @@ public class CoachDaoImpl implements Dao<Coach> {
 
     @Override
     public void deleteById(long id) throws Exception {
-        Connection connection;
-        Statement statement;
-        try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sportschool", "admin", System.getenv("PASSW"));
-            statement = connection.createStatement();
-        } catch (SQLException e) {
-            throw new Exception("Ошибка подключения к бд");
-        }
         try {
             statement.executeUpdate("Delete from coach where id=" + id);
         } catch (SQLException e) {
@@ -106,14 +81,6 @@ public class CoachDaoImpl implements Dao<Coach> {
 
     @Override
     public Object[][] getALl() {
-        Connection connection;
-        Statement statement;
-        try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sportschool", "admin", System.getenv("PASSW"));
-            statement = connection.createStatement();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
         ResultSet set;
         try {
             set = statement.executeQuery("Select c.id, surname, c.name, patronymic, sp.name as sport_name from Coach c" +
@@ -124,7 +91,7 @@ public class CoachDaoImpl implements Dao<Coach> {
         ArrayList<Object[]> coachList = new ArrayList<>();
         try {
             if (set.isBeforeFirst())
-                while (set.next()){
+                while (set.next()) {
                     coachList.add(new ArrayList<>(Arrays.asList(
                             set.getLong("id"),
                             set.getString("surname"),
@@ -133,21 +100,13 @@ public class CoachDaoImpl implements Dao<Coach> {
                             set.getString("sport_name")))
                             .toArray());
                 }
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return coachList.toArray(Object[][]::new);
     }
 
     public String[] getFIO() {
-        Connection connection;
-        Statement statement;
-        try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sportschool", "admin", System.getenv("PASSW"));
-            statement = connection.createStatement();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
         ResultSet set;
         try {
             set = statement.executeQuery("Select surname, name, patronymic from coach");
@@ -158,9 +117,33 @@ public class CoachDaoImpl implements Dao<Coach> {
         try {
             while (set.next())
                 FIO.add(String.format("%s %s %s", set.getString("surname"), set.getString("name"), set.getString("patronymic")));
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return FIO.toArray(String[]::new);
+    }
+
+    public ArrayList<Coach> getCoaches() {
+        ArrayList<Coach> coaches = new ArrayList<>();
+        try {
+            ResultSet set = statement.executeQuery("""
+                    Select c.id as coach_id, c.surname as coach_surname, c.name as coach_name, c.patronymic as coach_patronymic, sp.name as sport_name
+                    from coach c
+                    join sport sp on sp.id=sport_id
+                    """);
+            while(set.next()){
+                coaches.add(new Coach(
+                        set.getLong("coach_id"),
+                        set.getString("coach_surname"),
+                        set.getString("coach_name"),
+                        set.getString("coach_patronymic"),
+                        set.getString("sport_name")
+                        ));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return coaches;
     }
 }

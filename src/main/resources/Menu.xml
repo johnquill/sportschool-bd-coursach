@@ -33,5 +33,15 @@
             <Name>Тренера</Name>
             <Panel>model.entity.Coach</Panel>
         </Item>
+
+        <Item>
+            <Name>Статистика</Name>
+            <Items>
+                <Item>
+                    <Name>Популярность видов спорта</Name>
+                    <Panel>view.statistics.PopularityOfSports</Panel>
+                </Item>
+            </Items>
+        </Item>
     </Items>
 </Menu>

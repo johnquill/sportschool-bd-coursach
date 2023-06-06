@@ -91,19 +91,19 @@ public class Presenter {
         return model.getCoaches();
     }
 
-    public ArrayList<Section> getSections(Coach coach) {
+    public ArrayList<Section> getSections(Coach coach) throws Exception {
         return model.getSectionByTrainerId(coach.getId());
     }
 
-    public ArrayList<Section> getSections() {
+    public ArrayList<Section> getSections() throws Exception {
         return model.getSections();
     }
 
-    public ArrayList<Sportsman> getSportsman(Section el) {
-        return model.getSportsmenBySectionIs(el.getId());
+    public ArrayList<Sportsman> getSportsman(Section el) throws Exception {
+        return model.getSportsmenBySectionId(el.getId());
     }
 
-    public ArrayList<Sport> getSports() {
+    public ArrayList<Sport> getSports() throws Exception {
         return model.getSports();
     }
 

@@ -136,4 +136,29 @@ public class SportsmanDaoImpl implements Dao<Sportsman> {
         }
 
     }
+
+    public ArrayList<Sportsman> getSportsmenBySectionId(long id) throws Exception {
+        try {
+            ArrayList<Sportsman> sportsmen = new ArrayList<>();
+            ResultSet set = statement.executeQuery("""
+                    Select sp.id, surname, sp.name, patronymic, s.name as section_name, p.name as profession_name 
+                    from sportsman sp 
+                    join section s on s.id=section_id 
+                    join profession p on p.id=profession_id 
+                    where section_id=""" + id);
+            while (set.next()) {
+                sportsmen.add(new Sportsman(
+                        set.getLong("id"),
+                        set.getString("surname"),
+                        set.getString("name"),
+                        set.getString("patronymic"),
+                        set.getString("section_name"),
+                        set.getString("profession_name")
+                ));
+            }
+            return sportsmen;
+        } catch (SQLException e){
+            throw new Exception("Ошибка получения списк спортсменов в определенной секции:\n"+e);
+        }
+    }
 }

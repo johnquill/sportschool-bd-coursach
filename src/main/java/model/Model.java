@@ -118,28 +118,24 @@ public class Model {
     }
 
     public ArrayList<Coach> getCoaches() {
-        //TODO
-        return null;
+        return coachDao.getCoaches();
     }
 
-    public ArrayList<Section> getSectionByTrainerId(long id) {
-        //TODO
-        return null;
+    public ArrayList<Section> getSectionByTrainerId(long id) throws Exception {
+        return sectionDao.getSectionByTrainerId(id);
     }
 
-    public ArrayList<Section> getSections() {
-        //TODO
-        return null;
+    public ArrayList<Section> getSections() throws Exception {
+        return sectionDao.getSectionsAsList();
     }
 
-    public ArrayList<Sportsman> getSportsmenBySectionIs(long id) {
-        //TODO
-        return null;
+    public ArrayList<Sportsman> getSportsmenBySectionId(long id) throws Exception {
+        return sportsmanDao.getSportsmenBySectionId(id);
     }
 
-    public ArrayList<Sport> getSports() {
+    public ArrayList<Sport> getSports() throws Exception {
         //TODO
-        return null;
+        return sportDao.getSportsAsList();
     }
 
     public ArrayList<Section> getSectionsBySport(String sportName) {

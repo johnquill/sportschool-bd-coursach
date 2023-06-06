@@ -25,12 +25,12 @@ public class SportDaoImpl implements Dao<Sport>{
 
     @Override
     public void update(Sport entity) {
-
+        //TODO:
     }
 
     @Override
     public void deleteById(long id) {
-
+        //TODO:
     }
 
     @Override
@@ -64,5 +64,16 @@ public class SportDaoImpl implements Dao<Sport>{
             throw new RuntimeException(e);
         }
         return (Object[][]) sportList.toArray();
+    }
+
+    public ArrayList<Sport> getSportsAsList() throws Exception { //TODO:Допилить
+        ArrayList<Sport> sportsList = new ArrayList<>();
+        try {
+            ResultSet set = statement.executeQuery("""
+                    """);
+        } catch (SQLException e) {
+            throw new Exception("Ошибка получения списка спортсменов: "+e);
+        }
+        return sportsList;
     }
 }

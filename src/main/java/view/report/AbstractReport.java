@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Properties;
@@ -87,7 +88,7 @@ public abstract class AbstractReport extends JPanel {
         }
     }
 
-    private JScrollPane htmlPanel() {
+    private JScrollPane htmlPanel(){
         JEditorPane jEditorPane = new JEditorPane();
         jEditorPane.setEditable(false);
         jEditorPane.setContentType("text/html");

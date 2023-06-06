@@ -1,5 +1,7 @@
 package model.dao;
 
+import com.groupdocs.conversion.internal.c.a.w.internal.Ex;
+import com.groupdocs.conversion.internal.c.a.w.internal.SQ;
 import model.entity.Section;
 
 import java.sql.*;
@@ -199,5 +201,60 @@ public class SectionDaoImpl implements Dao<Section> {
             throw new RuntimeException(e);
         }
         return sectionList;
+    }
+
+    public ArrayList<Section> getSectionByTrainerId(Long id) throws Exception {
+        try {
+            ArrayList<Section> sections = new ArrayList<>();
+            ResultSet set = statement.executeQuery("""
+                    Select s.id as section_id, s.name as section_name, s.schedule, s.room, s.description as section_description, s.is_working, sp.name as sport_name
+                    from section s 
+                    join coach c on c.id=coach_id 
+                    join sport sp on sp.id=s.sport_id
+                    where coach_id=""" + id);
+            if (set.isBeforeFirst())
+                while (set.next()) {
+                    sections.add(new Section(
+                            set.getLong("section_id"),
+                            set.getString("section_name"),
+                            set.getString("schedule"),
+                            set.getInt("room"),
+                            set.getString("section_description"),
+                            set.getBoolean("is_working"),
+                            set.getString("sport_name"),
+                            new String[]{"", "", ""}));
+                }
+            return sections;
+        } catch (SQLException e){
+            throw new Exception("Ошибка при выборе тренера по id"+id+":\n"+e);
+        }
+    }
+
+    public ArrayList<Section> getSectionsAsList() throws Exception {
+        try {
+            ArrayList<Section> sectionsList = new ArrayList<>();
+            ResultSet set = statement.executeQuery("""
+                    Select s.id, s.name, schedule, room, description, is_working, sp.name as sport_name,
+                    c.surname as coach_surname, c.name as coach_name, c.patronymic as coach_patronymic
+                    from section s
+                    join sport sp on sport_id=sp.id
+                    join coach c on coach_id=c.id
+                    """);
+            while(set.next()){
+                sectionsList.add( new Section(
+                        set.getLong("id"),
+                        set.getString("name"),
+                        set.getString("schedule"),
+                        set.getInt("room"),
+                        set.getString("description"),
+                        set.getBoolean("is_working"),
+                        set.getString("sport_name"),
+                        new String[]{set.getString("coach_surname"), set.getString("coach_name"), set.getString("coach_patronymic")}
+                ));
+            }
+            return sectionsList;
+        } catch (SQLException e){
+            throw new Exception("Ошибка при получении списка секций: \n"+e);
+        }
     }
 }
