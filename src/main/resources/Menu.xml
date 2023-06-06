@@ -1,6 +1,19 @@
 <Menu>
     <Items>
         <Item>
+            <Name>Спортсмены</Name>
+            <Panel>model.entity.Sportsman</Panel>
+        </Item>
+        <Item>
+            <Name>Секции</Name>
+            <Panel>model.entity.Section</Panel>
+        </Item>
+        <Item>
+            <Name>Тренера</Name>
+            <Panel>model.entity.Coach</Panel>
+        </Item>
+
+        <Item>
             <Name>Отчеты</Name>
             <Items>
                 <Item>
@@ -21,19 +34,6 @@
                 </Item>
             </Items>
         </Item>
-        <Item>
-            <Name>Спортсмены</Name>
-            <Panel>model.entity.Sportsman</Panel>
-        </Item>
-        <Item>
-            <Name>Секции</Name>
-            <Panel>model.entity.Section</Panel>
-        </Item>
-        <Item>
-            <Name>Тренера</Name>
-            <Panel>model.entity.Coach</Panel>
-        </Item>
-
         <Item>
             <Name>Статистика</Name>
             <Items>
