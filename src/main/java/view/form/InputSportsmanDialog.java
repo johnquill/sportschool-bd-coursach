@@ -2,10 +2,13 @@ package view.form;
 
 import model.entity.Sportsman;
 import presenter.Presenter;
+import utils.PathChooser;
+import utils.word.WordExporter;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.io.File;
 
 public class InputSportsmanDialog extends JDialog {
     
@@ -19,6 +22,8 @@ public class InputSportsmanDialog extends JDialog {
 
     private JPanel inputPanel;
     EntityPanel entityPanel;
+    PathChooser pathChooser = new PathChooser(this, ".doc");
+    String docName = "Договор зачисления в секцию";
 
     public InputSportsmanDialog(Presenter presenter, EntityPanel panel, boolean isAdd) throws Exception {
         this.presenter = presenter;
@@ -72,9 +77,18 @@ public class InputSportsmanDialog extends JDialog {
         profession = new JTextField();
         inputPanel.add(new JLabel("Профессия"));
         inputPanel.add(profession);
+        inputPanel.add(new JPanel());
+        inputPanel.add(new JPanel());
 
-        inputPanel.add(new JPanel());
-        inputPanel.add(new JPanel());
+        JLabel createDoc = new JLabel("Создать документ о зачислении");
+        createDoc.setForeground(Color.BLUE);
+        /*createDoc.addMouseListener(e -> {
+            File file = pathChooser.choosePath(docName);
+            //if (file != null) {
+                //WordExporter.setDocument(file);
+            //}
+        });*/
+        inputPanel.add(createDoc);
         JButton add = new JButton("Сохранить");
         inputPanel.add(add);
         JButton cancel = new JButton("Отменить");

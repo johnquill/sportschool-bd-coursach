@@ -1,6 +1,5 @@
 package model;
 
-import com.groupdocs.conversion.internal.c.a.w.internal.Ar;
 import model.dao.CoachDaoImpl;
 import model.dao.SectionDaoImpl;
 import model.dao.SportDaoImpl;
@@ -15,6 +14,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class Model {
@@ -141,5 +141,13 @@ public class Model {
     public ArrayList<Section> getSectionsBySport(String sportName) {
         //TODO
         return null;
+    }
+
+    public HashMap<String, Integer> getSportsmenOfSportsCount() {
+        //TODO мапа: вид спорта - количество спортсменов им занимающихся
+        HashMap<String, Integer> map = new HashMap<>();
+        map.put("Тунедяцы", 5);
+        map.put("Алкоголики", 4);
+        return map;
     }
 }

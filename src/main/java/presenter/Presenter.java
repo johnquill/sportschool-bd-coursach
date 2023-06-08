@@ -8,6 +8,7 @@ import model.entity.Sportsman;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Presenter {
 
@@ -109,5 +110,9 @@ public class Presenter {
 
     public ArrayList<Section> getSections(Sport sport) {
         return model.getSectionsBySport(sport.getName());
+    }
+
+    public HashMap<String, Integer> getSportsmenOfSportsCount() {
+        return model.getSportsmenOfSportsCount();
     }
 }

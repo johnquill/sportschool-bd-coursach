@@ -1,13 +1,10 @@
 package model.dao;
 
-import com.groupdocs.conversion.internal.c.a.w.internal.Ex;
-import com.groupdocs.conversion.internal.c.a.w.internal.SQ;
 import model.entity.Section;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class SectionDaoImpl implements Dao<Section> {
 
