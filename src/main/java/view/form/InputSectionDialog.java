@@ -93,7 +93,7 @@ public class InputSectionDialog extends JDialog {
             add.addActionListener(e -> {
                 try {
                     String[] arrCoach = coach.getSelectedItem().toString().split(" ");
-                    presenter.addSection(new Section((Long) null, name.getText(), schedule.getText(), Integer.parseInt(room.getText()), description.getText(),
+                    presenter.addSection(new Section(0, name.getText(), schedule.getText(), Integer.parseInt(room.getText()), description.getText(),
                             is_working.getSelectedIndex() == 0, sport.getText(), arrCoach));
                     entityPanel.updateTable();
                 } catch (Exception ex) {
