@@ -22,7 +22,7 @@ public class Presenter {
         return model.getTableHeaders(entity);
     }
 
-    public Object[][] getTableData(Class entity) {
+    public Object[][] getTableData(Class entity) throws Exception {
         return model.getTableData(entity);
     }
 
@@ -38,11 +38,11 @@ public class Presenter {
         model.deleteSportsmanById(id);
     }
 
-    public String[] getSectionNames() {
+    public String[] getSectionNames() throws Exception {
         return model.getSectionNames();
     }
 
-    public void addSection(Section section){
+    public void addSection(Section section) throws Exception {
         model.addSection(section);
     }
 
@@ -50,7 +50,7 @@ public class Presenter {
         model.editSection(section);
     }
 
-    public void deleteSectionById(long id){
+    public void deleteSectionById(long id) throws Exception {
         model.deleteSectionById(id);
     }
 
@@ -58,7 +58,7 @@ public class Presenter {
         model.editSportsman(sportsman);
     }
 
-    public void deleteEntityById(Class entity, long id) {
+    public void deleteEntityById(Class entity, long id) throws Exception {
         if (entity == Sportsman.class) {
             model.deleteSportsmanById(id);
         } else if (entity == Section.class) {
@@ -76,7 +76,7 @@ public class Presenter {
         model.updateSection(section);
     }
 
-    public void addCoach(Coach coach) {
+    public void addCoach(Coach coach) throws Exception {
         model.addCoach(coach);
     }
 
@@ -84,7 +84,7 @@ public class Presenter {
         model.updateCoach(coach);
     }
 
-    public ArrayList<Section> getActiveSections() {
+    public ArrayList<Section> getActiveSections() throws Exception {
         return model.getActiveSections();
     }
 

@@ -4,6 +4,7 @@ import model.entity.Section;
 import presenter.Presenter;
 import utils.date.DateUtils;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 
@@ -15,7 +16,12 @@ public class ActiveSections extends AbstractReport {
 
     @Override
     String toHtml() {
-        ArrayList<Section> sectionList = presenter.getActiveSections();
+        ArrayList<Section> sectionList = null;
+        try {
+            sectionList = presenter.getActiveSections();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
+        }
         StringBuilder sb = new StringBuilder("<html lang=\"ru\">");
         sb.append("<h1>Спортивная школа. Работающие секции</h1>");
         sb.append("<br><p>Отчет создан: ").append(DateUtils.getCurrentDate()).append("</p><br>");

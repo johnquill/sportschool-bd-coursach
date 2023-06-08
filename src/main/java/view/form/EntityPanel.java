@@ -25,7 +25,11 @@ public class EntityPanel extends JPanel {
                 return false;
             }
         };
-        updateTable();
+        try {
+            updateTable();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
+        }
         table = new JTable(tableModel) {
             public String getToolTipText(MouseEvent e) {
                 String tip = null;
@@ -49,7 +53,7 @@ public class EntityPanel extends JPanel {
         add(scrollPane, BorderLayout.CENTER);
     }
 
-    public void updateTable() {
+    public void updateTable() throws Exception {
         String[] headers = presenter.getTableHeaders(entity);
         Object[][] data = presenter.getTableData(entity);
         tableModel.setDataVector(data, headers);

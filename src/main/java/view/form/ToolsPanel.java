@@ -62,6 +62,8 @@ public class ToolsPanel extends JPanel {
                 }
             } catch (ArrayIndexOutOfBoundsException ex) {
                 JOptionPane.showMessageDialog(this, "Выберите удаляемую строчку", "Ошибка удаления", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception er) {
+                JOptionPane.showMessageDialog(this, er.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
             }
         });
         add(addButton);
