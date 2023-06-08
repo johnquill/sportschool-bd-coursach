@@ -25,15 +25,15 @@ public class SectionDaoImpl implements Dao<Section> {
     }*/
 
     @Override
-    public void add(Section entity) throws Exception{
+    public void add(Section entity) throws Exception {
         Connection connection;
         Statement statement;
         try {
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sportschool", "admin", System.getenv("PASSW"));
             statement = connection.createStatement();
             ResultSet set;
-            set = statement.executeQuery("select id from sport where name like '"+entity.getSport()+"'");
-            if (!set.next()){
+            set = statement.executeQuery("select id from sport where name like '" + entity.getSport() + "'");
+            if (!set.next()) {
                 throw new Exception("Такого вида спорта в спортивной школе нет");
             }
             long sport_id = set.getLong("id");
@@ -69,13 +69,13 @@ public class SectionDaoImpl implements Dao<Section> {
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sportschool", "admin", System.getenv("PASSW"));
             statement = connection.createStatement();
             ResultSet set;
-            set = statement.executeQuery("select id from sport where name like '"+entity.getSport()+"'");
-            if (!set.next()){
+            set = statement.executeQuery("select id from sport where name like '" + entity.getSport() + "'");
+            if (!set.next()) {
                 throw new Exception("Такого вида спорта в спортивной школе нет");
             }
             long sport_id = set.getLong("id");
 
-            set = statement.executeQuery(String.format("select id from coach where surname like '%s' and name like '%s' and patronymic like '%s'",entity.getCoach()[0], entity.getCoach()[1], entity.getCoach()[2]));
+            set = statement.executeQuery(String.format("select id from coach where surname like '%s' and name like '%s' and patronymic like '%s'", entity.getCoach()[0], entity.getCoach()[1], entity.getCoach()[2]));
             if (!set.next())
                 throw new Exception("Такого тренера в спортивной школе нет");
             long coach_id = set.getLong("id");
@@ -128,7 +128,7 @@ public class SectionDaoImpl implements Dao<Section> {
                             set.getString("description"),
                             set.getBoolean("is_working") ? "Работает" : "Не работает",
                             set.getString("sport_name"),
-                            set.getString("coach_surname")+" "+set.getString("coach_name")+" "+set.getString("coach_patronymic")))
+                            set.getString("coach_surname") + " " + set.getString("coach_name") + " " + set.getString("coach_patronymic")))
                             .toArray());
                 } while (set.next());
         } catch (SQLException e) {
@@ -182,7 +182,7 @@ public class SectionDaoImpl implements Dao<Section> {
                     " join sport sp on sp.id=sport_id" +
                     " join coach c on c.id=coach_id" +
                     " where is_working = true");
-            while (set.next()){
+            while (set.next()) {
                 String[] arrCoach = new String[]{set.getString("coach_surname"), set.getString("coach_name"), set.getString("coach_patronymic")};
                 sectionList.add(new Section(
                         set.getLong("id"),
@@ -222,8 +222,8 @@ public class SectionDaoImpl implements Dao<Section> {
                             new String[]{"", "", ""}));
                 }
             return sections;
-        } catch (SQLException e){
-            throw new Exception("Ошибка при выборе тренера по id"+id+":\n"+e);
+        } catch (SQLException e) {
+            throw new Exception("Ошибка при выборе тренера по id" + id + ":\n" + e);
         }
     }
 
@@ -237,8 +237,8 @@ public class SectionDaoImpl implements Dao<Section> {
                     join sport sp on sport_id=sp.id
                     join coach c on coach_id=c.id
                     """);
-            while(set.next()){
-                sectionsList.add( new Section(
+            while (set.next()) {
+                sectionsList.add(new Section(
                         set.getLong("id"),
                         set.getString("name"),
                         set.getString("schedule"),
@@ -250,8 +250,36 @@ public class SectionDaoImpl implements Dao<Section> {
                 ));
             }
             return sectionsList;
-        } catch (SQLException e){
-            throw new Exception("Ошибка при получении списка секций: \n"+e);
+        } catch (SQLException e) {
+            throw new Exception("Ошибка при получении списка секций: \n" + e);
         }
+    }
+
+    public ArrayList<Section> getSectionBySportName(String sportName) throws Exception {
+        ArrayList<Section> sectionsList = new ArrayList<>();
+        try {
+            ResultSet set = statement.executeQuery(String.format("""
+                    Select s.id, s.name, schedule, room, description, is_working, sp.name as sport_name,
+                    c.surname as coach_surname, c.name as coach_name, c.patronymic as coach_patronymic
+                    from section s
+                    join sport sp on sport_id=sp.id
+                    join coach c on coach_id=c.id
+                    where sp.name like '%s'""",sportName));
+            while (set.next()) {
+                sectionsList.add(new Section(
+                        set.getLong("id"),
+                        set.getString("name"),
+                        set.getString("schedule"),
+                        set.getInt("room"),
+                        set.getString("description"),
+                        set.getBoolean("is_working"),
+                        set.getString("sport_name"),
+                        new String[]{set.getString("coach_surname"), set.getString("coach_name"), set.getString("coach_patronymic")}
+                ));
+            }
+        } catch (SQLException e) {
+            throw new Exception("Ошибка получения списка секций по виду спорта:\n" + e);
+        }
+        return sectionsList;
     }
 }

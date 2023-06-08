@@ -16,18 +16,15 @@ public class SportDaoImpl implements Dao<Sport> {
 
     @Override
     public void add(Sport entity) {
-        //TODO:
     }
 
     @Override
     public Sport getById(long id) {
-        //TODO:
         return null;
     }
 
     @Override
     public void update(Sport entity) {
-        //TODO:
     }
 
     @Override
@@ -71,7 +68,12 @@ public class SportDaoImpl implements Dao<Sport> {
         ArrayList<Sport> sportsList = new ArrayList<>();
         try {
             ResultSet set = statement.executeQuery("""
+                    Select id, name
+                    from sport 
                     """);
+            while(set.next()){
+                sportsList.add(new Sport(set.getLong("id"), set.getString("name")));
+            }
         } catch (SQLException e) {
             throw new Exception("Ошибка получения списка спортсменов: " + e);
         }

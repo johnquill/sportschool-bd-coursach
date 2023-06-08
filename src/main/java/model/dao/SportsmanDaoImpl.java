@@ -161,4 +161,23 @@ public class SportsmanDaoImpl implements Dao<Sportsman> {
             throw new Exception("Ошибка получения списк спортсменов в определенной секции:\n"+e);
         }
     }
+
+    public HashMap<String, Integer> getSportsmenOfSportsCount() throws Exception {
+        HashMap<String, Integer> sportsCount = new HashMap<>();
+        try{
+            ResultSet set = statement.executeQuery("""
+                    Select sport.name as sport_name, count(*) as count
+                    from sportsman sp
+                    join section s on s.id=section_id
+                    join sport on sport.id=s.sport_id
+                    group by sport_name;
+                    """);
+            while(set.next()){
+                sportsCount.put(set.getString("sport_name"), set.getInt("count"));
+            }
+        } catch (SQLException e){
+            throw new Exception("Ошибка получения количества спорстменов по видам спорта:\n"+e);
+        }
+        return sportsCount;
+    }
 }

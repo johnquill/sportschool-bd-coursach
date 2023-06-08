@@ -108,11 +108,11 @@ public class Presenter {
         return model.getSports();
     }
 
-    public ArrayList<Section> getSections(Sport sport) {
+    public ArrayList<Section> getSections(Sport sport) throws Exception {
         return model.getSectionsBySport(sport.getName());
     }
 
-    public HashMap<String, Integer> getSportsmenOfSportsCount() {
+    public HashMap<String, Integer> getSportsmenOfSportsCount() throws Exception {
         return model.getSportsmenOfSportsCount();
     }
 }

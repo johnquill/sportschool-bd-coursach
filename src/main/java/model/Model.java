@@ -134,20 +134,14 @@ public class Model {
     }
 
     public ArrayList<Sport> getSports() throws Exception {
-        //TODO
         return sportDao.getSportsAsList();
     }
 
-    public ArrayList<Section> getSectionsBySport(String sportName) {
-        //TODO
-        return null;
+    public ArrayList<Section> getSectionsBySport(String sportName) throws Exception {
+        return sectionDao.getSectionBySportName(sportName);
     }
 
-    public HashMap<String, Integer> getSportsmenOfSportsCount() {
-        //TODO мапа: вид спорта - количество спортсменов им занимающихся
-        HashMap<String, Integer> map = new HashMap<>();
-        map.put("Тунедяцы", 5);
-        map.put("Алкоголики", 4);
-        return map;
+    public HashMap<String, Integer> getSportsmenOfSportsCount() throws Exception {
+        return sportsmanDao.getSportsmenOfSportsCount();
     }
 }

@@ -30,7 +30,12 @@ public class ByKindOfSport extends AbstractReport {
         sports.forEach(sport -> {
             sb.append("</hr>");
             sb.append("<h3>").append(sport.getName()).append("</h3>");
-            ArrayList<Section> sections = presenter.getSections(sport);
+            ArrayList<Section> sections = null;
+            try {
+                sections = presenter.getSections(sport);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, e.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
+            }
             if (sections.isEmpty()) {
                 sb.append("Секций нет");
             } else {
