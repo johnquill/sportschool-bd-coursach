@@ -7,19 +7,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SportDaoImpl implements Dao<Sport>{
+public class SportDaoImpl implements Dao<Sport> {
     Statement statement;
+
     public SportDaoImpl(Statement statement) {
         this.statement = statement;
     }
 
     @Override
     public void add(Sport entity) {
-
+        //TODO:
     }
 
     @Override
     public Sport getById(long id) {
+        //TODO:
         return null;
     }
 
@@ -29,41 +31,40 @@ public class SportDaoImpl implements Dao<Sport>{
     }
 
     @Override
-    public void deleteById(long id) {
-        //TODO:
+    public void deleteById(long id) throws Exception {
+        try {
+            statement.executeUpdate("Delete from sport where id="+id);
+        } catch (SQLException e) {
+            throw new Exception("Ошибка при удалении вида спорта:\n"+e);
+        }
     }
 
     @Override
-    public Object[][] getALl() {
-        Connection connection;
-        Statement statement;
-        try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/lab6", "root", System.getenv("PASSW"));
-            statement = connection.createStatement();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public Object[][] getALl() throws Exception {
         ResultSet set;
         try {
-            set = statement.executeQuery("Select id, family, name, patronymic, section_id, sport_id from sportsman");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        ArrayList<Object[]> sportList = new ArrayList<>();
-        try {
-            int ctr=0;
-            if (set != null)
-                while (set.next()){
+            try {
+                set = statement.executeQuery("Select id, family, name, patronymic, section_id, sport_id from sportsman");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            ArrayList<Object[]> sportList = new ArrayList<>();
+
+            int ctr = 0;
+            if (set != null) {
+                while (set.next()) {
+
                     sportList.add(new ArrayList<>(Arrays.asList(
                             set.getLong("id"),
                             set.getString("name"),
                             set.getString("inventory")))
                             .toArray());
                 }
-        }catch (SQLException e) {
-            throw new RuntimeException(e);
+            }
+            return sportList.toArray(Object[][]::new);
+        } catch (SQLException e) {
+            throw new Exception("Ошибка получения таблицы видов спорта:\n" + e);
         }
-        return (Object[][]) sportList.toArray();
     }
 
     public ArrayList<Sport> getSportsAsList() throws Exception { //TODO:Допилить
@@ -72,7 +73,7 @@ public class SportDaoImpl implements Dao<Sport>{
             ResultSet set = statement.executeQuery("""
                     """);
         } catch (SQLException e) {
-            throw new Exception("Ошибка получения списка спортсменов: "+e);
+            throw new Exception("Ошибка получения списка спортсменов: " + e);
         }
         return sportsList;
     }

@@ -21,6 +21,6 @@ public interface Dao<E> {
 
     void deleteById(long id) throws Exception;
 
-    Object[][] getALl();
+    Object[][] getALl() throws Exception;
 
 }
