@@ -42,7 +42,8 @@ public class SectionDaoImpl implements Dao<Section> {
                     entity.getCoach()[0], entity.getCoach()[1], entity.getCoach()[2]));
             set.next();
             long coach_id = set.getLong("id");
-            statement.executeUpdate(String.format("insert into section(schedule, room, description, is_working, sport_id, coach_id) values('%s', %d, '%s', %b, %d, %d)",
+            statement.executeUpdate(String.format("insert into section(name, schedule, room, description, is_working, sport_id, coach_id) values('%s', '%s', %d, '%s', %b, %d, %d)",
+                    entity.getName(),
                     entity.getSchedule(),
                     entity.getRoom(),
                     entity.getDescription(),
@@ -62,13 +63,8 @@ public class SectionDaoImpl implements Dao<Section> {
 
     @Override
     public void update(Section entity) throws Exception {
-        Connection connection;
-        Statement statement;
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sportschool", "admin", System.getenv("PASSW"));
-            statement = connection.createStatement();
-            ResultSet set;
-            set = statement.executeQuery("select id from sport where name like '" + entity.getSport() + "'");
+            ResultSet set = statement.executeQuery("select id from sport where name like '" + entity.getSport() + "'");
             if (!set.next()) {
                 throw new Exception("Такого вида спорта в спортивной школе нет");
             }
@@ -78,7 +74,8 @@ public class SectionDaoImpl implements Dao<Section> {
             if (!set.next())
                 throw new Exception("Такого тренера в спортивной школе нет");
             long coach_id = set.getLong("id");
-            statement.executeUpdate(String.format("update section set schedule='%s', room=%d, description='%s', is_working=%b, sport_id=%d, coach_id=%d where id=%d",
+            statement.executeUpdate(String.format("update section set name='%s', schedule='%s', room=%d, description='%s', is_working=%b, sport_id=%d, coach_id=%d where id=%d",
+                    entity.getName(),
                     entity.getSchedule(),
                     entity.getRoom(),
                     entity.getDescription(),
@@ -93,11 +90,7 @@ public class SectionDaoImpl implements Dao<Section> {
 
     @Override
     public void deleteById(long id) throws Exception {
-        Connection connection;
-        Statement statement;
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sportschool", "admin", System.getenv("PASSW"));
-            statement = connection.createStatement();
             statement.executeUpdate("delete from section where id=" + id);
         } catch (SQLException e) {
             throw new Exception("Ошибка удаления секции:\n" + e);
@@ -106,12 +99,8 @@ public class SectionDaoImpl implements Dao<Section> {
 
     @Override
     public Object[][] getALl() throws Exception {
-        Connection connection;
-        Statement statement;
         ArrayList<Object[]> sectionList = new ArrayList<>();
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sportschool", "admin", System.getenv("PASSW"));
-            statement = connection.createStatement();
             ResultSet set;
             set = statement.executeQuery("Select section.id, section.name, schedule, room, description, is_working, sp.name as sport_name, " +
                     "c.surname as coach_surname, c.name as coach_name, c.patronymic as coach_patronymic from section" +
@@ -157,14 +146,6 @@ public class SectionDaoImpl implements Dao<Section> {
     }
 
     public ArrayList<Section> getActive() throws Exception {
-        Connection connection;
-        Statement statement;
-        try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sportschool", "admin", System.getenv("PASSW"));
-            statement = connection.createStatement();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
         ArrayList<Section> sectionList = new ArrayList<>();
         try {
             ResultSet set = statement.executeQuery("Select s.id, s.name, schedule, room, description, sp.name as sport_name, c.surname as coach_surname, c.name as coach_name, c.patronymic as coach_patronymic" +
