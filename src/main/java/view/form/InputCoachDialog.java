@@ -34,7 +34,7 @@ public class InputCoachDialog extends JDialog {
             family.setText((String) panel.table.getValueAt(row, 1));
             name.setText((String) panel.table.getValueAt(row, 2));
             patronymic.setText((String) panel.table.getValueAt(row, 3));
-            sport.setText((String) panel.table.getValueAt(row, 5));
+            sport.setText((String) panel.table.getValueAt(row, 4));
         }
 
         add(inputPanel);
