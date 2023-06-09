@@ -44,7 +44,6 @@ public class MenuPanel extends JPanel {
             try {
                 mainPanel.open(item.item.getPanelClass(), presenter);
                 select(item);
-                item.isOpen = true;
             } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
                      InstantiationException | IllegalAccessException e) {
                 JOptionPane.showMessageDialog(this,
@@ -62,14 +61,17 @@ public class MenuPanel extends JPanel {
     private void select(MenuItem item) {
         if (selectedItem != null) {
             selectedItem.setForeground(null);
+            selectedItem.isOpen = false;
         }
         item.setForeground(Color.YELLOW);
         selectedItem = item;
+        item.isOpen = true;
     }
 
     private void unselect(MenuItem item) {
         selectedItem = null;
         item.setForeground(null);
+        item.isOpen = false;
     }
 
     public void close(MenuItem item) {

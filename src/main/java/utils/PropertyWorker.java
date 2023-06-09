@@ -24,12 +24,12 @@ public class PropertyWorker implements Runnable {
         this.fileChooser = fileChooser;
         try {
             properties.load(new FileReader(PROPERTY_FILE));
+            File dir = new File(getLastDir());
+            fileChooser.setCurrentDirectory(dir);
+            pathChooser.setLastDir(dir);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            new File(PROPERTY_FILE);
         }
-        File dir = new File(getLastDir());
-        fileChooser.setCurrentDirectory(dir);
-        pathChooser.setLastDir(dir);
     }
 
     public String getLastDir() {
@@ -61,7 +61,11 @@ public class PropertyWorker implements Runnable {
             }
         });
         while (true) {
-
+            try {
+                if (!Thread.interrupted()) Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }

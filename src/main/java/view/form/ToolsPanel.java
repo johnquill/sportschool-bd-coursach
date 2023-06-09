@@ -1,8 +1,10 @@
 package view.form;
 
+import model.entity.Coach;
 import presenter.Presenter;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class ToolsPanel extends JPanel {
 
@@ -51,14 +53,18 @@ public class ToolsPanel extends JPanel {
         JButton addButton = new JButton("Удалить");
         addButton.addActionListener(e -> {
             try {
-                int result = JOptionPane.showOptionDialog(this,
-                        "Вы действительно хотите удалить выделенную запись", "Удаление", JOptionPane.YES_NO_OPTION,
-                        JOptionPane.QUESTION_MESSAGE, (Icon) null, new String[] {"Да", "Нет"}, "Yes");
-                if (result == JOptionPane.YES_OPTION) {
-                    int idx = panel.table.getSelectedRow();
-                    long id = (long) panel.tableModel.getValueAt(idx, 0);
-                    presenter.deleteEntityById(entity, id);
-                    panel.updateTable();
+                if (entity != Coach.class) {
+                    int result = JOptionPane.showOptionDialog(this,
+                            "Вы действительно хотите удалить выделенную запись", "Удаление", JOptionPane.YES_NO_OPTION,
+                            JOptionPane.QUESTION_MESSAGE, (Icon) null, new String[] {"Да", "Нет"}, "Yes");
+                    if (result == JOptionPane.YES_OPTION) {
+                        int idx = panel.table.getSelectedRow();
+                        long id = (long) panel.tableModel.getValueAt(idx, 0);
+                        presenter.deleteEntityById(entity, id);
+                        panel.updateTable();
+                    }
+                } else {
+                    new CoachDelDialog(panel, presenter);
                 }
             } catch (ArrayIndexOutOfBoundsException ex) {
                 JOptionPane.showMessageDialog(this, "Выберите удаляемую строчку", "Ошибка удаления", JOptionPane.ERROR_MESSAGE);

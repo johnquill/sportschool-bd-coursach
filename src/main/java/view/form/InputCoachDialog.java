@@ -2,10 +2,16 @@ package view.form;
 
 import model.entity.Coach;
 import presenter.Presenter;
+import utils.PathChooser;
+import utils.date.DateUtils;
+import utils.word.WordExporter;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
 
 public class InputCoachDialog extends JDialog {
     Presenter presenter;
@@ -17,14 +23,23 @@ public class InputCoachDialog extends JDialog {
 
     private JPanel inputPanel;
     EntityPanel entityPanel;
+    JLabel createDoc;
+    PathChooser pathChooser = new PathChooser(this, ".doc");
+    String addDoc = "Принятие на работу";
+    WordExporter addExporter = new WordExporter(
+            new File("src/main/resources/documents/Принятие-на-работу.doc"));
 
     public InputCoachDialog(Presenter presenter, EntityPanel panel, boolean isAdd) throws Exception {
         this.presenter = presenter;
         this.entityPanel = panel;
+        JPanel dialogPanel = new JPanel();
+        dialogPanel.setLayout(new BorderLayout());
         inputPanel = new JPanel();
-        stylize();
+        stylize(dialogPanel);
 
         buildFields(inputPanel, isAdd);
+        dialogPanel.add(inputPanel, BorderLayout.CENTER);
+        dialogPanel.add(createDoc, BorderLayout.SOUTH);
 
         if (!isAdd) {
             int row = panel.table.getSelectedRow();
@@ -37,12 +52,13 @@ public class InputCoachDialog extends JDialog {
             sport.setText((String) panel.table.getValueAt(row, 4));
         }
 
-        add(inputPanel);
+        add(dialogPanel);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setVisible(true);
     }
 
-    private void stylize() {
+
+    private void stylize(JPanel dialogPanel) {
         setLocationRelativeTo(null);
         GridLayout layout = new GridLayout(6, 2);
         layout.setVgap(5);
@@ -50,7 +66,7 @@ public class InputCoachDialog extends JDialog {
         inputPanel.setLayout(layout);
         setSize(300, 300);
         setModal(true);
-        inputPanel.setBorder(new EmptyBorder(10, 15, 10, 15));
+        dialogPanel.setBorder(new EmptyBorder(10, 15, 10, 15));
     }
 
     public void buildFields(JPanel inputPanel, boolean isAdd) {
@@ -66,6 +82,28 @@ public class InputCoachDialog extends JDialog {
         sport = new JTextField();
         inputPanel.add(new JLabel("Вид спорта"));
         inputPanel.add(sport);
+
+        createDoc = new JLabel("<html><u>Создать документ о принятии на работу</u></html>");
+        createDoc.setForeground(Color.BLUE);
+        createDoc.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                File file = pathChooser.choosePath(String.join
+                        (" ", family.getText(), name.getText(), patronymic.getText()) + " " + addDoc);
+                if (file != null) {
+                    addExporter.setPath(file);
+                    addExporter.open();
+                    addExporter.replaceText("ДАТА", DateUtils.getCurrentDate());
+                    addExporter.replaceText("ФАМИЛИЯ", family.getText());
+                    addExporter.replaceText("ИМЯ", name.getText());
+                    addExporter.replaceText("ОТЧЕСТВО", patronymic.getText());
+                    addExporter.replaceText("ВИДСПОРТА", sport.getText());
+                    addExporter.save();
+                    JOptionPane.showMessageDialog(getContentPane(), "Документ успешно сохранен по пути " + file.getAbsolutePath());
+                }
+            }
+        });
+        inputPanel.add(createDoc);
 
         inputPanel.add(new JPanel());
         inputPanel.add(new JPanel());
