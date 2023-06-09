@@ -18,7 +18,7 @@ public class SectionsByCoach extends AbstractReport {
     String toHtml(){
         StringBuilder sb = new StringBuilder("<html>");
         sb.append("<h1>Спортивная школа. Отчет по тренерам и их секциям</h1>");
-        sb.append("<br><p>Отчет создан: ").append(DateUtils.getCurrentDate()).append("</p><br>");
+        sb.append("<br><p>Отчет создан: ").append(DateUtils.getCurrentDateTime()).append("</p><br>");
         ArrayList<Coach> trainers = presenter.getCoaches();
         trainers.forEach(tr -> {
             sb.append("</hr>");

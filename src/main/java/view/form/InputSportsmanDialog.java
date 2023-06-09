@@ -3,11 +3,14 @@ package view.form;
 import model.entity.Sportsman;
 import presenter.Presenter;
 import utils.PathChooser;
+import utils.date.DateUtils;
 import utils.word.WordExporter;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 
 public class InputSportsmanDialog extends JDialog {
@@ -20,18 +23,25 @@ public class InputSportsmanDialog extends JDialog {
     public JComboBox<String> section;
     public JTextField profession;
 
-    private JPanel inputPanel;
+    private final JPanel inputPanel;
     EntityPanel entityPanel;
     PathChooser pathChooser = new PathChooser(this, ".doc");
     String docName = "Договор зачисления в секцию";
+    WordExporter wordExporter = new WordExporter(
+            new File("src/main/resources/documents/Зачисление-в-секцию.doc"));
+    JLabel createDoc;
 
     public InputSportsmanDialog(Presenter presenter, EntityPanel panel, boolean isAdd) throws Exception {
         this.presenter = presenter;
         this.entityPanel = panel;
-        inputPanel = new JPanel();
-        stylize();
+        inputPanel = new JPanel(new BorderLayout());
+        JPanel fieldPanel = new JPanel();
+        stylize(fieldPanel);
 
-        buildFields(inputPanel, isAdd);
+        buildFields(fieldPanel, isAdd);
+
+        inputPanel.add(fieldPanel, BorderLayout.CENTER);
+        inputPanel.add(createDoc, BorderLayout.SOUTH);
 
         if (!isAdd) {
             int row = panel.table.getSelectedRow();
@@ -50,12 +60,12 @@ public class InputSportsmanDialog extends JDialog {
         setVisible(true);
     }
 
-    private void stylize() {
+    private void stylize(JPanel fieldPanel) {
         setLocationRelativeTo(null);
         GridLayout layout = new GridLayout(7, 2);
         layout.setVgap(5);
         layout.setHgap(5);
-        inputPanel.setLayout(layout);
+        fieldPanel.setLayout(layout);
         setSize(300, 300);
         setModal(true);
         inputPanel.setBorder(new EmptyBorder(10, 15, 10,15));
@@ -80,14 +90,26 @@ public class InputSportsmanDialog extends JDialog {
         inputPanel.add(new JPanel());
         inputPanel.add(new JPanel());
 
-        JLabel createDoc = new JLabel("Создать документ о зачислении");
+        createDoc = new JLabel("<html><u>Создать документ о зачислении</u></html>");
         createDoc.setForeground(Color.BLUE);
-        /*createDoc.addMouseListener(e -> {
-            File file = pathChooser.choosePath(docName);
-            //if (file != null) {
-                //WordExporter.setDocument(file);
-            //}
-        });*/
+        createDoc.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                File file = pathChooser.choosePath(String.join
+                        (" ", family.getText(), name.getText(), patronymic.getText()) + " " + docName);
+                if (file != null) {
+                    wordExporter.setPath(file);
+                    wordExporter.open();
+                    wordExporter.replaceText("ДАТА", DateUtils.getCurrentDate());
+                    wordExporter.replaceText("ФАМИЛИЯ", family.getText());
+                    wordExporter.replaceText("ИМЯ", name.getText());
+                    wordExporter.replaceText("ОТЧЕСТВО", patronymic.getText());
+                    wordExporter.replaceText("СЕКЦИЯ", (String) section.getSelectedItem());
+                    wordExporter.save();
+                    JOptionPane.showMessageDialog(getContentPane(), "Документ успешно сохранен по пути " + file.getAbsolutePath());
+                }
+            }
+        });
         inputPanel.add(createDoc);
         JButton add = new JButton("Сохранить");
         inputPanel.add(add);
@@ -118,8 +140,6 @@ public class InputSportsmanDialog extends JDialog {
                 dispose();
             });
         }
-        cancel.addActionListener(e -> {
-            dispose();
-        });
+        cancel.addActionListener(e -> dispose());
     }
 }
