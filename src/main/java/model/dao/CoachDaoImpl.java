@@ -25,8 +25,16 @@ public class CoachDaoImpl implements Dao<Coach> {
             headers.put("sport_id", "Ид спорта");
         }*/
     @Override
-    public void add(Coach entity) {
-
+    public void add(Coach entity) throws Exception {
+        try {
+            ResultSet set = statement.executeQuery("Select id from sport where name like '" + entity.getSport() + "'");
+            if (set.isBeforeFirst()) {
+                set.next();
+                statement.executeUpdate(String.format("Insert into coach(surname, name, patronymic, sport_id) values('%s', '%s', '%s', %d)", entity.getSurname(), entity.getName(), entity.getPatronymic(), set.getInt("id")));
+            } else throw new Exception("Такого вида спорта в школе нет");
+        } catch (SQLException e) {
+            throw new Exception("Ошибка добавления тренера:\n"+e);
+        }
     }
 
     @Override
@@ -61,9 +69,9 @@ public class CoachDaoImpl implements Dao<Coach> {
             set.next();
             Long sport_id = set.getLong("id");
             statement.executeUpdate(String.format("update coach set " +
-                    "surname=%s, " +
-                    "name=%s, " +
-                    "patronymic=%s," +
+                    "surname='%s', " +
+                    "name='%s', " +
+                    "patronymic='%s'," +
                     "sport_id=%d", entity.getSurname(), entity.getName(), entity.getPatronymic(), sport_id));
         } catch (Exception e) {
             throw new Exception("Ошибка при обновлении: " + e);
@@ -131,14 +139,14 @@ public class CoachDaoImpl implements Dao<Coach> {
                     from coach c
                     join sport sp on sp.id=sport_id
                     """);
-            while(set.next()){
+            while (set.next()) {
                 coaches.add(new Coach(
                         set.getLong("coach_id"),
                         set.getString("coach_surname"),
                         set.getString("coach_name"),
                         set.getString("coach_patronymic"),
                         set.getString("sport_name")
-                        ));
+                ));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

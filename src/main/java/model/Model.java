@@ -39,7 +39,7 @@ public class Model {
     }
 
     //TODO: допиливать и оптимизировать
-    public Object[][] getTableData(Class entity) {
+    public Object[][] getTableData(Class entity) throws Exception {
         Object[][] data = new Object[0][];
         if (Sportsman.class.equals(entity)) {
             SportsmanDaoImpl sportsmanDao = new SportsmanDaoImpl(statement);
@@ -77,23 +77,19 @@ public class Model {
         sportsmanDao.update(sportsman);
     }
 
-    public String[] getSectionNames() {
+    public String[] getSectionNames() throws Exception {
         return sectionDao.getNames();
     }
 
-    public void addSection(Section section){
-        try {
+    public void addSection(Section section) throws Exception {
             sectionDao.add(section);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public void editSection(Section section) throws Exception {
         sectionDao.update(section);
     }
 
-    public void deleteSectionById(long id){
+    public void deleteSectionById(long id) throws Exception {
         sectionDao.deleteById(id);
     }
 
@@ -105,7 +101,7 @@ public class Model {
         sectionDao.update(section);
     }
 
-    public void addCoach(Coach coach) {
+    public void addCoach(Coach coach) throws Exception {
         coachDao.add(coach);
     }
 
@@ -113,7 +109,7 @@ public class Model {
         coachDao.update(coach);
     }
 
-    public ArrayList<Section> getActiveSections() {
+    public ArrayList<Section> getActiveSections() throws Exception {
         return sectionDao.getActive();
     }
 

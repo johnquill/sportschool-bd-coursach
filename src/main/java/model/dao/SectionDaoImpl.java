@@ -40,10 +40,9 @@ public class SectionDaoImpl implements Dao<Section> {
 
             set = statement.executeQuery(String.format("select id from coach where surname like '%s' and name like '%s' and patronymic like '%s'",
                     entity.getCoach()[0], entity.getCoach()[1], entity.getCoach()[2]));
-            if (!set.next())
-                throw new Exception("Такого тренера в спортивной школе нет");
+            set.next();
             long coach_id = set.getLong("id");
-            statement.executeUpdate(String.format("insert into section(schedule, room, description, is_working, sport_id, coach_id) values(%s, %d, %s, %b, %d, %d)",
+            statement.executeUpdate(String.format("insert into section(schedule, room, description, is_working, sport_id, coach_id) values('%s', %d, '%s', %b, %d, %d)",
                     entity.getSchedule(),
                     entity.getRoom(),
                     entity.getDescription(),
@@ -51,7 +50,7 @@ public class SectionDaoImpl implements Dao<Section> {
                     sport_id,
                     coach_id));
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new Exception("Ошибка добавления секции:\n" + e);
         }
 
     }
@@ -88,12 +87,12 @@ public class SectionDaoImpl implements Dao<Section> {
                     coach_id,
                     entity.getId()));
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new Exception("Ошибка изменения секции:\n" + e);
         }
     }
 
     @Override
-    public void deleteById(long id) {
+    public void deleteById(long id) throws Exception {
         Connection connection;
         Statement statement;
         try {
@@ -101,12 +100,12 @@ public class SectionDaoImpl implements Dao<Section> {
             statement = connection.createStatement();
             statement.executeUpdate("delete from section where id=" + id);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new Exception("Ошибка удаления секции:\n" + e);
         }
     }
 
     @Override
-    public Object[][] getALl() {
+    public Object[][] getALl() throws Exception {
         Connection connection;
         Statement statement;
         ArrayList<Object[]> sectionList = new ArrayList<>();
@@ -132,41 +131,32 @@ public class SectionDaoImpl implements Dao<Section> {
                             .toArray());
                 } while (set.next());
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new Exception("Ошибка получения спика секций:\n" + e);
         }
         return sectionList.toArray(Object[][]::new);
     }
 
-    public String[] getNames() {
-        Connection connection;
-        Statement statement;
+    public String[] getNames() throws Exception {
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sportschool", "admin", System.getenv("PASSW"));
-            statement = connection.createStatement();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        ResultSet set;
-        try {
+            ResultSet set;
+
             set = statement.executeQuery("select distinct name from section");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        ArrayList<String> sectionNames = new ArrayList<>();
-        try {
+            ArrayList<String> sectionNames = new ArrayList<>();
             if (set.next()) {
                 sectionNames.add(set.getString("name"));
                 while (set.next())
                     sectionNames.add(set.getString("name"));
             }
+
+            sectionNames.add(0, "");
+            return sectionNames.toArray(String[]::new);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new Exception("Ошибка получения имен секций:\n"+e);
         }
-        sectionNames.add(0, "");
-        return sectionNames.toArray(String[]::new);
+
     }
 
-    public ArrayList<Section> getActive() {
+    public ArrayList<Section> getActive() throws Exception {
         Connection connection;
         Statement statement;
         try {
@@ -195,7 +185,7 @@ public class SectionDaoImpl implements Dao<Section> {
                         arrCoach));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new Exception("Ошибка получения активных секций:\n"+e);
         }
         return sectionList;
     }
@@ -264,7 +254,7 @@ public class SectionDaoImpl implements Dao<Section> {
                     from section s
                     join sport sp on sport_id=sp.id
                     join coach c on coach_id=c.id
-                    where sp.name like '%s'""",sportName));
+                    where sp.name like '%s'""", sportName));
             while (set.next()) {
                 sectionsList.add(new Section(
                         set.getLong("id"),

@@ -81,7 +81,11 @@ public class InputSportsmanDialog extends JDialog {
         patronymic = new JTextField();
         inputPanel.add(new JLabel("Отчество"));
         inputPanel.add(patronymic);
-        section = new JComboBox<>(presenter.getSectionNames());
+        try {
+            section = new JComboBox<>(presenter.getSectionNames());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
+        }
         inputPanel.add(new JLabel("Секция"));
         inputPanel.add(section);
         profession = new JTextField();
