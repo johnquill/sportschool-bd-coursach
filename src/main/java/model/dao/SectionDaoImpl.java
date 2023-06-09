@@ -26,16 +26,13 @@ public class SectionDaoImpl implements Dao<Section> {
 
     @Override
     public void add(Section entity) throws Exception {
-        Connection connection;
-        Statement statement;
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sportschool", "admin", System.getenv("PASSW"));
-            statement = connection.createStatement();
-            ResultSet set;
-            set = statement.executeQuery("select id from sport where name like '" + entity.getSport() + "'");
-            if (!set.next()) {
-                throw new Exception("Такого вида спорта в спортивной школе нет");
+            ResultSet set = statement.executeQuery("select id from sport where name like '" + entity.getSport() + "'");
+            if (!set.isBeforeFirst()) {
+                statement.executeUpdate(String.format("Insert into sport(name) values('%s')", entity.getSport()));
+                set = statement.executeQuery("select id from sport where name like '" + entity.getSport() + "'");
             }
+            set.next();
             long sport_id = set.getLong("id");
 
             set = statement.executeQuery(String.format("select id from coach where surname like '%s' and name like '%s' and patronymic like '%s'",
@@ -65,14 +62,15 @@ public class SectionDaoImpl implements Dao<Section> {
     public void update(Section entity) throws Exception {
         try {
             ResultSet set = statement.executeQuery("select id from sport where name like '" + entity.getSport() + "'");
-            if (!set.next()) {
-                throw new Exception("Такого вида спорта в спортивной школе нет");
+            if (!set.isBeforeFirst()) {
+                statement.executeUpdate(String.format("Insert into sport(name) values('%s')", entity.getSport()));
+                set = statement.executeQuery("select id from sport where name like '" + entity.getSport() + "'");
             }
+            set.next();
             long sport_id = set.getLong("id");
 
             set = statement.executeQuery(String.format("select id from coach where surname like '%s' and name like '%s' and patronymic like '%s'", entity.getCoach()[0], entity.getCoach()[1], entity.getCoach()[2]));
-            if (!set.next())
-                throw new Exception("Такого тренера в спортивной школе нет");
+            set.next();
             long coach_id = set.getLong("id");
             statement.executeUpdate(String.format("update section set name='%s', schedule='%s', room=%d, description='%s', is_working=%b, sport_id=%d, coach_id=%d where id=%d",
                     entity.getName(),
@@ -90,6 +88,9 @@ public class SectionDaoImpl implements Dao<Section> {
 
     @Override
     public void deleteById(long id) throws Exception {
+            ResultSet set = statement.executeQuery("Select surname from sportsman where section_id="+id);
+            if(set.isBeforeFirst())
+                throw new Exception("Нельзя удалить непустую секцию");
         try {
             statement.executeUpdate("delete from section where id=" + id);
         } catch (SQLException e) {

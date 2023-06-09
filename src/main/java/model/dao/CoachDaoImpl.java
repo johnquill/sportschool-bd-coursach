@@ -28,10 +28,12 @@ public class CoachDaoImpl implements Dao<Coach> {
     public void add(Coach entity) throws Exception {
         try {
             ResultSet set = statement.executeQuery("Select id from sport where name like '" + entity.getSport() + "'");
-            if (set.isBeforeFirst()) {
-                set.next();
-                statement.executeUpdate(String.format("Insert into coach(surname, name, patronymic, sport_id) values('%s', '%s', '%s', %d)", entity.getSurname(), entity.getName(), entity.getPatronymic(), set.getInt("id")));
-            } else throw new Exception("Такого вида спорта в школе нет");
+            if (!set.isBeforeFirst()) {
+                statement.executeUpdate(String.format("Insert into sport(name) values('%s')", entity.getSport()));
+                set = statement.executeQuery("Select id from sport where name like '" + entity.getSport() + "'");
+            }
+            set.next();
+            statement.executeUpdate(String.format("Insert into coach(surname, name, patronymic, sport_id) values('%s', '%s', '%s', %d)", entity.getSurname(), entity.getName(), entity.getPatronymic(), set.getInt("id")));
         } catch (SQLException e) {
             throw new Exception("Ошибка добавления тренера:\n"+e);
         }
@@ -61,10 +63,10 @@ public class CoachDaoImpl implements Dao<Coach> {
     @Override
     public void update(Coach entity) throws Exception {
         try {
-            ResultSet set;
-            set = statement.executeQuery("select id from sport where name like '" + entity.getSport() + "'");
+            ResultSet set = statement.executeQuery("select id from sport where name like '" + entity.getSport() + "'");
             if (!set.isBeforeFirst()) {
-                throw new Exception("Такого вида спорта нет в спортивной школе");
+                statement.executeUpdate(String.format("Insert into sport(name) values(%s)", entity.getSport()));
+                set = statement.executeQuery("select id from sport where name like '" + entity.getSport() + "'");
             }
             set.next();
             Long sport_id = set.getLong("id");
@@ -80,6 +82,10 @@ public class CoachDaoImpl implements Dao<Coach> {
 
     @Override
     public void deleteById(long id) throws Exception {
+        ResultSet set = statement.executeQuery("Select section.id from section where coach_id="+id);
+        if(set.isBeforeFirst()) {
+            throw new Exception("Нельзя удалить тренера, который ведёт секцию");
+        }
         try {
             statement.executeUpdate("Delete from coach where id=" + id);
         } catch (SQLException e) {
