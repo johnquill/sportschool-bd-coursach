@@ -24,12 +24,12 @@ public class PathChooser {
         propThread.interrupt();
     }
 
-    public File choosePath(String patternName) {
+    public File choosePath(String destFile) {
         //if (lastDir != null) {
         //    fileChooser.setCurrentDirectory(lastDir);
         //}
         fileChooser.setSelectedFile(new File(
-                patternName.toLowerCase(Locale.ROOT).replace(" ", "-") + extension));
+                destFile.toLowerCase(Locale.ROOT).replace(" ", "-") + extension));
         int result = fileChooser.showOpenDialog(parent);
 
         if (result == JFileChooser.APPROVE_OPTION) {
