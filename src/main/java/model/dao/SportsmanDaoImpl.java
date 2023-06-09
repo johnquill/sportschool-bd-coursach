@@ -45,17 +45,14 @@ public class SportsmanDaoImpl implements Dao<Sportsman> {
         try {
             ResultSet set;
             set = statement.executeQuery("select id from section where name like '" + entity.getSection() + "'");
-            if (!set.isBeforeFirst())
-                throw new Exception("Такой секции не существует");
             set.next();
             Long section_id = set.getLong("id");
             set = statement.executeQuery("select id from profession where name like '" + entity.getProfession() + "'");
             if (!set.isBeforeFirst()) {
-                statement.executeUpdate("insert into profession values(" + entity.getProfession() + ")");
+                statement.executeUpdate("insert into profession(name) values('" + entity.getProfession() + "')");
                 set = statement.executeQuery("select id from profession where name like '" + entity.getProfession() + "'");
             }
             set.next();
-            //TODO: исправить, какая-то херня при обновлении у Федор Ходяков профессии на Программист
             Long profsession_id = set.getLong("id");
             statement.executeUpdate(String.format("update sportsman set " +
                     "surname='%s', " +
@@ -113,9 +110,6 @@ public class SportsmanDaoImpl implements Dao<Sportsman> {
             ResultSet set;
 
             set = statement.executeQuery("select id from section where name like '" + sportsman.getSection() + "'");
-            if (!set.isBeforeFirst())
-                throw new Exception("Такой секции не существует");
-
             set.next();
             Long section_id = set.getLong("id");
             set = statement.executeQuery("select id from profession where name like '" + sportsman.getProfession() + "'");
@@ -170,7 +164,7 @@ public class SportsmanDaoImpl implements Dao<Sportsman> {
                     from sportsman sp
                     join section s on s.id=section_id
                     join sport on sport.id=s.sport_id
-                    group by sport_name;
+                    group by sport_name
                     """);
             while(set.next()){
                 sportsCount.put(set.getString("sport_name"), set.getInt("count"));

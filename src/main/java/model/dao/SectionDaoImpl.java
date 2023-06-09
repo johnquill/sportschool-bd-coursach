@@ -88,9 +88,9 @@ public class SectionDaoImpl implements Dao<Section> {
 
     @Override
     public void deleteById(long id) throws Exception {
-            ResultSet set = statement.executeQuery("Select surname from sportsman where section_id="+id);
-            if(set.isBeforeFirst())
-                throw new Exception("Нельзя удалить непустую секцию");
+        ResultSet set = statement.executeQuery("Select surname from sportsman where section_id=" + id);
+        if (set.isBeforeFirst())
+            throw new Exception("Нельзя удалить непустую секцию");
         try {
             statement.executeUpdate("delete from section where id=" + id);
         } catch (SQLException e) {
@@ -130,7 +130,7 @@ public class SectionDaoImpl implements Dao<Section> {
         try {
             ResultSet set;
 
-            set = statement.executeQuery("select distinct name from section");
+            set = statement.executeQuery("select name from section");
             ArrayList<String> sectionNames = new ArrayList<>();
             if (set.next()) {
                 sectionNames.add(set.getString("name"));
@@ -141,7 +141,7 @@ public class SectionDaoImpl implements Dao<Section> {
             sectionNames.add(0, "");
             return sectionNames.toArray(String[]::new);
         } catch (SQLException e) {
-            throw new Exception("Ошибка получения имен секций:\n"+e);
+            throw new Exception("Ошибка получения имен секций:\n" + e);
         }
 
     }
@@ -167,7 +167,7 @@ public class SectionDaoImpl implements Dao<Section> {
                         arrCoach));
             }
         } catch (SQLException e) {
-            throw new Exception("Ошибка получения активных секций:\n"+e);
+            throw new Exception("Ошибка получения активных секций:\n" + e);
         }
         return sectionList;
     }
