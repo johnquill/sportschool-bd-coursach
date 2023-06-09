@@ -50,7 +50,7 @@ public class InputCoachDialog extends JDialog {
         inputPanel.setLayout(layout);
         setSize(300, 300);
         setModal(true);
-        inputPanel.setBorder(new EmptyBorder(10, 15, 10,15));
+        inputPanel.setBorder(new EmptyBorder(10, 15, 10, 15));
     }
 
     public void buildFields(JPanel inputPanel, boolean isAdd) {
@@ -76,7 +76,7 @@ public class InputCoachDialog extends JDialog {
         if (isAdd) {
             add.addActionListener(e -> {
                 try {
-                    presenter.addCoach(new Coach( 0, family.getText(), name.getText(), patronymic.getText(), sport.getText()));
+                    presenter.addCoach(new Coach(0, family.getText(), name.getText(), patronymic.getText(), sport.getText()));
                     entityPanel.updateTable();
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(this, ex.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);

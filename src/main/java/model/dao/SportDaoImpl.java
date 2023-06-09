@@ -14,19 +14,23 @@ public class SportDaoImpl implements Dao<Sport> {
         this.statement = statement;
     }
 
+    @Deprecated
     @Override
     public void add(Sport entity) {
     }
 
+    @Deprecated
     @Override
     public Sport getById(long id) {
         return null;
     }
 
+    @Deprecated
     @Override
     public void update(Sport entity) {
     }
 
+    @Deprecated
     @Override
     public void deleteById(long id) throws Exception {
         try {
