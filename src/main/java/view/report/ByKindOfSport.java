@@ -49,7 +49,7 @@ public class ByKindOfSport extends AbstractReport {
                     }
                     StringBuilder sportsmenText = new StringBuilder();
                     sportsmen.forEach(el -> sportsmenText.append(
-                            String.join(" ", el.getSurname(), el.getName(), el.getPatronymic())).append("\n"));
+                            String.join(" ", el.getSurname(), el.getName(), el.getPatronymic())).append("<br>"));
                     sb.append("<tr>");
                     sb.append(String.format("<td>%s</td><td>%s</td>", sec.getName(), sportsmenText));
                     sb.append("</tr>");
