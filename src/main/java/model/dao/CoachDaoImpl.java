@@ -46,7 +46,7 @@ public class CoachDaoImpl implements Dao<Coach> {
             ResultSet set = statement.executeQuery("select * from coach where id=" + id);
             set.next();
             ResultSet set1;
-            set1 = statement.executeQuery("select name from sport where name like '" + set.getString("sport_id") + "'");
+            set1 = statement.executeQuery("select name from sport where id="+set.getString("sport_id"));
             set1.next();
             sport_name = set1.getString("name");
             return new Coach(
