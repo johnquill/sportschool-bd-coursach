@@ -64,7 +64,7 @@ public class Presenter {
         } else if (entity == Section.class) {
             model.deleteSectionById(id);
         } else if (entity == Coach.class) {
-            //model.deleteCoachById();
+            model.deleteCoachById(id);
         }
     }
 

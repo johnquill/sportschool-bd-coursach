@@ -140,4 +140,8 @@ public class Model {
     public HashMap<String, Integer> getSportsmenOfSportsCount() throws Exception {
         return sportsmanDao.getSportsmenOfSportsCount();
     }
+
+    public void deleteCoachById(long id) throws Exception {
+        coachDao.deleteById(id);
+    }
 }
