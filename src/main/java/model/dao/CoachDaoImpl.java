@@ -89,7 +89,7 @@ public class CoachDaoImpl implements Dao<Coach> {
         try {
             statement.executeUpdate("Delete from coach where id=" + id);
         } catch (SQLException e) {
-            throw new Exception("Ошибка удаления");
+            throw new Exception("Ошибка удаления"+e);
         }
     }
 
