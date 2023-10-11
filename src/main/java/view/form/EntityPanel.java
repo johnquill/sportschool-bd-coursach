@@ -1,5 +1,6 @@
 package view.form;
 
+import model.entity.Entity;
 import model.entity.Section;
 import presenter.Presenter;
 

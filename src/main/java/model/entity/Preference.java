@@ -1,4 +1,5 @@
 package model.entity;
 
-public class Preference {
+public class Preference extends Entity {
+
 }

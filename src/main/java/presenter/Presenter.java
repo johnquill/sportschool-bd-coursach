@@ -1,12 +1,8 @@
 package presenter;
 
 import model.Model;
-import model.entity.Coach;
-import model.entity.Section;
-import model.entity.Sport;
-import model.entity.Sportsman;
+import model.entity.*;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -18,11 +14,11 @@ public class Presenter {
         this.model = model;
     }
 
-    public String[] getTableHeaders(Class entity) {
+    public String[] getTableHeaders(Class<Entity> entity) {
         return model.getTableHeaders(entity);
     }
 
-    public Object[][] getTableData(Class entity) throws Exception {
+    public Object[][] getTableData(Class<Entity> entity) throws Exception {
         return model.getTableData(entity);
     }
 
@@ -58,7 +54,7 @@ public class Presenter {
         model.editSportsman(sportsman);
     }
 
-    public void deleteEntityById(Class entity, long id) throws Exception {
+    public void deleteEntityById(Class<?> entity, long id) throws Exception {
         if (entity == Sportsman.class) {
             model.deleteSportsmanById(id);
         } else if (entity == Section.class) {

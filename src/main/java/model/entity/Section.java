@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Section {
+public class Section extends Entity {
     private long id;
 
     private String name;

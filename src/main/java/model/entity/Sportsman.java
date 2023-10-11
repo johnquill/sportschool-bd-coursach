@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Sportsman {
+public class Sportsman extends Entity {
 
     private long id;
 

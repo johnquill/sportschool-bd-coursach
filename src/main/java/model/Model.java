@@ -4,10 +4,7 @@ import model.dao.CoachDaoImpl;
 import model.dao.SectionDaoImpl;
 import model.dao.SportDaoImpl;
 import model.dao.SportsmanDaoImpl;
-import model.entity.Coach;
-import model.entity.Section;
-import model.entity.Sport;
-import model.entity.Sportsman;
+import model.entity.*;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -27,7 +24,8 @@ public class Model {
     
     public Model() {
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sportschool", "admin", System.getenv("PASSW"));
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sportschool",
+                    "admin", System.getenv("PASSW"));
             statement = connection.createStatement();
             sportsmanDao = new SportsmanDaoImpl(statement);
             sectionDao = new SectionDaoImpl(statement);
@@ -38,8 +36,8 @@ public class Model {
         }
     }
 
-    //TODO: допиливать и оптимизировать
-    public Object[][] getTableData(Class entity) throws Exception {
+    // TODO: допиливать и оптимизировать
+    public Object[][] getTableData(Class<Entity> entity) throws Exception {
         Object[][] data = new Object[0][];
         if (Sportsman.class.equals(entity)) {
             SportsmanDaoImpl sportsmanDao = new SportsmanDaoImpl(statement);
@@ -54,8 +52,8 @@ public class Model {
         return data;
     }
 
-    //TODO: допиливать и оптимизировать
-    public String[] getTableHeaders(Class entity) {
+    // TODO: допиливать и оптимизировать
+    public String[] getTableHeaders(Class<Entity> entity) {
         if (Sportsman.class.equals(entity)) {
             return new String[] {"Ид", "Фамилия", "Имя", "Отчество", "Секция", "Профессия"};
         } else if (Section.class.equals(entity)) {
@@ -65,6 +63,7 @@ public class Model {
         }
         return new String[] {};
     }
+
     public void addSportsman(Sportsman sportsman) throws Exception {
         sportsmanDao.add(sportsman);
     }

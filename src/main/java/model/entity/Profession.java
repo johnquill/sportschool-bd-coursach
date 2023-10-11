@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Profession {
+public class Profession extends Entity {
 
     private Long id;
     private String name;

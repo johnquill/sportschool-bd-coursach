@@ -15,11 +15,11 @@ public class InputSectionDialog extends JDialog {
     public JTextField schedule;
     public JTextField room;
     private JTextArea description;
-    private JComboBox<String> is_working = new JComboBox<>(new String[] {"Работает", "Не работает"});
+    private final JComboBox<String> is_working = new JComboBox<>(new String[] {"Работает", "Не работает"});
     private JTextField sport;
     private JComboBox<String> coach;
 
-    private JPanel inputPanel;
+    private final JPanel inputPanel;
     EntityPanel entityPanel;
 
     public InputSectionDialog(Presenter presenter, EntityPanel panel, boolean isAdd) throws Exception {

@@ -9,7 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Coach {
+public class Coach extends Entity {
+
     private long id;
 
     private String surname;
