@@ -1,5 +1,6 @@
 package view.report;
 
+import com.itextpdf.text.DocumentException;
 import presenter.Presenter;
 import utils.PathChooser;
 import utils.pdf.PdfExporter;
@@ -7,6 +8,7 @@ import utils.pdf.PdfExporter;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 
 public abstract class AbstractReport extends JPanel {
 
@@ -38,6 +40,8 @@ public abstract class AbstractReport extends JPanel {
             try {
                 this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 PdfExporter.exportToPdf(html, file);
+            } catch (DocumentException | IOException e) {
+                throw new RuntimeException(e);
             } finally {
                 this.setCursor(Cursor.getDefaultCursor());
             }

@@ -8,6 +8,8 @@ import utils.date.DateUtils;
 import javax.swing.*;
 import java.util.ArrayList;
 
+import static utils.HtmlUtils.START_HTML;
+
 public class SectionCompound extends AbstractReport {
 
 
@@ -17,9 +19,9 @@ public class SectionCompound extends AbstractReport {
 
     @Override
     String toHtml() {
-        StringBuilder sb = new StringBuilder("<html>");
+        StringBuilder sb = new StringBuilder(START_HTML);
         sb.append("<h1>Спортивная школа. Отчет по составу секций</h1>");
-        sb.append("<br><p>Отчет создан: ").append(DateUtils.getCurrentDateTime()).append("</p><br>");
+        sb.append("<br /><p>Отчет создан: ").append(DateUtils.getCurrentDateTime()).append("</p><br />");
         ArrayList<Section> sections = null;
         try {
             sections = presenter.getSections();

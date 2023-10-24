@@ -7,6 +7,8 @@ import utils.date.DateUtils;
 import javax.swing.*;
 import java.util.ArrayList;
 
+import static utils.HtmlUtils.START_HTML;
+
 
 public class ActiveSections extends AbstractReport {
 
@@ -22,9 +24,9 @@ public class ActiveSections extends AbstractReport {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
         }
-        StringBuilder sb = new StringBuilder("<html lang=\"ru\">");
+        StringBuilder sb = new StringBuilder(START_HTML);
         sb.append("<h1>Спортивная школа. Работающие секции</h1>");
-        sb.append("<br><p>Отчет создан: ").append(DateUtils.getCurrentDateTime()).append("</p><br>");
+        sb.append("<br /><p>Отчет создан: ").append(DateUtils.getCurrentDateTime()).append("</p><br />");
         sb.append("<table style=\"width:100%\" border=\"1\"><tr><th>Название</th><th>Расписание</th><th>Зал</th><th>Вид спорта</th><th>Тренер</th></tr>");
         sectionList.forEach(el -> {
                     sb.append("<tr>");

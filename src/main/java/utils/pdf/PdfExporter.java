@@ -1,18 +1,21 @@
 package utils.pdf;
 
-import com.groupdocs.conversion.filetypes.PdfFileType;
-import com.groupdocs.conversion.options.convert.ConvertOptions;
-import com.groupdocs.conversion.Converter;
-import com.groupdocs.conversion.options.convert.PdfConvertOptions;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.BaseFont;
+import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import java.io.*;
 
 public class PdfExporter {
 
-    public static void exportToPdf(String html, File pdf) {
-        InputStream inputStream = new ByteArrayInputStream(html.getBytes());
-        Converter converter = new Converter(inputStream);
-        ConvertOptions<PdfFileType> convertOptions = new PdfConvertOptions();
-        converter.convert(pdf.getAbsolutePath(), convertOptions);
+    public static void exportToPdf(String html, File pdf) throws IOException, DocumentException {
+        OutputStream os = new FileOutputStream(pdf);
+        ITextRenderer renderer = new ITextRenderer();
+        renderer.getFontResolver().addFont("src/main/resources/Verdana.ttf",
+                BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
+        renderer.setDocumentFromString(html);
+        renderer.layout();
+        renderer.createPDF(os);
+        os.close();
     }
 }

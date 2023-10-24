@@ -8,6 +8,8 @@ import utils.date.DateUtils;
 import javax.swing.*;
 import java.util.ArrayList;
 
+import static utils.HtmlUtils.START_HTML;
+
 public class SectionsByCoach extends AbstractReport {
 
     public SectionsByCoach(Presenter presenter) {
@@ -16,9 +18,9 @@ public class SectionsByCoach extends AbstractReport {
 
     @Override
     String toHtml(){
-        StringBuilder sb = new StringBuilder("<html>");
+        StringBuilder sb = new StringBuilder(START_HTML);
         sb.append("<h1>Спортивная школа. Отчет по тренерам и их секциям</h1>");
-        sb.append("<br><p>Отчет создан: ").append(DateUtils.getCurrentDateTime()).append("</p><br>");
+        sb.append("<br /><p>Отчет создан: ").append(DateUtils.getCurrentDateTime()).append("</p><br />");
         ArrayList<Coach> trainers = presenter.getCoaches();
         trainers.forEach(tr -> {
             sb.append("</hr>");
@@ -26,7 +28,7 @@ public class SectionsByCoach extends AbstractReport {
                     .append(" ").append(tr.getName())
                     .append(" ").append(tr.getPatronymic())
                     .append(" ").append("</h3>");
-            sb.append(tr.getSport()).append("<br><br>");
+            sb.append(tr.getSport()).append("<br /><br />");
             ArrayList<Section> sections = null;
             try {
                 sections = presenter.getSections(tr);
