@@ -88,13 +88,10 @@
             <artifactId>poi-scratchpad</artifactId>
             <version>5.2.3</version>
         </dependency>
-
         <dependency>
             <groupId>com.groupdocs</groupId>
-            <artifactId>conversion</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/src/externalRepos/groupdocs-conversion-23.6.1.jar</systemPath>
+            <artifactId>groupdocs-conversion</artifactId>
+            <version>17.12</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
