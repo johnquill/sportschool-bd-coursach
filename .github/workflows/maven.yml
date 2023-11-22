@@ -50,7 +50,7 @@ jobs:
     - name: migrate DB
       run: |
         echo "$PWD"
-        mysql --protocol=tcp -h localhost -P 3306 -uadmin -padmin -e "$(cat $(find ./ -name ../../src/main/resources/sportschool.sql))"
+        mysql --protocol=tcp -h localhost -P 3306 -uadmin -padmin -e "$(cat $(find ./ -name sportschool.sql))"
     - name: Build with Maven
       env:
         PASSW: admin 
