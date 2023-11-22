@@ -18,6 +18,7 @@
 --
 -- Table structure for table `coach`
 --
+USE spotschool;
 
 DROP TABLE IF EXISTS `coach`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
