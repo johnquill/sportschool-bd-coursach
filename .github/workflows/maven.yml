@@ -49,6 +49,7 @@ jobs:
         cache: maven
     - name: Build with Maven
       env:
-        PASSW: admin
+        PASSW: admin 
       run: |
+        mysql --protocol=tcp -h localhost -P 3306 -uadmin -padmin -e "$(cat $(find ./ -name ../../src/main/resources/sportschool.sql))"
         mvn -B package --file pom.xml
