@@ -1,5 +1,6 @@
 package model.dao;
 
+import model.entity.Coach;
 import model.entity.Section;
 
 import java.sql.*;
@@ -26,64 +27,74 @@ public class SectionDaoImpl implements Dao<Section> {
 
     @Override
     public void add(Section entity) throws Exception {
-        try {
-            ResultSet set = statement.executeQuery("select id from sport where name like '" + entity.getSport() + "'");
-            if (!set.isBeforeFirst()) {
-                statement.executeUpdate(String.format("Insert into sport(name) values('%s')", entity.getSport()));
-                set = statement.executeQuery("select id from sport where name like '" + entity.getSport() + "'");
-            }
-            set.next();
-            long sport_id = set.getLong("id");
+        if (entity.getId() == 0) {
+            createOrUpdate(entity, "insert into section (name, schedule, room, description, is_working, " +
+                    "sport_id, coach_id) values ('%s', '%s', %d, '%s', %b, %d, %d)");
+        } else {
+            createOrUpdate(entity, "insert into section (id, name, schedule, room, description, is_working, " +
+                    "sport_id, coach_id) values ("+ entity.getId() + ", '%s', '%s', %d, '%s', %b, %d, %d)");
+        }
+    }
 
-            set = statement.executeQuery(String.format("select id from coach where surname like '%s' and name like '%s' and patronymic like '%s'",
-                    entity.getCoach()[0], entity.getCoach()[1], entity.getCoach()[2]));
-            set.next();
+    private void createOrUpdate(Section entity, String sqlCommand) throws Exception {
+        ResultSet set = statement.executeQuery("select id from sport where name like '" + entity.getSport() + "'");
+        if (!set.isBeforeFirst()) {
+            statement.executeUpdate(String.format("Insert into sport (name) values('%s')", entity.getSport()));
+            set = statement.executeQuery("select id from sport where name like '" + entity.getSport() + "'");
+        }
+        set.next();
+        long sport_id = set.getLong("id");
+
+        set = statement.executeQuery(String.format("select id from coach where surname like '%s' and name like '%s' and patronymic like '%s'",
+                entity.getCoach()[0], entity.getCoach()[1], entity.getCoach()[2]));
+        if (set.next()) {
             long coach_id = set.getLong("id");
-            statement.executeUpdate(String.format("insert into section(name, schedule, room, description, is_working, sport_id, coach_id) values('%s', '%s', %d, '%s', %b, %d, %d)",
+            statement.executeUpdate(String.format(sqlCommand,
                     entity.getName(),
                     entity.getSchedule(),
                     entity.getRoom(),
                     entity.getDescription(),
-                    entity.getIs_working(),
+                    entity.getIsWorking(),
                     sport_id,
-                    coach_id));
-        } catch (SQLException e) {
-            throw new Exception("Ошибка добавления секции:\n" + e);
+                    coach_id,
+                    entity.getId()));
+        } else {
+            throw new Exception("Заданный тренер не найден");
         }
+
 
     }
 
     @Override
-    public Section getById(long id) {
-        return null;
+    public Section getById(long id) throws Exception {
+        ResultSet set = statement.executeQuery("select * from section where id=" + id);
+        set.next();
+        Section section = new Section();
+        section.setId(set.getLong("id"));
+        section.setName(set.getString("name"));
+        section.setRoom(set.getInt("room"));
+        section.setSchedule(set.getString("schedule"));
+        section.setIsWorking(set.getBoolean("is_working"));
+        section.setDescription(set.getString("description"));
+        long coachId = set.getLong("coach_id");
+        long sportId = set.getLong("sport_id");
+
+        set = statement.executeQuery("select name from sport where id=" + set.getString("sport_id"));
+        set.next();
+        CoachDaoImpl coachDao = new CoachDaoImpl(statement);
+
+        Coach coach = coachDao.getById(coachId);
+        section.setCoach(new String[] {coach.getSurname(), coach.getName(), coach.getPatronymic()});
+        set = statement.executeQuery("select name from sport where id=" + sportId);
+        set.next();
+        section.setSport(set.getString("name"));
+        return section;
     }
 
     @Override
     public void update(Section entity) throws Exception {
-        try {
-            ResultSet set = statement.executeQuery("select id from sport where name like '" + entity.getSport() + "'");
-            if (!set.isBeforeFirst()) {
-                statement.executeUpdate(String.format("Insert into sport(name) values('%s')", entity.getSport()));
-                set = statement.executeQuery("select id from sport where name like '" + entity.getSport() + "'");
-            }
-            set.next();
-            long sport_id = set.getLong("id");
-
-            set = statement.executeQuery(String.format("select id from coach where surname like '%s' and name like '%s' and patronymic like '%s'", entity.getCoach()[0], entity.getCoach()[1], entity.getCoach()[2]));
-            set.next();
-            long coach_id = set.getLong("id");
-            statement.executeUpdate(String.format("update section set name='%s', schedule='%s', room=%d, description='%s', is_working=%b, sport_id=%d, coach_id=%d where id=%d",
-                    entity.getName(),
-                    entity.getSchedule(),
-                    entity.getRoom(),
-                    entity.getDescription(),
-                    entity.getIs_working(),
-                    sport_id,
-                    coach_id,
-                    entity.getId()));
-        } catch (SQLException e) {
-            throw new Exception("Ошибка изменения секции:\n" + e);
-        }
+        createOrUpdate(entity, "update section set name='%s', schedule='%s', room=%d, description='%s', " +
+                "is_working=%b, sport_id=%d, coach_id=%d where id=%d");
     }
 
     @Override

@@ -39,7 +39,7 @@ public class SectionsByCoach extends AbstractReport {
             sections.forEach(el -> {
                         sb.append("<tr>");
                         sb.append(String.format("<td>%s</td><td>%s</td><td>%s</td><td>%s</td>",
-                                el.getName(), el.getSchedule(), el.getRoom(), el.getIs_working() ? "Да":"Нет"));
+                                el.getName(), el.getSchedule(), el.getRoom(), el.getIsWorking() ? "Да":"Нет"));
                         sb.append("</tr>");
                     }
             );

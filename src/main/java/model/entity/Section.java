@@ -20,7 +20,7 @@ public class Section extends Entity {
 
     private String description;
 
-    private Boolean is_working;
+    private Boolean isWorking;
 
     private String sport;
 

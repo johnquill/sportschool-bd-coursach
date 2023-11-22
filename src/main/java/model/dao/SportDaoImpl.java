@@ -19,7 +19,6 @@ public class SportDaoImpl implements Dao<Sport> {
     public void add(Sport entity) {
     }
 
-    @Deprecated
     @Override
     public Sport getById(long id) {
         return null;

@@ -8,6 +8,7 @@ import java.util.*;
 public class SportsmanDaoImpl implements Dao<Sportsman> {
 
     Statement statement;
+
     public SportsmanDaoImpl(Statement statement) {
         this.statement = statement;
     }
@@ -25,19 +26,26 @@ public class SportsmanDaoImpl implements Dao<Sportsman> {
     @Override
     public Sportsman getById(long id) throws SQLException {
         String section_name, profession_name;
-        ResultSet set = statement.executeQuery("select * from sportsman where id="+id);
+        ResultSet set = statement.executeQuery("select * from sportsman where id=" + id);
         set.next();
-        ResultSet set1;
-        set1 = statement.executeQuery("select name from section where name like '"+set.getString("section_id")+"'");
-        set1.next(); section_name = set1.getString("name");
-        set1 = statement.executeQuery("select name from profession where name like '"+set.getString("profession_id")+"'");
-        set1.next(); profession_name = set1.getString("name");
-        return new Sportsman(
-                set.getLong("id"),
-                set.getString("surname"),
-                set.getString("name"),
-                set.getString("patronymic"),
-                section_name, profession_name);
+        Sportsman sportsman = new Sportsman();
+        sportsman.setId(set.getLong("id"));
+        sportsman.setSurname(set.getString("surname"));
+        sportsman.setName(set.getString("name"));
+        sportsman.setPatronymic(set.getString("patronymic"));
+
+        String sectId = set.getString("section_id");
+        String profId = set.getString("profession_id");
+        set = statement.executeQuery("select name from section where id like '" + sectId + "'");
+        set.next();
+        section_name = set.getString("name");
+        set = statement.executeQuery("select name from profession where id like '" + profId + "'");
+        set.next();
+        profession_name = set.getString("name");
+
+        sportsman.setSection(section_name);
+        sportsman.setSection(profession_name);
+        return sportsman;
     }
 
     @Override
@@ -106,11 +114,9 @@ public class SportsmanDaoImpl implements Dao<Sportsman> {
     }
 
     public void add(Sportsman sportsman) throws Exception {
-        try {
-            ResultSet set;
 
-            set = statement.executeQuery("select id from section where name like '" + sportsman.getSection() + "'");
-            set.next();
+        ResultSet set = statement.executeQuery("select id from section where name like '" + sportsman.getSection() + "'");
+        if (set.next()) {
             Long section_id = set.getLong("id");
             set = statement.executeQuery("select id from profession where name like '" + sportsman.getProfession() + "'");
             if (!set.isBeforeFirst()) {
@@ -119,16 +125,23 @@ public class SportsmanDaoImpl implements Dao<Sportsman> {
             }
             set.next();
             Long profession_id = set.getLong("id");
-            statement.executeUpdate(String.format("insert into sportsman(surname, name, patronymic, section_id, profession_id) values('%s', '%s', '%s', %d, %d)",
-                    sportsman.getSurname(),
-                    sportsman.getName(),
-                    sportsman.getPatronymic(),
-                    section_id,
-                    profession_id));
-        } catch (SQLException e) {
-            throw new Exception("Ошибка добавления спортсмена:\n" + e);
+            statement.executeUpdate(addSportsman(sportsman, section_id, profession_id));
+        } else {
+            throw new Exception("Заданного вида спорта не существует");
         }
 
+    }
+
+    private String addSportsman(Sportsman sportsman, Long section_id, Long profession_id) {
+        boolean hasId = sportsman.getId() != 0;
+        return String.format(
+                "insert into sportsman(" + (hasId ? "id, " : "") + "surname, name, patronymic, section_id, profession_id) " +
+                        "values(" + (hasId ? sportsman.getId() + ", " : "") + "'%s', '%s', '%s', %d, %d)",
+                sportsman.getSurname(),
+                sportsman.getName(),
+                sportsman.getPatronymic(),
+                section_id,
+                profession_id);
     }
 
     public ArrayList<Sportsman> getSportsmenBySectionId(long id) throws Exception {
@@ -151,14 +164,14 @@ public class SportsmanDaoImpl implements Dao<Sportsman> {
                 ));
             }
             return sportsmen;
-        } catch (SQLException e){
-            throw new Exception("Ошибка получения списк спортсменов в определенной секции:\n"+e);
+        } catch (SQLException e) {
+            throw new Exception("Ошибка получения списк спортсменов в определенной секции:\n" + e);
         }
     }
 
     public HashMap<String, Integer> getSportsmenOfSportsCount() throws Exception {
         HashMap<String, Integer> sportsCount = new HashMap<>();
-        try{
+        try {
             ResultSet set = statement.executeQuery("""
                     Select sport.name as sport_name, count(*) as count
                     from sportsman sp
@@ -166,11 +179,11 @@ public class SportsmanDaoImpl implements Dao<Sportsman> {
                     join sport on sport.id=s.sport_id
                     group by sport_name
                     """);
-            while(set.next()){
+            while (set.next()) {
                 sportsCount.put(set.getString("sport_name"), set.getInt("count"));
             }
-        } catch (SQLException e){
-            throw new Exception("Ошибка получения количества спорстменов по видам спорта:\n"+e);
+        } catch (SQLException e) {
+            throw new Exception("Ошибка получения количества спорстменов по видам спорта:\n" + e);
         }
         return sportsCount;
     }
