@@ -29,6 +29,7 @@ jobs:
           MYSQL_DATABASE: sportschool
           MYSQL_USER: admin
           MYSQL_PASSWORD: admin
+          MYSQL_ROOT_PASSWORD: root
         volumes:
           - ../../src/main/resources/sportschool.sql
         ports:
