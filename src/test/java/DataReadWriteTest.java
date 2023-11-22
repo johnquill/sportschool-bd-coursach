@@ -23,7 +23,7 @@ public class DataReadWriteTest {
     @Before
     public void start() throws SQLException {
         connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1/sportschool",
-                "admin", System.getenv("PASSW"));
+                "admin", "admin");
         Statement statement = connection.createStatement();
         sportsmanDao = new SportsmanDaoImpl(statement);
         sectionDao = new SectionDaoImpl(statement);
