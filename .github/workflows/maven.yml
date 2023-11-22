@@ -28,7 +28,7 @@ jobs:
           # See: https://hub.docker.com/_/mysql
           MYSQL_DATABASE: sportschool
           MYSQL_USER: admin
-          MYSQL_ROOT_PASSWORD: admin
+          MYSQL_PASSWORD: admin
         volumes:
           - ../../src/main/resources/sportschool.sql
         ports:
