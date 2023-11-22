@@ -15,10 +15,10 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+USE spotschool;
 --
 -- Table structure for table `coach`
 --
-USE spotschool;
 
 DROP TABLE IF EXISTS `coach`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

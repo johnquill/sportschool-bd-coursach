@@ -31,7 +31,7 @@ jobs:
           MYSQL_PASSWORD: admin
           MYSQL_ROOT_PASSWORD: root
         volumes:
-          - ../../src/main/resources/sportschool.sql
+          - src/main/resources/sportschool.sql
         ports:
           # Opens port 3306 on service container and host
           # https://docs.github.com/en/actions/using-containerized-services/about-service-containers
@@ -50,7 +50,6 @@ jobs:
     - name: migrate DB
       run: |
         echo "$PWD"
-        mysql --protocol=tcp -h 172.18.0.1 -P 3306 -uadmin -padmin -e "$(cat $(find ./ -name sportschool.sql))"
     - name: Build with Maven
       env:
         PASSW: admin 
