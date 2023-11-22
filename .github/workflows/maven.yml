@@ -49,6 +49,7 @@ jobs:
         cache: maven
     - name: migrate DB
       run: |
+        echo "$PWD"
         mysql --protocol=tcp -h localhost -P 3306 -uadmin -padmin -e "$(cat $(find ./ -name ../../src/main/resources/sportschool.sql))"
     - name: Build with Maven
       env:
