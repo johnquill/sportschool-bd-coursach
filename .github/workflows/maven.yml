@@ -26,12 +26,10 @@ jobs:
           # The MySQL docker container requires these environment variables to be set
           # so we can create and migrate the test database.
           # See: https://hub.docker.com/_/mysql
-          MYSQL_DATABASE: sportschool
+          MYSQL_DATABASE: postgres
           MYSQL_USER: admin
           MYSQL_PASSWORD: admin
           MYSQL_ROOT_PASSWORD: root
-        volumes:
-          - src/main/resources/sportschool.sql
         ports:
           # Opens port 3306 on service container and host
           # https://docs.github.com/en/actions/using-containerized-services/about-service-containers
