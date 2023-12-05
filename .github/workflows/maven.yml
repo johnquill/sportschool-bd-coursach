@@ -27,9 +27,7 @@ jobs:
           # so we can create and migrate the test database.
           # See: https://hub.docker.com/_/mysql
           MYSQL_DATABASE: postgres
-          MYSQL_USER: admin
-          MYSQL_PASSWORD: admin
-          MYSQL_ROOT_PASSWORD: root
+          MYSQL_ROOT_PASSWORD: admin
         ports:
           # Opens port 3306 on service container and host
           # https://docs.github.com/en/actions/using-containerized-services/about-service-containers
@@ -48,9 +46,9 @@ jobs:
     - name: migrate DB
       run: |
         echo "$PWD"
-        mysql --protocol=tcp -h localhost -P 3306 -uadmin -padmin -e "$(cat $(find ./ -name sportschool.sql))"
+        mysql --protocol=tcp -h localhost -P 3306 -uroot -padmin -e "$(cat $(find ./ -name sportschool.sql))"
     - name: Build with Maven
       env:
-        PASSW: admin 
+        PASSW: admin
       run: |
         mvn -B package --file pom.xml
