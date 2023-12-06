@@ -40,7 +40,7 @@ public class CoachDaoImpl implements Dao<Coach> {
     private long getSportId(Coach coach) throws SQLException {
         ResultSet set = statement.executeQuery("select id from sport where name like '" + coach.getSport() + "'");
         if (!set.isBeforeFirst()) {
-            statement.executeUpdate(String.format("Insert into sport(name) values(%s)", coach.getSport()));
+            statement.executeUpdate(String.format("Insert into sport (name) values ('%s')", coach.getSport()));
             set = statement.executeQuery("select id from sport where name like '" + coach.getSport() + "'");
         }
         set.next();
