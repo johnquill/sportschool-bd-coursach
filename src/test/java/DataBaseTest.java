@@ -21,7 +21,7 @@ public abstract class DataBaseTest {
 
     public void init() throws SQLException {
         connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1/sportschool",
-                "root", "admin");
+                "root", System.getenv("PASSW"));
         Statement statement = connection.createStatement();
         sportsmanDao = new SportsmanDaoImpl(statement);
         sectionDao = new SectionDaoImpl(statement);
