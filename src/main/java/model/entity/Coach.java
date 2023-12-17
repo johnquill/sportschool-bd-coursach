@@ -20,8 +20,4 @@ public class Coach extends Entity {
     private String patronymic;
 
     private String sport;
-
-    public String getFio() {
-        return String.join(" ",surname, name, patronymic);
-    }
 }
