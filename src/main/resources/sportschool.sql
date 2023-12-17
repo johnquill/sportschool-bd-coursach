@@ -43,7 +43,7 @@ CREATE TABLE `coach` (
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`admin`@`localhost`*/ /*!50003 TRIGGER `coach_BEFORE_DELETE` BEFORE DELETE ON `coach` FOR EACH ROW BEGIN
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `coach_BEFORE_DELETE` BEFORE DELETE ON `coach` FOR EACH ROW BEGIN
 	DELETE FROM preference WHERE coach_id = old.id;
 END */;;
 DELIMITER ;

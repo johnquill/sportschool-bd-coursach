@@ -47,7 +47,7 @@ public class DataDeleteTest extends DataBaseTest {
         Assert.assertNotEquals(msg, "");
     }
 
-    /*@Test
+    @Test
     public void testDeleteInWrongOrder() {
         String msg = "";
         try {
@@ -64,6 +64,6 @@ public class DataDeleteTest extends DataBaseTest {
             msg = e.getMessage();
         }
         Assert.assertNotEquals(msg, "");
-    }*/
+    }
 
 }
