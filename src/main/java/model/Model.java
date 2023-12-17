@@ -25,7 +25,7 @@ public class Model {
     public Model() {
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1/sportschool",
-                    "admin", System.getenv("PASSW"));
+                    "root", System.getenv("PASSW"));
             statement = connection.createStatement();
             sportsmanDao = new SportsmanDaoImpl(statement);
             sectionDao = new SectionDaoImpl(statement);
