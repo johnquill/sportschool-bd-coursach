@@ -44,7 +44,7 @@ public class SportsmanDaoImpl implements Dao<Sportsman> {
         profession_name = set.getString("name");
 
         sportsman.setSection(section_name);
-        sportsman.setProfession(profession_name);
+        sportsman.setSection(profession_name);
         return sportsman;
     }
 
