@@ -17,7 +17,7 @@ public class ActiveSections extends AbstractReport {
     }
 
     @Override
-    String toHtml() {
+    public String toHtml() {
         ArrayList<Section> sectionList = null;
         try {
             sectionList = presenter.getActiveSections();

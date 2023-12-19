@@ -61,8 +61,6 @@ public class SectionDaoImpl implements Dao<Section> {
         } else {
             throw new Exception("Заданный тренер не найден");
         }
-
-
     }
 
     @Override

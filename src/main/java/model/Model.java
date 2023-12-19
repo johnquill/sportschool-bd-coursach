@@ -22,10 +22,8 @@ public class Model {
     CoachDaoImpl coachDao;
     SportDaoImpl sportDao;
     
-    public Model() {
+    public Model(Connection connection) {
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1/sportschool",
-                    "root", System.getenv("PASSW"));
             statement = connection.createStatement();
             sportsmanDao = new SportsmanDaoImpl(statement);
             sectionDao = new SectionDaoImpl(statement);

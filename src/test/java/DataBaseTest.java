@@ -4,8 +4,6 @@ import model.dao.SportsmanDaoImpl;
 import model.entity.Coach;
 import model.entity.Section;
 import model.entity.Sportsman;
-import org.junit.After;
-import org.junit.Before;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -18,6 +16,7 @@ public abstract class DataBaseTest {
     SectionDaoImpl sectionDao;
     CoachDaoImpl coachDao;
     Connection connection;
+    String[] tablesInDelOrder = {"sportsman", "section", "coach", "preference", "sport", "profession"};
 
     public void init() throws SQLException {
         connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1/sportschool",
@@ -28,11 +27,15 @@ public abstract class DataBaseTest {
         coachDao = new CoachDaoImpl(statement);
         connection.setAutoCommit(false);
 
+        for (String s : tablesInDelOrder) {
+            statement.executeUpdate("DELETE FROM " + s);
+        }
+
         try {
             Coach coach = new Coach(333L, "Шкуратов", "Андрей", "Владимирович", "Баскетбол");
             coachDao.add(coach);
 
-            String[] trainer = new String[] {"Шкуратов", "Андрей", "Владимирович"};
+            String[] trainer = new String[]{"Шкуратов", "Андрей", "Владимирович"};
             Section section = new Section(444L, "Баскетбол", "Сб 20:00", 221,
                     "С собой водичку", true, "Баскетбол", trainer);
             sectionDao.add(section);
@@ -43,6 +46,4 @@ public abstract class DataBaseTest {
             throw new RuntimeException(e);
         }
     }
-
-
 }

@@ -18,7 +18,7 @@ public class SectionCompound extends AbstractReport {
     }
 
     @Override
-    String toHtml() {
+    public String toHtml() {
         StringBuilder sb = new StringBuilder(START_HTML);
         sb.append("<h1>Спортивная школа. Отчет по составу секций</h1>");
         sb.append("<br /><p>Отчет создан: ").append(DateUtils.getCurrentDateTime()).append("</p><br />");

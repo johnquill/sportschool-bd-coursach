@@ -27,15 +27,14 @@ public abstract class AbstractReport extends JPanel {
         JButton downloadButton = new JButton("СКАЧАТЬ БЕСПЛАТНО");
         downloadButton.setBackground(Color.GREEN);
         downloadButton.addActionListener(e -> {
-            exportHtml();
+            exportHtml(pathChooser.choosePath(reportName));
         });
         add(downloadButton, BorderLayout.SOUTH);
     }
 
     abstract String toHtml();
 
-    private void exportHtml() {
-        File file = pathChooser.choosePath(reportName);
+    public void exportHtml(File file) {
         if (file != null) {
             try {
                 this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
