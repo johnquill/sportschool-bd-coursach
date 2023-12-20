@@ -44,17 +44,6 @@ public class HtmlExportTest extends DataBaseTest {
 
     public static final String EXPORT_ERROR = "Результат преобразования данных в html файл не соответствует ожидаемому";
 
-    @Before
-    public void start() throws SQLException {
-        init();
-    }
-
-    @After
-    public void finish() throws SQLException {
-        connection.rollback();
-        connection.close();
-    }
-
     @Test
     public void testExportReports() {
         ActiveSections activeSections = new ActiveSections(new Presenter(new Model(connection)));
@@ -83,6 +72,4 @@ public class HtmlExportTest extends DataBaseTest {
         }
         return html;
     }
-
-
 }

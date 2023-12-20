@@ -9,16 +9,6 @@ import org.junit.Test;
 import java.sql.SQLException;
 
 public class DataChangeTest extends DataBaseTest {
-    @Before
-    public void start() throws SQLException {
-        init();
-    }
-
-    @After
-    public void finish() throws SQLException {
-        connection.rollback();
-        connection.close();
-    }
 
     @Test
     public void testChangeSportsman() throws Exception {

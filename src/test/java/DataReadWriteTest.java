@@ -4,17 +4,6 @@ import java.sql.SQLException;
 
 public class DataReadWriteTest extends DataBaseTest {
 
-    @Before
-    public void start() throws SQLException {
-        init();
-    }
-
-    @After
-    public void finish() throws SQLException {
-        connection.rollback();
-        connection.close();
-    }
-
     @Test
     public void testAddCoach() throws Exception {
         Assert.assertEquals("Шкуратов", coachDao.getById(333L).getSurname());
@@ -29,6 +18,4 @@ public class DataReadWriteTest extends DataBaseTest {
     public void testAddSportsman() throws Exception {
         Assert.assertEquals("Ходяков", sportsmanDao.getById(500L).getSurname());
     }
-
-
 }
