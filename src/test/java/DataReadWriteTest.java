@@ -1,7 +1,5 @@
 import org.junit.*;
 
-import java.sql.SQLException;
-
 public class DataReadWriteTest extends DataBaseTest {
 
     @Test
