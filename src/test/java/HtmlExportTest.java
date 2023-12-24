@@ -1,15 +1,11 @@
 import model.Model;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import presenter.Presenter;
 import view.report.ActiveSections;
 import view.report.ByKindOfSport;
 import view.report.SectionCompound;
 import view.report.SectionsByCoach;
-
-import java.sql.SQLException;
 
 public class HtmlExportTest extends DataBaseTest {
 

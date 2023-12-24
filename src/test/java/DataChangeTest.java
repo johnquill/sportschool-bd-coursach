@@ -1,12 +1,8 @@
 import model.entity.Coach;
 import model.entity.Section;
 import model.entity.Sportsman;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-
-import java.sql.SQLException;
 
 public class DataChangeTest extends DataBaseTest {
 
